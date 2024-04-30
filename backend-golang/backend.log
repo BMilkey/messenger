@@ -1,0 +1,13 @@
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"test","Password":"1234"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-04-30T15:46:28+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"test","Password":"1234"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-04-30T17:30:09+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"test","Password":"1234"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-04-30T17:34:09+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"test","Password":"1234"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-04-30T17:36:23+05:00"}
+{"level":"fatal","msg":"pq: SSL is not enabled on the server","time":"2024-04-30T17:36:23+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-04-30T17:57:50+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-04-30T17:58:22+05:00"}
+{"level":"fatal","msg":"QueryRow failed: ОШИБКА: отношение \"widgets\" не существует (SQLSTATE 42P01)\n","time":"2024-04-30T17:58:22+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-04-30T18:03:34+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"messenger"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-04-30T18:15:07+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"messenger"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-04-30T18:15:16+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"messenger"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-04-30T18:16:20+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"messenger"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-04-30T18:16:41+05:00"}
