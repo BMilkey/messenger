@@ -30,6 +30,9 @@ func checkCreateDB(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
 	}
 	// Database already exists
 	log.Info(fmt.Sprintf("Database %s already exists.\n", DbName))
+	
+	// TODO CheckCreate all tables
+
 	return nil
 }
 
@@ -38,5 +41,6 @@ func createDB(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
 	if err != nil {
 		return err
 	}
+	// TODO Create all tables
 	return nil
 }

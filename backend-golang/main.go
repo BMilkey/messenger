@@ -4,7 +4,8 @@ import (
 	"io"
 	"os"
 	log "github.com/sirupsen/logrus"
-	//"github.com/BMilkey/messenger/http"
+
+	"github.com/BMilkey/messenger/http"
 	db "github.com/BMilkey/messenger/database"
 	"github.com/BMilkey/messenger/hlp"
 )
@@ -32,6 +33,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	http.Test()
 	// start db
 	// start http
 	// go run src/main.go
