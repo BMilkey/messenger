@@ -8,4 +8,4 @@ db:
   port: 5432 # DB_PORT
   user: postgres # DB_USER
   password: pswd # DB_PASSWORD
-  dbname: messenger # DB_NAME
+  dbname: tempdb # DB_NAME

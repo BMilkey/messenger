@@ -17,3 +17,10 @@
 {"level":"info","msg":"Database messenger already exists.\n","time":"2024-05-01T14:56:12+05:00"}
 {"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"messenger"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-05-01T15:03:13+05:00"}
 {"level":"info","msg":"Database messenger already exists.\n","time":"2024-05-01T15:03:13+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-05-01T23:42:06+05:00"}
+{"level":"info","msg":"Database tempdb is not existing.\n","time":"2024-05-01T23:42:07+05:00"}
+{"level":"fatal","msg":"createDB failed: ОШИБКА: роль \"tempdb\" не существует (SQLSTATE 42704)","time":"2024-05-01T23:42:07+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-05-01T23:42:47+05:00"}
+{"level":"info","msg":"Database tempdb is not existing.\n","time":"2024-05-01T23:42:47+05:00"}
+{"level":"info","msg":"Database tempdb created.\n","time":"2024-05-01T23:42:48+05:00"}
+{"level":"info","msg":"All tables of database tempdb created.\n","time":"2024-05-01T23:42:48+05:00"}

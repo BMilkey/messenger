@@ -3,14 +3,15 @@ package main
 import (
 	"io"
 	"os"
-	log "github.com/sirupsen/logrus"
 
-	"github.com/BMilkey/messenger/http"
 	db "github.com/BMilkey/messenger/database"
 	"github.com/BMilkey/messenger/hlp"
+	"github.com/BMilkey/messenger/http"
+	log "github.com/sirupsen/logrus"
 )
 
 func main() {
+
 	log.SetFormatter(&log.JSONFormatter{})
 	file, err := os.OpenFile("backend.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err == nil {
@@ -18,17 +19,17 @@ func main() {
 	} else {
 		log.Info("Failed to log to file, using default stderr")
 	}
-	
+
 	appConfig, err := hlp.GetConfig("config.yaml")
 	if err != nil {
 		log.Fatal(err)
 	}
 	log.WithFields(log.Fields{
-			"AppName": appConfig.Title,
-			"Http": appConfig.Http,
-			"Database": appConfig.Db}).
+		"AppName":  appConfig.Title,
+		"Http":     appConfig.Http,
+		"Database": appConfig.Db}).
 		Info("Starting")
-	
+
 	err = db.Init(appConfig.Db)
 	if err != nil {
 		log.Fatal(err)
