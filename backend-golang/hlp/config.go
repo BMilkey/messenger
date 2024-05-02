@@ -5,7 +5,8 @@ import (
 	"reflect"
 
 	log "github.com/sirupsen/logrus"
-
+	"context"
+	pgx "github.com/jackc/pgx/v5/pgxpool"
 	"github.com/kelseyhightower/envconfig"
 	"gopkg.in/yaml.v2"
 )
@@ -33,7 +34,7 @@ type DatabaseConfig struct {
 func GetConfig(filepath string) (AppConfig, error) {
 	if config == (AppConfig{}) {
 		// Load default config file
-		config.readYaml("config.yaml")
+		config.readYaml(filepath)
 		// Load specific configuration with env variables
 		config.readEnv()
 	}
@@ -51,4 +52,13 @@ func (config *AppConfig) readYaml(filepath string) {
 		log.Fatalf("Error Reading Config file with path: %v\n", filepath)
 	}
 	yaml.UnmarshalStrict(yamlFile, config)
+}
+
+func GetDbPool(dbConfig DatabaseConfig) (*pgx.Pool, error) {
+	dbUrl := "postgres://" + dbConfig.User + ":" + dbConfig.Password + "@" + dbConfig.Host + ":" + dbConfig.Port + "/" + dbConfig.DbName
+	dbpool, err := pgx.New(context.Background(), dbUrl)
+	if err != nil {
+		return nil, err
+	}
+	return dbpool, nil
 }

@@ -24,3 +24,25 @@
 {"level":"info","msg":"Database tempdb is not existing.\n","time":"2024-05-01T23:42:47+05:00"}
 {"level":"info","msg":"Database tempdb created.\n","time":"2024-05-01T23:42:48+05:00"}
 {"level":"info","msg":"All tables of database tempdb created.\n","time":"2024-05-01T23:42:48+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-05-02T00:02:32+05:00"}
+{"level":"info","msg":"Database tempdb already exists.\n","time":"2024-05-02T00:02:32+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb2"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-05-02T22:11:54+05:00"}
+{"level":"info","msg":"Database tempdb2 is not existing.\n","time":"2024-05-02T22:11:54+05:00"}
+{"level":"info","msg":"Database tempdb2 created.\n","time":"2024-05-02T22:11:54+05:00"}
+{"level":"fatal","msg":"CreateTables failed: ОШИБКА: ошибка синтаксиса (примерное положение: \"name\") (SQLSTATE 42601)","time":"2024-05-02T22:11:55+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb2"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-05-02T22:13:18+05:00"}
+{"level":"info","msg":"Database tempdb2 is not existing.\n","time":"2024-05-02T22:13:18+05:00"}
+{"level":"info","msg":"Database tempdb2 created.\n","time":"2024-05-02T22:13:18+05:00"}
+{"level":"fatal","msg":"CreateTables failed: ОШИБКА: ограничение внешнего ключа \"FK_user_picture_id\" нельзя реализовать (SQLSTATE 42804)","time":"2024-05-02T22:13:19+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb2"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-05-02T22:14:07+05:00"}
+{"level":"info","msg":"Database tempdb2 is not existing.\n","time":"2024-05-02T22:14:07+05:00"}
+{"level":"info","msg":"Database tempdb2 created.\n","time":"2024-05-02T22:14:07+05:00"}
+{"level":"info","msg":"All tables of database tempdb2 created.\n","time":"2024-05-02T22:14:08+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb2"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-05-02T22:16:32+05:00"}
+{"level":"info","msg":"Database tempdb2 is not existing.\n","time":"2024-05-02T22:16:32+05:00"}
+{"level":"info","msg":"Database tempdb2 created.\n","time":"2024-05-02T22:16:33+05:00"}
+{"level":"info","msg":"All tables of database tempdb2 created.\n","time":"2024-05-02T22:16:33+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-05-02T23:18:57+05:00"}
+{"level":"info","msg":"Database tempdb3 is not existing.\n","time":"2024-05-02T23:18:57+05:00"}
+{"level":"info","msg":"Database tempdb3 created.\n","time":"2024-05-02T23:18:57+05:00"}
+{"level":"info","msg":"All tables of database tempdb3 created.\n","time":"2024-05-02T23:18:58+05:00"}

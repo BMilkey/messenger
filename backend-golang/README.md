@@ -1,3 +1,8 @@
+# TODO
+- Firebase auth
+- Main stuff selects/gets
+- Add select/get for last N messages in chat
+
 # How to run
 ```
 \messenger\backend-golang> go run main.go
