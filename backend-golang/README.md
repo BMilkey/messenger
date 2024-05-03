@@ -71,8 +71,14 @@ The request body should be a JSON object with the following field:
 
 If the user ID is valid, the response will be a JSON object with the following fields:
 
-- `login`: The login of the user (string)
-- `password`: The password of the user (string)
+	c.JSON(http.StatusOK, gin.H{
+		"id":          user.Id,
+		"name":        user.Name,
+		"link":        user.Link,
+		"about":       user.About,
+		"last_online": user.Last_connection,
+		"image_id":    user.Image_id,
+	})
 
 If the user ID is invalid, the response will be a JSON object with the following field:
 
