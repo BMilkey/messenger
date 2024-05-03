@@ -57,7 +57,7 @@ If there is an error during the registration process, the response will be a JSO
 
 - `error`: A description of the error that occurred (string)
 
-## POST /post/auth/login_user/
+## POST /post/auth/user_by_id/
 
 This endpoint is used to retrieve the user ID associated with a given user ID.
 
@@ -73,26 +73,6 @@ If the user ID is valid, the response will be a JSON object with the following f
 
 - `login`: The login of the user (string)
 - `password`: The password of the user (string)
-
-If the user ID is invalid, the response will be a JSON object with the following field:
-
-- `error`: A description of the error that occurred (string)
-
-## POST /post/auth/logout_user/
-
-This endpoint is used to retrieve the chat IDs associated with a given user ID.
-
-**Request Body:**
-
-The request body should be a JSON object with the following field:
-
-- `user_id`: The ID of the user (string)
-
-**Response:**
-
-If the user ID is valid, the response will be a JSON object with the following field:
-
-- `chat_ids`: An array of chat IDs (array of strings)
 
 If the user ID is invalid, the response will be a JSON object with the following field:
 
