@@ -32,7 +32,7 @@ func SelectUsersByName(pool *pgx.Pool, name string) ([]md.User, error) {
         SELECT id, name, link, about, last_connection, image_id 
         FROM public.users 
         WHERE users.name = $1
-		`, 
+		`,
 		name)
 
 	if err != nil {
@@ -63,7 +63,7 @@ func SelectUserByLink(pool *pgx.Pool, link string) (md.User, error) {
 		SELECT id, name, link, about, last_connection, image_id 
 		FROM public.users 
 		WHERE users.link = $1
-		`, 
+		`,
 		link).
 		Scan(&user.Id, &user.Name, &user.Link, &user.About, &user.Last_connection, &user.Image_id)
 
@@ -81,7 +81,7 @@ func SelectChatById(pool *pgx.Pool, chat_id string) (md.Chat, error) {
 		SELECT id, link, title, created_by_user_id, create_time, about, image_id 
 		FROM public.chats 
 		WHERE chats.id = $1
-		`, 
+		`,
 		chat_id).
 		Scan(&chat.Id, &chat.Link, &chat.Title, &chat.User_id, &chat.Create_time, &chat.About, &chat.Image_id)
 
@@ -117,7 +117,7 @@ func SelectChatsByTitle(pool *pgx.Pool, title string) ([]md.Chat, error) {
         SELECT id, link, title, created_by_user_id, create_time, about, image_id 
         FROM public.chats 
         WHERE chats.title = $1
-		`, 
+		`,
 		title)
 
 	if err != nil {
@@ -197,7 +197,7 @@ func SelectMessagesByText(pool *pgx.Pool, text string) ([]md.Message, error) {
 		FROM public.messages
 		WHERE messages.text LIKE $1
 		`,
-		"%" + text + "%")
+		"%"+text+"%")
 
 	if err != nil {
 		return nil, err
@@ -230,7 +230,7 @@ func SelectMessagesByChatAndText(pool *pgx.Pool, chat_id string, text string) ([
 			AND messages.text LIKE $2
 		`,
 		chat_id,
-		"%" + text + "%")
+		"%"+text+"%")
 
 	if err != nil {
 		return nil, err
@@ -251,4 +251,82 @@ func SelectMessagesByChatAndText(pool *pgx.Pool, chat_id string, text string) ([
 	}
 
 	return msgs, nil
+}
+
+func SelectAuthByLoginHash(pool *pgx.Pool, login_hash string) (md.Auth, error) {
+	var auth md.Auth
+
+	err := pool.QueryRow(context.Background(), `
+		SELECT login_hash, password_hash, email, user_id
+		FROM public.auth
+		WHERE auth.login_hash = $1
+		`, login_hash).
+		Scan(&auth.Login_hash, &auth.Password_hash, &auth.Email, &auth.User_id)
+
+	if err != nil {
+		return auth, err
+	}
+
+	return auth, nil
+}
+
+func SelectChatIdsByUserId(pool *pgx.Pool, user_id string) ([]md.Chat, error) {
+	query := `
+		SELECT chat_id, user_id
+		FROM public.chat_participants
+		WHERE user_id = $1
+	`
+
+	rows, err := pool.Query(context.Background(), query, user_id)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	chats := make([]md.Chat, 0)
+	for rows.Next() {
+		var chat md.Chat
+		err := rows.Scan(&chat.Id, &chat.User_id)
+		if err != nil {
+			return chats, err
+		}
+		chats = append(chats, chat)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return chats, nil
+}
+
+func SelectUserIdsByChatId(pool *pgx.Pool, chat_id string) ([]string, error) {
+	query := `
+		SELECT user_id
+		FROM public.chat_participants
+		WHERE chat_id = $1
+	`
+
+	rows, err := pool.Query(context.Background(), query, chat_id)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	users_id := make([]string, 0)
+	for rows.Next() {
+		var user_id string
+		var _ string
+		err := rows.Scan(&user_id)
+		if err != nil {
+			return users_id, err
+		}
+		users_id = append(users_id, user_id)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return users_id, nil
 }

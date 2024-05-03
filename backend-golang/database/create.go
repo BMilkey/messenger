@@ -31,6 +31,7 @@ func createTables(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
 		createFiles,
 		createImages,
 		createUsers,
+		createAuth,
 		createChats,
 		createChatParticipants,
 		createMessages,
@@ -116,6 +117,34 @@ func createUsers(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
 		TABLESPACE pg_default;
 		
 		ALTER TABLE IF EXISTS public.users
+			OWNER to %s;
+		`,
+		cfg.User)
+	return wrapRawExecQuerry(pool, querry)
+}
+
+func createAuth(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
+	querry := fmt.Sprintf(
+		`
+		CREATE TABLE IF NOT EXISTS public.auth
+		(
+			login_hash character varying(64) COLLATE pg_catalog."default" NOT NULL,
+			password_hash character varying(64) COLLATE pg_catalog."default" NOT NULL,
+			email character varying(256) COLLATE pg_catalog."default",
+			user_id character varying(128) COLLATE pg_catalog."default" NOT NULL,
+			CONSTRAINT auth_pkey PRIMARY KEY (login_hash),
+			CONSTRAINT unique_auth_email UNIQUE (email),
+			CONSTRAINT unique_auth_user_id UNIQUE (user_id),
+			CONSTRAINT "FK_auth_user_id" FOREIGN KEY (user_id)
+				REFERENCES public.users (id) MATCH SIMPLE
+				ON UPDATE NO ACTION
+				ON DELETE NO ACTION
+				NOT VALID
+		)
+		
+		TABLESPACE pg_default;
+		
+		ALTER TABLE IF EXISTS public.auth
 			OWNER to %s;
 		`,
 		cfg.User)

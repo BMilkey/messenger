@@ -4,10 +4,8 @@ import (
 	"os"
 	"reflect"
 
-	log "github.com/sirupsen/logrus"
-	"context"
-	pgx "github.com/jackc/pgx/v5/pgxpool"
 	"github.com/kelseyhightower/envconfig"
+	log "github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )
 
@@ -52,13 +50,4 @@ func (config *AppConfig) readYaml(filepath string) {
 		log.Fatalf("Error Reading Config file with path: %v\n", filepath)
 	}
 	yaml.UnmarshalStrict(yamlFile, config)
-}
-
-func GetDbPool(dbConfig DatabaseConfig) (*pgx.Pool, error) {
-	dbUrl := "postgres://" + dbConfig.User + ":" + dbConfig.Password + "@" + dbConfig.Host + ":" + dbConfig.Port + "/" + dbConfig.DbName
-	dbpool, err := pgx.New(context.Background(), dbUrl)
-	if err != nil {
-		return nil, err
-	}
-	return dbpool, nil
 }

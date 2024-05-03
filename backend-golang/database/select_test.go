@@ -3,7 +3,7 @@ package database
 import (
 	"fmt"
 	"testing"
-	
+
 	"github.com/BMilkey/messenger/hlp"
 	pgx "github.com/jackc/pgx/v5/pgxpool"
 )
@@ -19,10 +19,10 @@ func TestSingleArgSelects(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	dbpool, err := hlp.GetDbPool(dbConfig)
+	dbpool, err := GetDbPool(dbConfig)
 
 	if err != nil {
-		t.Fatal(err)		
+		t.Fatal(err)
 	}
 
 	tests := []func(*pgx.Pool) error{
@@ -35,6 +35,7 @@ func TestSingleArgSelects(t *testing.T) {
 		msgById,
 		msgsByChatId,
 		msgsByText,
+		authByLogin,
 	}
 
 	for _, test := range tests {
@@ -102,7 +103,7 @@ func TestSelectMessagesByChatAndText(t *testing.T) {
 	config, err := hlp.GetConfig("test_config.yaml")
 	if err != nil {
 		t.Fatal(err)
-	}	
+	}
 	dbConfig := config.Db
 
 	err = Init(dbConfig)
@@ -110,7 +111,7 @@ func TestSelectMessagesByChatAndText(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	dbPool, err := hlp.GetDbPool(config.Db)
+	dbPool, err := GetDbPool(config.Db)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -122,4 +123,75 @@ func TestSelectMessagesByChatAndText(t *testing.T) {
 	}
 
 	fmt.Println(messages)
+}
+
+func authByLogin(pool *pgx.Pool) error {
+	loginHash := Sha256Hash("test_login")
+	ans, err := SelectAuthByLoginHash(pool, loginHash)
+	fmt.Println(ans)
+	if err != nil {
+		return err
+	}
+	loginHash = Sha256Hash("test_lox_login")
+	ans, err = SelectAuthByLoginHash(pool, loginHash)
+	fmt.Println(ans)
+	return err
+}
+
+func TestSelectChatsByUserId(t *testing.T) {
+	config, err := hlp.GetConfig("test_config.yaml")
+	if err != nil {
+		t.Fatal(err)
+	}
+	dbConfig := config.Db
+
+	err = Init(dbConfig)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	dbPool, err := GetDbPool(config.Db)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer dbPool.Close()
+
+	userId := "nAwEU3jCitRtAWsUubTaExKfFGB3"
+	chats, err := SelectChatIdsByUserId(dbPool, userId)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, chat := range chats {
+		fmt.Println(chat)
+	}
+}
+
+func TestSelectUserIdsByChatId(t *testing.T) {
+	config, err := hlp.GetConfig("test_config.yaml")
+	if err != nil {
+		t.Fatal(err)
+	}
+	dbConfig := config.Db
+
+	err = Init(dbConfig)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	dbPool, err := GetDbPool(config.Db)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer dbPool.Close()
+
+	chatId := "test_id"
+	userIds, err := SelectUserIdsByChatId(dbPool, chatId)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for _, userId := range userIds {
+		fmt.Println(userId)
+	}
 }

@@ -5,6 +5,14 @@ import (
 )
 
 // Define models
+
+type Auth struct {
+	Login_hash string `json:"login_hash`
+	Password_hash string `json:"password_hash`
+	Email string `json:"email"`
+	User_id string `json:"user_id"`
+}
+
 type Chat struct {
 	Id          string    `json:"id"`
 	Link        string    `json:"link"`
@@ -48,3 +56,5 @@ type File struct {
 	Size uint   `json:"size"`
 	Path string `json:"path"`
 }
+
+

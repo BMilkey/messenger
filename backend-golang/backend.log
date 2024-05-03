@@ -46,3 +46,9 @@
 {"level":"info","msg":"Database tempdb3 is not existing.\n","time":"2024-05-02T23:18:57+05:00"}
 {"level":"info","msg":"Database tempdb3 created.\n","time":"2024-05-02T23:18:57+05:00"}
 {"level":"info","msg":"All tables of database tempdb3 created.\n","time":"2024-05-02T23:18:58+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-05-03T22:54:52+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-03T22:54:53+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-05-03T22:58:19+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-03T22:58:20+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-05-03T23:09:31+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-03T23:09:31+05:00"}

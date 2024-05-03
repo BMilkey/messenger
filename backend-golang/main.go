@@ -34,7 +34,13 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	http.Test()
+	dbpool, err := db.GetDbPool(appConfig.Db)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	http.StartServer(appConfig.Http, dbpool)
 	// start db
 	// start http
 	// go run src/main.go
