@@ -22,14 +22,19 @@ This endpoint is used to retrieve the user ID associated with a given login and 
 
 The request body should be a JSON object with the following fields:
 
-- `login`: The login of the user (string)
-- `password`: The password of the user (string)
+	var request struct {
+		Login    string `json:"login"`
+		Password string `json:"password"`
+	}
 
 **Response:**
 
 If the login and password are valid, the response will be a JSON object with the following field:
 
-- `user_id`: The ID of the user (string)
+	c.JSON(http.StatusOK, gin.H{
+		"user_id": auth.User_id,
+		"auth_token": auth.Auth_token,
+	})
 
 If the login and password are invalid, the response will be a JSON object with the following field:
 
@@ -43,15 +48,20 @@ This endpoint is used to register a new user.
 
 The request body should be a JSON object with the following fields:
 
-- `login`: The login of the user (string)
-- `password`: The password of the user (string)
-- `name`: The name of the user (string)
+	var request struct {
+		Login    string `json:"login"`
+		Password string `json:"password"`
+		Name     string `json:"name"`
+	}
 
 **Response:**
 
 If the user is successfully registered, the response will be a JSON object with the following field:
 
-- `user_id`: The ID of the user (string)
+	c.JSON(http.StatusOK, gin.H{
+		"user_id": newUserId,
+		"auth_token": authToken,
+	})
 
 If there is an error during the registration process, the response will be a JSON object with the following field:
 
@@ -65,7 +75,10 @@ This endpoint is used to retrieve the user ID associated with a given user ID.
 
 The request body should be a JSON object with the following field:
 
-- `user_id`: The ID of the user (string)
+	var request struct {
+		UserID string `json:"user_id"`
+		Auth_token string `json:"auth_token"`
+	}
 
 **Response:**
 
@@ -92,13 +105,17 @@ This endpoint is used to retrieve the chat IDs associated with a given user ID.
 
 The request body should be a JSON object with the following field:
 
-- `user_id`: The ID of the user (string)
+	var request struct {
+		UserID string `json:"user_id"`
+		Auth_token string `json:"auth_token"`
+	}
 
 **Response:**
 
 If the user ID is valid, the response will be a JSON object with the following field:
 
-- `chat_ids`: An array of chat IDs (array of strings)
+	c.JSON(http.StatusOK, gin.H{
+		"chat_ids": chat_ids})
 
 If the user ID is invalid, the response will be a JSON object with the following field:
 
@@ -112,13 +129,16 @@ This endpoint is used to retrieve the user IDs associated with a given chat ID.
 
 The request body should be a JSON object with the following field:
 
-- `chat_id`: The ID of the chat (string)
+	var request struct {
+		ChatID string `json:"chat_id"`
+		Auth_token string `json:"auth_token"`
+	}
 
 **Response:**
 
 If the chat ID is valid, the response will be a JSON object with the following field:
 
-- `user_ids`: An array of user IDs (array of strings)
+	c.JSON(http.StatusOK, gin.H{"user_ids": userIDs})
 
 If the chat ID is invalid, the response will be a JSON object with the following field:
 
