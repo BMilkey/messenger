@@ -28,6 +28,7 @@ export class apiRepo {
       this.chatStore.update(addEntities({id: data.auth_token, name: data.name, link: data.link, about: data.about, last_online: data.last_online, image_id: data.image_id}));
     }
     console.log(this.chatStore.query(getAllEntities()));
+    console.log(typeof data.last_online);
   }
 }
 
