@@ -22,4 +22,10 @@ export class apis {
 
     return this.http.post(url, list).pipe(take(1), tap((data) => this.repo.setUser(data)));
   }
+
+  getUsersByName(list: any) {
+    const url = `http://147.45.70.245:80/post/chat/user_by_name`;
+
+    return this.http.post(url, list).pipe(take(1), tap((data) => this.repo.setUser(data)));
+  }
 }
