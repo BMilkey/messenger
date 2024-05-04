@@ -9,6 +9,7 @@ import (
 	pgx "github.com/jackc/pgx/v5/pgxpool"
 	log "github.com/sirupsen/logrus"
 
+	"github.com/BMilkey/messenger/auth"
 	db "github.com/BMilkey/messenger/database"
 	md "github.com/BMilkey/messenger/models"
 )
@@ -32,6 +33,9 @@ func userByAuthHandler(c *gin.Context, pool *pgx.Pool) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	auth.Auth_token = db.GenerateUUID()
+
 	if auth.Password_hash != password_hash {
 		log.Error("Incorrect password or login")
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Incorrect password or login"})
@@ -45,7 +49,12 @@ func userByAuthHandler(c *gin.Context, pool *pgx.Pool) {
 		return
 	}
 
+	if !prolongToken(c, pool, auth.Auth_token) {
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
+		"auth_token":  auth.Auth_token,
 		"name":        user.Name,
 		"link":        user.Link,
 		"about":       user.About,
@@ -73,7 +82,7 @@ func registerUserHandler(c *gin.Context, pool *pgx.Pool) {
 	auth := md.Auth{
 		Login_hash:    hashedLogin,
 		Password_hash: hashedPassword,
-		Email:         "",
+		Email:         db.GenerateUUID(),
 		User_id:       newUserId,
 		Auth_token:    authToken,
 		Auth_expires:  time.Now().Add(time.Minute * 1),
@@ -102,7 +111,11 @@ func registerUserHandler(c *gin.Context, pool *pgx.Pool) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
+	if !prolongToken(c, pool, auth.Auth_token) {
+		return
+	}
+
+	c.JSON (http.StatusOK, gin.H{
 		"auth_token": authToken,
 	})
 }
@@ -206,6 +219,10 @@ func createChatReturnUsersHandler(c *gin.Context, pool *pgx.Pool) {
 		return
 	}
 
+	if !prolongToken(c, pool, request.Auth_token) {
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"users": string(jsonData),
 	})
@@ -267,6 +284,10 @@ func chatsByTokenHandler(c *gin.Context, pool *pgx.Pool) {
 		return
 	}
 
+	if !prolongToken(c, pool, request.Auth_token) {
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"chats": string(jsonData),
 	})
@@ -303,6 +324,10 @@ func usersByNameHandler(c *gin.Context, pool *pgx.Pool) {
 	if err != nil {
 		log.Error(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to serialize users"})
+		return
+	}
+
+	if !prolongToken(c, pool, request.Auth_token) {
 		return
 	}
 
@@ -352,6 +377,10 @@ func usersByChatIdHandler(c *gin.Context, pool *pgx.Pool) {
 		return
 	}
 
+	if !prolongToken(c, pool, request.Auth_token) {
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"users": string(jsonData),
 	})
@@ -383,6 +412,10 @@ func messagesByChatId(c *gin.Context, pool *pgx.Pool) {
 	if err != nil {
 		log.Error(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to serialize messages"})
+		return
+	}
+
+	if !prolongToken(c, pool, request.Auth_token) {
 		return
 	}
 
@@ -418,7 +451,7 @@ func createMessageHandler(c *gin.Context, pool *pgx.Pool) {
 	}
 	reply_msg_id := "fake"
 	reply_msg, err := db.SelectMessageById(pool, request.Reply_msg_id)
-	
+
 	if err == nil {
 		reply_msg_id = reply_msg.Id
 	}
@@ -437,11 +470,54 @@ func createMessageHandler(c *gin.Context, pool *pgx.Pool) {
 		log.Error(err)
 	}
 
+	if !prolongToken(c, pool, request.Auth_token) {
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"message": message,
+		"message":   message,
 		"reply_msg": reply_msg,
 	})
+}
 
+func addUserToChatHandler(c *gin.Context, pool *pgx.Pool) {
+	var request struct {
+		Chat_id    string `json:"chat_id"`
+		User_link  string `json:"user_link"`
+		Auth_token string `json:"auth_token"`
+	}
+
+	if err := c.BindJSON(&request); err != nil {
+		log.Error(err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if !isTokenHaveAccessToChat(c, pool, request.Chat_id, request.Auth_token) {
+		return
+	}
+
+	user, err := db.SelectUserByLink(pool, request.User_link)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to select user"})
+		return
+	}
+
+	err = db.InsertChatParticipant(pool, request.Chat_id, user.Id)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to add user to chat"})
+		return
+	}
+
+	if !prolongToken(c, pool, request.Auth_token) {
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"user": user,
+	})
 
 }
 
@@ -487,3 +563,47 @@ func testLoginWoHashHandler(c *gin.Context, pool *pgx.Pool) {
 		"image_id":    user.Image_id,
 	})
 }
+
+func changeUserInfoHandler(c *gin.Context, pool *pgx.Pool) {
+	var request struct {
+		Auth_token string `json:"auth_token"`
+		New_name string `json:"new_name"`
+		New_link   string `json:"new_link"`
+		New_about  string `json:"new_about"`
+		New_image string `json:"new_image"`
+	}
+
+	if err := c.BindJSON(&request); err != nil {
+		log.Error(err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	auth, err := db.SelectAuthByToken(pool, request.Auth_token)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	user := md.User{
+		Id:         auth.User_id,
+		Name:       request.New_name,
+		Link:       request.New_link,
+		About:      request.New_about,
+		Last_connection: time.Now(),
+		Image_id:   request.New_image,
+	}
+	err = db.UpdateUser(pool, user)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	prolongToken(c, pool, request.Auth_token)
+
+	c.JSON(http.StatusOK, gin.H{
+		"user": user,
+	})
+}
+
+

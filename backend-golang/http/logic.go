@@ -3,13 +3,43 @@ package http
 import (
 	"encoding/json"
 	"net/http"
-
+	"time"
 	db "github.com/BMilkey/messenger/database"
 	md "github.com/BMilkey/messenger/models"
 	"github.com/gin-gonic/gin"
 	pgx "github.com/jackc/pgx/v5/pgxpool"
 	log "github.com/sirupsen/logrus"
 )
+
+func prolongToken(c *gin.Context, pool *pgx.Pool, token string) bool {
+	auth, err := db.SelectAuthByToken(pool, token)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to select user"})
+		return false
+	}
+	err = db.UpdateAuthToken(pool, auth)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update auth token"})
+		return false
+	}
+	user, err := db.SelectUserById(pool, auth.User_id)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to select user"})
+		return false
+	}
+	user.Last_connection = time.Now()
+	err = db.UpdateUser(pool, user)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user"})
+		return false
+	}
+	
+	return true
+}
 
 func validateAuthToken(pool *pgx.Pool, token string) bool {
 

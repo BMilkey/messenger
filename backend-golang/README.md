@@ -1,5 +1,9 @@
 # Backend 
 
+## TODO
+
+- [ ] Expiring tokens (now they are infinite)
+
 ## How to build
 Windows 10 
 - in .../backend-golang/
@@ -52,7 +56,12 @@ go run main.go
 ### out:
 - good
 ```
-"auth_token": authToken
+	"auth_token":  auth.Auth_token,
+	"name":        user.Name,
+	"link":        user.Link,
+	"about":       user.About,
+	"last_online": user.Last_connection,
+	"image_id":    user.Image_id,
 ```
 - error
 ```
@@ -173,6 +182,25 @@ go run main.go
         "message": message,
 
         "reply_msg": reply_msg,
+```
+- error
+```
+"error": error
+```
+
+## add_user_to_chat
+
+- /post/chat/add_user_to_chat/
+### in:
+```
+		Chat_id    string `json:"chat_id"`
+		User_link  string `json:"user_link"`
+		Auth_token string `json:"auth_token"`
+```
+### out:
+- good
+```
+		"user": user,
 ```
 - error
 ```

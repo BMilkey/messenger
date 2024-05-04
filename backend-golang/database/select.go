@@ -7,6 +7,7 @@ import (
 	pgx "github.com/jackc/pgx/v5/pgxpool"
 )
 
+
 func SelectUserById(pool *pgx.Pool, user_id string) (md.User, error) {
 	var user md.User
 
@@ -24,7 +25,7 @@ func SelectUserById(pool *pgx.Pool, user_id string) (md.User, error) {
 
 	return user, nil
 }
-
+// 
 func SelectUsersByName(pool *pgx.Pool, name string) ([]md.User, error) {
 	var users []md.User
 

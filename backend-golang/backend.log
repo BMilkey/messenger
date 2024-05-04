@@ -218,3 +218,7 @@
 {"level":"error","msg":"ОШИБКА: ошибка синтаксиса (примерное положение: \"$1\") (SQLSTATE 42601)","time":"2024-05-04T08:23:38+05:00"}
 {"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-05-04T08:24:31+05:00"}
 {"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-04T08:24:31+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-05-04T08:46:49+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-04T08:46:49+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8080"},"level":"info","msg":"Starting","time":"2024-05-04T09:00:13+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-04T09:00:13+05:00"}
