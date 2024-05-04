@@ -1,145 +1,133 @@
-# TODO
-- Firebase auth
-- Main stuff selects/gets
-- Add select/get for last N messages in chat
-
-# How to run
+## register_user
+/post/auth/register_user/
+### in:
 ```
-\messenger\backend-golang> go run main.go
+        Login    string `json:"login"`
+
+        Password string `json:"password"`
+
+        Name     string `json:"name"`
 ```
-or
+### out:
+- good
 ```
-> messenger.exe
+"auth_token": authToken
+```
+- error
+```
+"error": error
 ```
 
+## user_by_auth
 
-# How to request
-## POST /post/auth/user_id_by_auth/
+- /post/auth/user_by_auth/
+### in:
+```
+        Login    string `json:"login"`
 
-This endpoint is used to retrieve the user ID associated with a given login and password.
+        Password string `json:"password"`
+```
+### out:
+- good
+```
+"auth_token": authToken
+```
+- error
+```
+"error": error
+```
 
-**Request Body:**
+## chats_by_token
 
-The request body should be a JSON object with the following fields:
+- /post/chat/chats_by_token/
+### in:
+```
+        Auth_token string `json:"auth_token"`
+```
+### out:
+- good
+```
+"chats": string(jsonData),
+```
+- error
+```
+"error": error
+```
 
-	var request struct {
-		Login    string `json:"login"`
-		Password string `json:"password"`
-	}
+## create_chat_return_users
 
-**Response:**
+- /post/chat/create_chat_return_users/
+### in:
+```
+        Auth_token  string   `json:"auth_token"`
 
-If the login and password are valid, the response will be a JSON object with the following field:
+        Title       string   `json:"title"`
 
-	c.JSON(http.StatusOK, gin.H{
-		"user_id": auth.User_id,
-		"auth_token": auth.Auth_token,
-	})
+        Users_links []string `json:"users_links"`
+```
+### out:
+- good
+```
+        "users": string(jsonData),
+```
+- error
+```
+"error": error
+```
 
-If the login and password are invalid, the response will be a JSON object with the following field:
+## users_by_name
 
-- `error`: A description of the error that occurred (string)
+- /post/chat/users_by_name/
+### in:
+```
+        Name       string `json:"name"`
 
-## POST /post/auth/register_user/
+        Auth_token string `json:"auth_token"`
+```
+### out:
+- good
+```
+        "users": string(jsonData),
+```
+- error
+```
+"error": error
+```
 
-This endpoint is used to register a new user.
+## users_by_chat_id
 
-**Request Body:**
+- /post/chat/users_by_chat_id/
+### in:
+```
+        ChatID     string `json:"chat_id"`
 
-The request body should be a JSON object with the following fields:
+        Auth_token string `json:"auth_token"`
+```
+### out:
+- good
+```
+        "users": string(jsonData),
+```
+- error
+```
+"error": error
+```
 
-	var request struct {
-		Login    string `json:"login"`
-		Password string `json:"password"`
-		Name     string `json:"name"`
-	}
+## messages_by_chat_id
 
-**Response:**
+- /post/chat/users_by_chat_id/
+### in:
+```
+        ChatID     string `json:"chat_id"`
 
-If the user is successfully registered, the response will be a JSON object with the following field:
-
-	c.JSON(http.StatusOK, gin.H{
-		"user_id": newUserId,
-		"auth_token": authToken,
-	})
-
-If there is an error during the registration process, the response will be a JSON object with the following field:
-
-- `error`: A description of the error that occurred (string)
-
-## POST /post/auth/user_by_id/
-
-This endpoint is used to retrieve the user ID associated with a given user ID.
-
-**Request Body:**
-
-The request body should be a JSON object with the following field:
-
-	var request struct {
-		UserID string `json:"user_id"`
-		Auth_token string `json:"auth_token"`
-	}
-
-**Response:**
-
-If the user ID is valid, the response will be a JSON object with the following fields:
-
-	c.JSON(http.StatusOK, gin.H{
-		"id":          user.Id,
-		"name":        user.Name,
-		"link":        user.Link,
-		"about":       user.About,
-		"last_online": user.Last_connection,
-		"image_id":    user.Image_id,
-	})
-
-If the user ID is invalid, the response will be a JSON object with the following field:
-
-- `error`: A description of the error that occurred (string)
-
-## POST /post/chat/chat_ids_by_user_id/
-
-This endpoint is used to retrieve the chat IDs associated with a given user ID.
-
-**Request Body:**
-
-The request body should be a JSON object with the following field:
-
-	var request struct {
-		UserID string `json:"user_id"`
-		Auth_token string `json:"auth_token"`
-	}
-
-**Response:**
-
-If the user ID is valid, the response will be a JSON object with the following field:
-
-	c.JSON(http.StatusOK, gin.H{
-		"chat_ids": chat_ids})
-
-If the user ID is invalid, the response will be a JSON object with the following field:
-
-- `error`: A description of the error that occurred (string)
-
-## POST /post/chat/user_ids_by_chat_id/
-
-This endpoint is used to retrieve the user IDs associated with a given chat ID.
-
-**Request Body:**
-
-The request body should be a JSON object with the following field:
-
-	var request struct {
-		ChatID string `json:"chat_id"`
-		Auth_token string `json:"auth_token"`
-	}
-
-**Response:**
-
-If the chat ID is valid, the response will be a JSON object with the following field:
-
-	c.JSON(http.StatusOK, gin.H{"user_ids": userIDs})
-
-If the chat ID is invalid, the response will be a JSON object with the following field:
-
-- `error`: A description of the error that occurred (string)
+        Auth_token string `json:"auth_token"`
+```
+### out:
+- good
+```
+        "messages": string(jsonData),
+```
+- error
+```
+"error": error
+```
