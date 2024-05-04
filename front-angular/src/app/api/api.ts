@@ -22,13 +22,12 @@ export class apis {
     return this.http.post(url, list).pipe(take(1), tap((data) => this.repo.setUser(data)));
   }
 
-<<<<<<< Updated upstream
   getUsersByName(list: any) {
     const url = `http://147.45.70.245:80/post/chat/user_by_name`;
 
     return this.http.post(url, list).pipe(take(1), tap((data) => this.repo.setUser(data)));
   }
-=======
+
   getChatsByToken(token :string) {
     const url = `http://147.45.70.245:80//post/chat/chats_by_token`;
 
@@ -65,5 +64,5 @@ export class apis {
     return this.http.post(url, list).pipe(take(1), tap((data) => this.repo.setReplyUsers(data)));
   }
 
->>>>>>> Stashed changes
+
 }
