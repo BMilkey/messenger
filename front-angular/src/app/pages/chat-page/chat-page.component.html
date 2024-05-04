@@ -2,7 +2,7 @@
   <section class="list-of-chats">
     <header class="list-of-chats__header">
       <input class="list-of-chats__header--input" placeholder=" Сhat search...">
-      <button class="list-of-chats__header--create-chat-button"> New</button>
+      <button class="list-of-chats__header--create-chat-button" (click)="openModal=true"> New</button>
     </header>
   </section>
 
@@ -34,4 +34,8 @@
   <section class="chat-info">
 
   </section>
+
+  @if (openModal) {
+    <app-create-chat-modal ></app-create-chat-modal>
+  }
 </section>
