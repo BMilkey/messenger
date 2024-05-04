@@ -20,14 +20,31 @@
   flex-direction: column;
   align-items: center;
 
-  &--input {
-    margin-top: 1rem;
-    width: 85%;
-    height: 4%;
-
-    background: aliceblue;
+  &__header {
+    display: flex;
+    flex-direction: row;
+    width: 95%;
+    height: 7%;
     border-radius: 3rem;
-    border: solid 1px black;
+    background: aliceblue;
+    column-gap: 0.5rem;
+    align-items: center;
+
+    &--input {
+
+      width: 85%;
+      height: 30%;
+
+      background: aliceblue;
+      border-radius: 3rem;
+      border: solid 1px black;
+    }
+
+    &--create-chat-button {
+      border-radius: 3rem;
+      height: 45%;
+      border: solid 1px black;
+    }
   }
 }
 
