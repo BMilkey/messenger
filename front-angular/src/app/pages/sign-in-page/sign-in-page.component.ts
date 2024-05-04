@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {SignInPageService} from "./sign-in-page.service";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {apis} from "../../api/api";
+import {Router, Routes} from "@angular/router";
 
 @Component({
   selector: 'app-sign-in-page',
@@ -18,13 +19,14 @@ export class SignInPageComponent {
   regForm = this.formService.registerForm;
   signInForm = this.formService.signInForm;
 
-  constructor(private formService: SignInPageService) {}
+  constructor(private formService: SignInPageService, private router: Router) {}
 
   register() {
     const data = this.regForm.getRawValue();
     if (data.login !== '' && data.password !== '' && data.name !== '' && data.name !== null && data.login !== null && data.password !== null) {
       this.formService.signUp(data.login, data.password, data.name);
       this.pageState = 'menu';
+      this.router.navigateByUrl('/chat');
     } else {
       alert("You've written some shit:( Try again");
     }
@@ -35,6 +37,7 @@ export class SignInPageComponent {
     if (data.login !== '' && data.password !== '' && data.login !== null && data.password !== null) {
       this.formService.signIn(data.login, data.password);
       this.pageState = 'menu';
+      this.router.navigateByUrl('/chat');
     } else {
       alert("You've written some shit:( Try again");
     }

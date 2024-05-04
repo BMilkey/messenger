@@ -4,9 +4,9 @@ import {ChatPageComponent} from "./pages/chat-page/chat-page.component";
 import {SignInPageComponent} from "./pages/sign-in-page/sign-in-page.component";
 
 export const routes: Routes = [
-  {path: '', redirectTo: '/chat', pathMatch: 'full'},
+  {path: '', redirectTo: '/auth', pathMatch: 'full'},
+  {path: 'auth', component: SignInPageComponent},
   {path: 'chat', component: ChatPageComponent},
   {path: 'settings', component: SettingsPageComponent},
-  {path: 'auth', component: SignInPageComponent},
-  {path: '**', redirectTo: '/chat', pathMatch: 'full'},
+  {path: '**', redirectTo: '/auth', pathMatch: 'full'},
 ];
