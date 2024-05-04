@@ -43,7 +43,7 @@ func setupRouter(dbpool *pgx.Pool) *gin.Engine {
 	r.POST("/post/chat/add_user_to_chat/", func(c *gin.Context) {
 		addUserToChatHandler(c, dbpool)
 	})
-	r.POST("/post/chat/change_user_from_chat/", func(c *gin.Context) {
+	r.POST("/post/chat/change_user_info/", func(c *gin.Context) {
 		changeUserInfoHandler(c, dbpool)
 	})
 

@@ -206,3 +206,25 @@ go run main.go
 ```
 "error": error
 ```
+
+## change_user_info
+
+- /post/chat/change_user_info/
+### in:
+```
+		Auth_token string `json:"auth_token"`
+		New_name   string `json:"new_name"`
+		New_link   string `json:"new_link"`
+		New_about  string `json:"new_about"`
+		New_image  string `json:"new_image"`
+```
+### out:
+- good
+```
+		"user": user,
+```
+- error
+```
+"error": error
+```
+

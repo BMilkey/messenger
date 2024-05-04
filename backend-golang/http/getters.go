@@ -9,7 +9,6 @@ import (
 	pgx "github.com/jackc/pgx/v5/pgxpool"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/BMilkey/messenger/auth"
 	db "github.com/BMilkey/messenger/database"
 	md "github.com/BMilkey/messenger/models"
 )
@@ -115,7 +114,7 @@ func registerUserHandler(c *gin.Context, pool *pgx.Pool) {
 		return
 	}
 
-	c.JSON (http.StatusOK, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"auth_token": authToken,
 	})
 }
@@ -521,6 +520,49 @@ func addUserToChatHandler(c *gin.Context, pool *pgx.Pool) {
 
 }
 
+func changeUserInfoHandler(c *gin.Context, pool *pgx.Pool) {
+	var request struct {
+		Auth_token string `json:"auth_token"`
+		New_name   string `json:"new_name"`
+		New_link   string `json:"new_link"`
+		New_about  string `json:"new_about"`
+		New_image  string `json:"new_image"`
+	}
+
+	if err := c.BindJSON(&request); err != nil {
+		log.Error(err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	auth, err := db.SelectAuthByToken(pool, request.Auth_token)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	user := md.User{
+		Id:              auth.User_id,
+		Name:            request.New_name,
+		Link:            request.New_link,
+		About:           request.New_about,
+		Last_connection: time.Now(),
+		Image_id:        request.New_image,
+	}
+	err = db.UpdateUser(pool, user)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	prolongToken(c, pool, request.Auth_token)
+
+	c.JSON(http.StatusOK, gin.H{
+		"user": user,
+	})
+}
+
+
 // test shit
 
 func testLoginWoHashHandler(c *gin.Context, pool *pgx.Pool) {
@@ -563,47 +605,4 @@ func testLoginWoHashHandler(c *gin.Context, pool *pgx.Pool) {
 		"image_id":    user.Image_id,
 	})
 }
-
-func changeUserInfoHandler(c *gin.Context, pool *pgx.Pool) {
-	var request struct {
-		Auth_token string `json:"auth_token"`
-		New_name string `json:"new_name"`
-		New_link   string `json:"new_link"`
-		New_about  string `json:"new_about"`
-		New_image string `json:"new_image"`
-	}
-
-	if err := c.BindJSON(&request); err != nil {
-		log.Error(err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	auth, err := db.SelectAuthByToken(pool, request.Auth_token)
-	if err != nil {
-		log.Info(err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	user := md.User{
-		Id:         auth.User_id,
-		Name:       request.New_name,
-		Link:       request.New_link,
-		About:      request.New_about,
-		Last_connection: time.Now(),
-		Image_id:   request.New_image,
-	}
-	err = db.UpdateUser(pool, user)
-	if err != nil {
-		log.Info(err)
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	prolongToken(c, pool, request.Auth_token)
-
-	c.JSON(http.StatusOK, gin.H{
-		"user": user,
-	})
-}
-
 
