@@ -1,0 +1,44 @@
+<section class="main-container">
+  @switch (pageState) {
+    @case ('menu') {
+      <button class="main-container--button" (click)="pageState='sign in'">
+        Sign In
+      </button>
+      <button class="main-container--button" (click)="pageState='sign up'">
+        Sign Up
+      </button>
+    }
+    @case ('sign in') {
+      <header class="main-container__header">
+        <button class="main-container__header--back-button" (click)="pageState='menu'">
+          X
+        </button>
+        <h2 class="main-container__header--title">Sign In</h2>
+      </header>
+      <section class="main-container__form" [formGroup]="signInForm">
+        <input class="main-container__form--input" placeholder="login" formControlName="login">
+        <input class="main-container__form--input" placeholder="password" formControlName="password">
+        <button class="main-container__form--submit-button" (click)="signIn()">
+          Submit
+        </button>
+      </section>
+    }
+    @case ('sign up') {
+      <header class="main-container__header">
+        <button class="main-container__header--back-button" (click)="pageState='menu'">
+          X
+        </button>
+        <h2 class="main-container__header--title">Sign Up</h2>
+      </header>
+      <section class="main-container__form" [formGroup]="regForm">
+        <input class="main-container__form--input" placeholder="login" formControlName="login">
+        <input class="main-container__form--input" placeholder="password" formControlName="password">
+        <input class="main-container__form--input" placeholder="name" formControlName="name">
+        <button class="main-container__form--submit-button" (click)="register()">
+          Submit
+        </button>
+      </section>
+    }
+  }
+
+</section>
