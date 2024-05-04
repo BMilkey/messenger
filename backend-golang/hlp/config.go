@@ -4,9 +4,8 @@ import (
 	"os"
 	"reflect"
 
-	log "github.com/sirupsen/logrus"
-
 	"github.com/kelseyhightower/envconfig"
+	log "github.com/sirupsen/logrus"
 	"gopkg.in/yaml.v2"
 )
 
@@ -33,7 +32,7 @@ type DatabaseConfig struct {
 func GetConfig(filepath string) (AppConfig, error) {
 	if config == (AppConfig{}) {
 		// Load default config file
-		config.readYaml("config.yaml")
+		config.readYaml(filepath)
 		// Load specific configuration with env variables
 		config.readEnv()
 	}

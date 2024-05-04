@@ -8,4 +8,4 @@ db:
   port: 5432 # DB_PORT
   user: postgres # DB_USER
   password: pswd # DB_PASSWORD
-  dbname: tempdb # DB_NAME
+  dbname: tempdb3 # DB_NAME

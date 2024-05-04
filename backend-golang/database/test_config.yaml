@@ -1,0 +1,11 @@
+
+
+title: messenger-backend # APP_NAME
+http:
+  port: 8080 # HTTP_PORT
+db:
+  host: localhost # DB_HOST
+  port: 5432 # DB_PORT
+  user: postgres # DB_USER
+  password: pswd # DB_PASSWORD
+  dbname: tempdb3 # DB_NAME

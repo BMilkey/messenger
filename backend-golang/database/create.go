@@ -1,58 +1,12 @@
 package database
 
 import (
-	"context"
 	"fmt"
-	"strings"
 
 	"github.com/BMilkey/messenger/hlp"
 	pgx "github.com/jackc/pgx/v5/pgxpool"
-	log "github.com/sirupsen/logrus"
 )
 
-func isDbExist(pool *pgx.Pool, cfg hlp.DatabaseConfig) (bool, error) {
-	query := fmt.Sprintf("SELECT datname FROM pg_database WHERE datname LIKE '%s';", cfg.DbName)
-	var DbName string
-	err := pool.QueryRow(context.Background(), query).Scan(&DbName)
-
-	if err != nil {
-		if strings.Contains(err.Error(), "no rows in result set") {
-			log.Info(fmt.Sprintf("Database %s is not existing.\n", cfg.DbName))
-			return false, nil
-		}
-		return false, err // Error other than "no rows in result set"
-	}
-	// Database already exists
-	log.Info(fmt.Sprintf("Database %s already exists.\n", DbName))
-	return true, nil
-}
-/*
-func checkCreateDB(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
-	query := fmt.Sprintf("SELECT datname FROM pg_database WHERE datname LIKE '%s';", cfg.DbName)
-	var DbName string
-	err := pool.QueryRow(context.Background(), query).Scan(&DbName)
-
-	if err != nil {
-		if strings.Contains(err.Error(), "no rows in result set") {
-			// Database doesn't exist, create it
-			err := createDB(pool, cfg)
-			if err != nil {
-				return err
-			}
-
-			log.Info(fmt.Sprintf("Database %s created.\n", cfg.DbName))
-			return nil
-		}
-		return err // Error other than "no rows in result set"
-	}
-	// Database already exists
-	log.Info(fmt.Sprintf("Database %s already exists.\n", DbName))
-
-	// TODO CheckCreate all tables
-
-	return nil
-}
-*/
 func createDB(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
 	querry := fmt.Sprintf(
 		`
@@ -77,6 +31,7 @@ func createTables(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
 		createFiles,
 		createImages,
 		createUsers,
+		createAuth,
 		createChats,
 		createChatParticipants,
 		createMessages,
@@ -90,7 +45,7 @@ func createTables(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
 			return err
 		}
 	}
-	
+
 	return nil
 }
 
@@ -99,7 +54,7 @@ func createFiles(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
 		`
 		CREATE TABLE IF NOT EXISTS public.files
 		(
-		    id uuid NOT NULL,
+		    id character varying(128) COLLATE pg_catalog."default" NOT NULL,
 		    name character varying(128) COLLATE pg_catalog."default" NOT NULL,
 		    path character varying(256) COLLATE pg_catalog."default" NOT NULL,
 		    size bigint NOT NULL,
@@ -121,7 +76,7 @@ func createImages(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
 		`
 		CREATE TABLE IF NOT EXISTS public.images
 		(
-			-- Inherited from table public.files: id uuid NOT NULL,
+			-- Inherited from table public.files: id character varying(128) COLLATE pg_catalog."default" NOT NULL,
 			-- Inherited from table public.files: name character varying(128) COLLATE pg_catalog."default" NOT NULL,
 			-- Inherited from table public.files: path character varying(256) COLLATE pg_catalog."default" NOT NULL,
 			-- Inherited from table public.files: size bigint NOT NULL,
@@ -144,12 +99,12 @@ func createUsers(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
 		`
 		CREATE TABLE IF NOT EXISTS public.users
 		(
-			id uuid NOT NULL,
+			id character varying(128) COLLATE pg_catalog."default" NOT NULL,
 			name character varying(64) COLLATE pg_catalog."default" NOT NULL,
 			link character varying(64) COLLATE pg_catalog."default" NOT NULL,
 			about character varying(512) COLLATE pg_catalog."default" NOT NULL,
 			last_connection timestamp with time zone NOT NULL,
-			image_id uuid,
+			image_id character varying(128) COLLATE pg_catalog."default",
 			CONSTRAINT users_pkey PRIMARY KEY (id),
 			CONSTRAINT unique_links UNIQUE (link),
 			CONSTRAINT "FK_user_picture_id" FOREIGN KEY (image_id)
@@ -168,18 +123,48 @@ func createUsers(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
 	return wrapRawExecQuerry(pool, querry)
 }
 
+func createAuth(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
+	querry := fmt.Sprintf(
+		`
+		CREATE TABLE IF NOT EXISTS public.auth
+		(
+			login_hash character varying(64) COLLATE pg_catalog."default" NOT NULL,
+			password_hash character varying(64) COLLATE pg_catalog."default" NOT NULL,
+			email character varying(256) COLLATE pg_catalog."default",
+			user_id character varying(128) COLLATE pg_catalog."default" NOT NULL,
+			auth_token character varying(128) COLLATE pg_catalog."default",
+			auth_expires timestamp with time zone,
+			CONSTRAINT auth_pkey PRIMARY KEY (login_hash),
+			CONSTRAINT unique_auth_email UNIQUE (email),
+			CONSTRAINT unique_auth_user_id UNIQUE (user_id),
+			CONSTRAINT "FK_auth_user_id" FOREIGN KEY (user_id)
+				REFERENCES public.users (id) MATCH SIMPLE
+				ON UPDATE NO ACTION
+				ON DELETE NO ACTION
+				NOT VALID
+		)
+		
+		TABLESPACE pg_default;
+		
+		ALTER TABLE IF EXISTS public.auth
+			OWNER to %s;
+		`,
+		cfg.User)
+	return wrapRawExecQuerry(pool, querry)
+}
+
 func createChats(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
 	querry := fmt.Sprintf(
 		`
 		CREATE TABLE IF NOT EXISTS public.chats
 		(
-			id uuid NOT NULL,
+			id character varying(128) COLLATE pg_catalog."default" NOT NULL,
 			link character varying(128) COLLATE pg_catalog."default" NOT NULL,
 			title character varying(128) COLLATE pg_catalog."default" NOT NULL,
-			created_by_user_id uuid NOT NULL,
-			create_time time with time zone NOT NULL,
+			created_by_user_id character varying(128) COLLATE pg_catalog."default" NOT NULL,
+			create_time timestamp with time zone NOT NULL,
 			about character varying(512) COLLATE pg_catalog."default" NOT NULL,
-			image_id uuid,
+			image_id character varying(128) COLLATE pg_catalog."default",
 			CONSTRAINT chats_pkey PRIMARY KEY (id),
 			CONSTRAINT unique_chat_link UNIQUE (link),
 			CONSTRAINT "FK_chat_image_id" FOREIGN KEY (image_id)
@@ -208,8 +193,8 @@ func createChatParticipants(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
 		`
 		CREATE TABLE IF NOT EXISTS public.chat_participants
 		(
-			chat_id uuid NOT NULL,
-			user_id uuid NOT NULL,
+			chat_id character varying(128) COLLATE pg_catalog."default" NOT NULL,
+			user_id character varying(128) COLLATE pg_catalog."default" NOT NULL,
 			CONSTRAINT chat_participants_pkey PRIMARY KEY (chat_id, user_id),
 			CONSTRAINT "FK_chat_participants_chat_id" FOREIGN KEY (chat_id)
 				REFERENCES public.chats (id) MATCH SIMPLE
@@ -236,12 +221,12 @@ func createMessages(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
 
 		CREATE TABLE IF NOT EXISTS public.messages
 		(
-			id uuid NOT NULL,
-			chat_id uuid NOT NULL,
-			user_id uuid NOT NULL,
-			create_time time with time zone NOT NULL,
+			id character varying(128) COLLATE pg_catalog."default" NOT NULL,
+			chat_id character varying(128) COLLATE pg_catalog."default" NOT NULL,
+			user_id character varying(128) COLLATE pg_catalog."default" NOT NULL,
+			create_time timestamp with time zone NOT NULL,
 			text character varying(4096) COLLATE pg_catalog."default" NOT NULL,
-			reply_message_id uuid,
+			reply_message_id character varying(128) COLLATE pg_catalog."default" NOT NULL,
 			CONSTRAINT messages_pkey PRIMARY KEY (id),
 			CONSTRAINT "FK_messages_chat_id" FOREIGN KEY (chat_id)
 				REFERENCES public.chats (id) MATCH SIMPLE
@@ -272,8 +257,8 @@ func createUserAvatars(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
 		`
 		CREATE TABLE IF NOT EXISTS public.user_avatars
 		(
-			user_id uuid NOT NULL,
-			img_id uuid NOT NULL,
+			user_id character varying(128) COLLATE pg_catalog."default" NOT NULL,
+			img_id character varying(128) COLLATE pg_catalog."default" NOT NULL,
 			CONSTRAINT user_avatars_pkey PRIMARY KEY (user_id, img_id),
 			CONSTRAINT "FK_user_avatars_img_id" FOREIGN KEY (img_id)
 				REFERENCES public.images (id) MATCH SIMPLE
@@ -299,8 +284,8 @@ func createImageCalls(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
 		`
 		CREATE TABLE IF NOT EXISTS public.image_calls
 		(
-			message_id uuid NOT NULL,
-			image_id uuid NOT NULL,
+			message_id character varying(128) COLLATE pg_catalog."default" NOT NULL,
+			image_id character varying(128) COLLATE pg_catalog."default" NOT NULL,
 			CONSTRAINT image_calls_pkey PRIMARY KEY (message_id, image_id),
 			CONSTRAINT "FK_image_calls_img_id" FOREIGN KEY (image_id)
 				REFERENCES public.images (id) MATCH SIMPLE
@@ -326,8 +311,8 @@ func createFileCalls(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
 		`
 		CREATE TABLE IF NOT EXISTS public.file_calls
 		(
-			message_id uuid NOT NULL,
-			file_id uuid NOT NULL,
+			message_id character varying(128) COLLATE pg_catalog."default" NOT NULL,
+			file_id character varying(128) COLLATE pg_catalog."default" NOT NULL,
 			CONSTRAINT file_calls_pkey PRIMARY KEY (message_id, file_id),
 			CONSTRAINT "FK_file_calls_file_id" FOREIGN KEY (file_id)
 				REFERENCES public.files (id) MATCH SIMPLE
