@@ -30,5 +30,36 @@ export class apiRepo {
     console.log(this.chatStore.query(getAllEntities()));
     console.log(typeof data.last_online);
   }
+
+  /*
+  setChats(data: any) {
+    if (data.hasOwnProperty('chats')) {
+      this.chatStore.update(addEntities(data.chats));
+  }
+  console.log(this.chatStore.query(getAllEntities()));
+  
+
+  setReplyUsers(data: any) {
+    if (data.hasOwnProperty('users')) {
+      this.chatStore.update(addEntities(data.users));
+    }
+    console.log(this.chatStore.query(getAllEntities()));  
+  }
+
+  setReplyMessages(data: any) {
+    if (data.hasOwnProperty('messages')) {
+      this.chatStore.update(addEntities(data.messages));
+    }
+    console.log(this.chatStore.query(getAllEntities()));
+  }
+
+  setReplyOnResponseMessages(data: any) {
+    if (data.hasOwnProperty('message')) {
+      this.chatStore.update(addEntities(data.message));
+    }
+    if (data.hasOwnProperty('reply_msg')) {
+    console.log(this.chatStore.query(getAllEntities()));
+  }
+  */
 }
 

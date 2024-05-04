@@ -17,12 +17,18 @@ export interface Chat {
   link: string;
   title: string;
   user_id: string;
-  create_time: Date;
+  create_time: string;
   about: string;
   image_id: string;
 }
 
-export interface User {
+export interface RequestUser {
+  chat_id: string;
+  auth_token: string;
+  user_link: string;
+}
+
+export interface ReplyUser {
   id: string;
   name: string;
   link: string;
@@ -31,7 +37,14 @@ export interface User {
   image_id: string;
 }
 
-export interface Message {
+export interface RequestMessage {
+  chat_id: string;
+  text: string;
+  auth_token: string;
+  reply_msg_id: string;
+}
+
+export interface ReplyMessage {
   id: string;
   chat_id: string;
   user_id: string;
