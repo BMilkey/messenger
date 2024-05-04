@@ -132,6 +132,8 @@ func createAuth(pool *pgx.Pool, cfg hlp.DatabaseConfig) error {
 			password_hash character varying(64) COLLATE pg_catalog."default" NOT NULL,
 			email character varying(256) COLLATE pg_catalog."default",
 			user_id character varying(128) COLLATE pg_catalog."default" NOT NULL,
+			auth_token character varying(128) COLLATE pg_catalog."default",
+			auth_expires timestamp with time zone,
 			CONSTRAINT auth_pkey PRIMARY KEY (login_hash),
 			CONSTRAINT unique_auth_email UNIQUE (email),
 			CONSTRAINT unique_auth_user_id UNIQUE (user_id),

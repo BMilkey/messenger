@@ -31,9 +31,9 @@ func SelectUsersByName(pool *pgx.Pool, name string) ([]md.User, error) {
 	rows, err := pool.Query(context.Background(), `
         SELECT id, name, link, about, last_connection, image_id 
         FROM public.users 
-        WHERE users.name = $1
+        WHERE users.name like $1
 		`,
-		name)
+		"%" + name + "%")
 
 	if err != nil {
 		return nil, err
@@ -60,9 +60,9 @@ func SelectUserByLink(pool *pgx.Pool, link string) (md.User, error) {
 	var user md.User
 
 	err := pool.QueryRow(context.Background(), `
-		SELECT id, name, link, about, last_connection, image_id 
-		FROM public.users 
-		WHERE users.link = $1
+	SELECT id, name, link, about, last_connection, image_id
+	FROM public.users
+	where link = $1
 		`,
 		link).
 		Scan(&user.Id, &user.Name, &user.Link, &user.About, &user.Last_connection, &user.Image_id)
@@ -257,11 +257,11 @@ func SelectAuthByLoginHash(pool *pgx.Pool, login_hash string) (md.Auth, error) {
 	var auth md.Auth
 
 	err := pool.QueryRow(context.Background(), `
-		SELECT login_hash, password_hash, email, user_id
+		SELECT login_hash, password_hash, email, user_id, auth_token, auth_expires
 		FROM public.auth
 		WHERE auth.login_hash = $1
 		`, login_hash).
-		Scan(&auth.Login_hash, &auth.Password_hash, &auth.Email, &auth.User_id)
+		Scan(&auth.Login_hash, &auth.Password_hash, &auth.Email, &auth.User_id, &auth.Auth_token, &auth.Auth_expires)
 
 	if err != nil {
 		return auth, err
@@ -270,9 +270,9 @@ func SelectAuthByLoginHash(pool *pgx.Pool, login_hash string) (md.Auth, error) {
 	return auth, nil
 }
 
-func SelectChatIdsByUserId(pool *pgx.Pool, user_id string) ([]md.Chat, error) {
+func SelectChatIdsByUserId(pool *pgx.Pool, user_id string) ([]string, error) {
 	query := `
-		SELECT chat_id, user_id
+		SELECT chat_id
 		FROM public.chat_participants
 		WHERE user_id = $1
 	`
@@ -283,21 +283,21 @@ func SelectChatIdsByUserId(pool *pgx.Pool, user_id string) ([]md.Chat, error) {
 	}
 	defer rows.Close()
 
-	chats := make([]md.Chat, 0)
+	chat_ids := make([]string, 0)
 	for rows.Next() {
-		var chat md.Chat
-		err := rows.Scan(&chat.Id, &chat.User_id)
+		var chat_id string
+		err := rows.Scan(&chat_id)
 		if err != nil {
-			return chats, err
+			return chat_ids, err
 		}
-		chats = append(chats, chat)
+		chat_ids = append(chat_ids, chat_id)
 	}
 
 	if err := rows.Err(); err != nil {
 		return nil, err
 	}
 
-	return chats, nil
+	return chat_ids, nil
 }
 
 func SelectUserIdsByChatId(pool *pgx.Pool, chat_id string) ([]string, error) {
@@ -330,3 +330,21 @@ func SelectUserIdsByChatId(pool *pgx.Pool, chat_id string) ([]string, error) {
 
 	return users_id, nil
 }
+
+func SelectAuthByToken(pool *pgx.Pool, token string) (md.Auth, error) {
+	auth := md.Auth{}
+	err := pool.QueryRow(context.Background(), `
+		SELECT login_hash, password_hash, email, user_id, auth_token, auth_expires
+		FROM public.auth
+		WHERE auth.auth_token = $1
+	`, token).
+		Scan(&auth.Login_hash, &auth.Password_hash, &auth.Email, &auth.User_id, &auth.Auth_token, &auth.Auth_expires)
+	if err != nil {
+		return auth, err
+	}
+	return auth, nil
+}
+
+
+
+

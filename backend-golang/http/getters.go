@@ -13,58 +13,19 @@ import (
 	md "github.com/BMilkey/messenger/models"
 )
 
-func userIdsByChatId(c *gin.Context, pool *pgx.Pool) {
-	chatID := c.Param("chat_id")
-	userIDs, err := db.SelectUserIdsByChatId(pool, chatID)
-	if err != nil {
-		log.Info(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to select users"})
+func userByAuthHandler(c *gin.Context, pool *pgx.Pool) {
+	var request struct {
+		Login    string `json:"login"`
+		Password string `json:"password"`
+	}
+
+	if err := c.BindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, userIDs)
-}
-
-
-func chatIdsByUserId(c *gin.Context, pool *pgx.Pool) {
-	userID := c.Param("user_id")
-	chats, err := db.SelectChatIdsByUserId(pool, userID)
-	if err != nil {
-		log.Info(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to select chats"})
-		return
-	}
-
-	c.JSON(http.StatusOK, chats)
-}
-
-func userByIdHandler(c *gin.Context, pool *pgx.Pool) {
-	userID := c.Param("user_id")
-
-	user, err := db.SelectUserById(pool, userID)
-	if err != nil {
-		log.Info(err)
-		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"id":          user.Id,
-		"name":        user.Name,
-		"link":        user.Link,
-		"about":       user.About,
-		"last_online": user.Last_connection,
-		"image_id":    user.Image_id,
-	})
-}
-
-func userIdByAuthHandler(c *gin.Context, pool *pgx.Pool) {
-	login := c.Param("login")
-	password := c.Param("password")
-
-	log.Trace(fmt.Sprintf("getUserIdByAuthHandler %v %v", login, password))
-	login_hash := db.Sha256Hash(login)
-	password_hash := db.Sha256Hash(password)
+	login_hash := db.Sha256Hash(request.Login)
+	password_hash := db.Sha256Hash(request.Password)
 	auth, err := db.SelectAuthByLoginHash(pool, login_hash)
 	if err != nil {
 		log.Info(err)
@@ -72,11 +33,25 @@ func userIdByAuthHandler(c *gin.Context, pool *pgx.Pool) {
 		return
 	}
 	if auth.Password_hash != password_hash {
-		log.Error("Incorrect password")
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Incorrect password"})
+		log.Error("Incorrect password or login")
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Incorrect password or login"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"user_id": auth.User_id})
+
+	user, err := db.SelectUserById(pool, auth.User_id)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"name":        user.Name,
+		"link":        user.Link,
+		"about":       user.About,
+		"last_online": user.Last_connection,
+		"image_id":    user.Image_id,
+	})
 }
 
 func registerUserHandler(c *gin.Context, pool *pgx.Pool) {
@@ -93,135 +68,422 @@ func registerUserHandler(c *gin.Context, pool *pgx.Pool) {
 	hashedLogin := db.Sha256Hash(request.Login)
 	hashedPassword := db.Sha256Hash(request.Password)
 	newUserId := db.GenerateUUID()
+	authToken := db.GenerateUUID()
 
 	auth := md.Auth{
 		Login_hash:    hashedLogin,
 		Password_hash: hashedPassword,
+		Email:         "",
 		User_id:       newUserId,
+		Auth_token:    authToken,
+		Auth_expires:  time.Now().Add(time.Minute * 1),
 	}
 	user := md.User{
 		Id:              newUserId,
 		Name:            request.Name,
-		Link:            "@" + request.Name,
+		Link:            "@" + newUserId,
 		About:           "There's should be description for " + request.Name,
 		Last_connection: time.Now(),
-		Image_id:        nil,
-	}
-
-	err := db.InsertAuth(pool, auth)
-	if err != nil {
-		log.Info(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to insert auth"})
-		db.DeleteAuthByUserId(pool, newUserId)
-		return
-	}
-
-	err = db.InsertAuth(pool, auth)
-	if err != nil {
-		log.Info(err)
-		db.DeleteAuthByUserId(pool, newUserId)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to insert user"})
-
-		return
+		Image_id:        "fake",
 	}
 
 	if err := db.InsertUser(pool, user); err != nil {
 		log.Info(err)
-		db.DeleteAuthByUserId(pool, newUserId)
-		db.DeleteUserById(pool, newUserId)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to set user auth"})
+		// Rollback auth insertion
+
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to insert user"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"user_id": newUserId})
-}
-func getChatsHandler(c *gin.Context) {
-	// Implement logic to get list of chats for given user_id
-	userID := c.Param("user_id")
-
-	// Your logic here
-	log.Trace(fmt.Sprintf("getChatsHandler %v", userID))
-	// Example response
-	chats := []md.Chat{
-		{Id: "1", User_id: userID, Create_time: time.Now(), About: "Chat about something", Image_id: new(string)},
-		{Id: "2", User_id: userID, Create_time: time.Now(), About: "Another chat", Image_id: new(string)},
-	}
-	*chats[0].Image_id = "123"
-	*chats[1].Image_id = "456"
-
-	c.JSON(http.StatusOK, chats)
-}
-
-func getMessagesHandler(c *gin.Context) {
-	// Implement logic to get list of messages for given chat_id
-	chatID := c.Param("chat_id")
-
-	// Your logic here
-	log.Trace(fmt.Sprintf("getMessagesHandler %v", chatID))
-	// Example response
-	messages := []md.Message{
-		{Id: "1", Chat_id: chatID, User_id: "user1", Create_time: time.Now(), Text: "Hello"},
-		{Id: "2", Chat_id: chatID, User_id: "user2", Create_time: time.Now(), Text: "Hi there"},
+	if err := db.InsertAuth(pool, auth); err != nil {
+		log.Info(err)
+		db.DeleteAuthByUserId(pool, user.Id)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to insert auth"})
+		return
 	}
 
-	c.JSON(http.StatusOK, messages)
+	c.JSON(http.StatusOK, gin.H{
+		"auth_token": authToken,
+	})
 }
 
-func getChatParticipantsHandler(c *gin.Context) {
-	// Implement logic to get list of chat participants for given chat_id
-	chatID := c.Param("chat_id")
+/*
+	func userByIdHandler(c *gin.Context, pool *pgx.Pool) {
+		var request struct {
+			UserID     string `json:"user_id"`
+			Auth_token string `json:"auth_token"`
+		}
+		if err := c.BindJSON(&request); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
 
-	// Your logic here
-	log.Trace(fmt.Sprintf("getChatParticipantsHandler %v", chatID))
-	// Example response
-	participants := []md.User{
-		{Id: "user1", Name: "John", Link: "@user1", About: "About John", Last_connection: time.Now()},
-		{Id: "user2", Name: "Jane", Link: "@user2", About: "About Jane", Last_connection: time.Now()},
+		if !validateAuthToken(pool, request.Auth_token) {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid auth token"})
+			return
+		}
+
+		user, err := db.SelectUserById(pool, request.UserID)
+		if err != nil {
+			log.Info(err)
+			c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{
+			"id":          user.Id,
+			"name":        user.Name,
+			"link":        user.Link,
+			"about":       user.About,
+			"last_online": user.Last_connection,
+			"image_id":    user.Image_id,
+		})
 	}
-
-	c.JSON(http.StatusOK, participants)
-}
-
-func getImagesHandler(c *gin.Context) {
-	// Implement logic to get list of paths to images for given list of image_ids
-	// Example request body: {"image_ids": ["1", "2", "3"]}
+*/
+func createChatReturnUsersHandler(c *gin.Context, pool *pgx.Pool) {
 	var request struct {
-		ImageIDs []string `json:"image_ids"`
+		Auth_token  string   `json:"auth_token"`
+		Title       string   `json:"title"`
+		Users_links []string `json:"users_links"`
+	}
+
+	if err := c.BindJSON(&request); err != nil {
+		log.Error(err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+		return
+	}
+
+	if !validateAuthToken(pool, request.Auth_token) {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid auth token"})
+		return
+	}
+
+	auth, err := db.SelectAuthByToken(pool, request.Auth_token)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
+
+	chat := md.Chat{
+		Id:          db.GenerateUUID(),
+		Link:        "@" + db.GenerateUUID(),
+		Title:       request.Title,
+		User_id:     auth.User_id,
+		Create_time: time.Now(),
+		About:       "There's should be description for " + request.Title,
+		Image_id:    "fake",
+	}
+
+	if err := db.InsertChat(pool, chat); err != nil {
+		log.Info(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to insert chat"})
+		return
+	}
+
+	users := make([]md.User, 0)
+	for i := 0; i < len(request.Users_links); i++ {
+		user, err := db.SelectUserByLink(pool, request.Users_links[i])
+		if err != nil {
+			log.Info(err)
+			c.JSON(http.StatusNotFound, gin.H{"error": fmt.Sprintf("User %s not found", request.Users_links[i])})
+			return
+		}
+		err = db.InsertChatParticipant(pool, chat.Id, user.Id)
+		if err != nil {
+			log.Info(err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to insert chat participant"})
+			return
+		}
+		users = append(users, user)
+	}
+	users = emptyUsersId(users)
+	// Serialize the users array into JSON
+	jsonData, err := serializeToJSON(users)
+	if err != nil {
+		log.Error(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to serialize users"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"users": string(jsonData),
+	})
+
+}
+
+func chatsByTokenHandler(c *gin.Context, pool *pgx.Pool) {
+	var request struct {
+		Auth_token string `json:"auth_token"`
+	}
+	if err := c.BindJSON(&request); err != nil {
+		log.Error(err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+		return
+	}
+
+	if !validateAuthToken(pool, request.Auth_token) {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid auth token"})
+		return
+	}
+
+	auth, err := db.SelectAuthByToken(pool, request.Auth_token)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
+
+	userID := auth.User_id
+
+	chat_ids, err := db.SelectChatIdsByUserId(pool, userID)
+	if err != nil {
+		log.Error(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to select chats"})
+		return
+	}
+	chats := make([]md.Chat, 0)
+	for i := 0; i < len(chat_ids); i++ {
+		chat, err := db.SelectChatById(pool, chat_ids[i])
+		if err != nil {
+			log.Error(err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to select chats"})
+			return
+		}
+		user, err := db.SelectUserById(pool, chat.User_id)
+		if err != nil {
+			log.Error(err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to select chats"})
+			return
+		}
+		chat.User_id = user.Link
+		chats = append(chats, chat)
+	}
+
+	jsonData, err := serializeToJSON(chats)
+	if err != nil {
+		log.Error(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to serialize chats"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"chats": string(jsonData),
+	})
+
+}
+
+func usersByNameHandler(c *gin.Context, pool *pgx.Pool) {
+	var request struct {
+		Name       string `json:"name"`
+		Auth_token string `json:"auth_token"`
+	}
+	if err := c.BindJSON(&request); err != nil {
+		log.Error(err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
+		return
+	}
+
+	if !validateAuthToken(pool, request.Auth_token) {
+		log.Error("Invalid auth token")
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid auth token"})
+		return
+	}
+
+	users, err := db.SelectUsersByName(pool, request.Name)
+	if err != nil {
+		log.Error(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to select users"})
+		return
+	}
+
+	users = emptyUsersId(users)
+
+	jsonData, err := serializeToJSON(users)
+	if err != nil {
+		log.Error(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to serialize users"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"users": string(jsonData),
+	})
+}
+
+func usersByChatIdHandler(c *gin.Context, pool *pgx.Pool) {
+	var request struct {
+		ChatID     string `json:"chat_id"`
+		Auth_token string `json:"auth_token"`
 	}
 	if err := c.BindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// Your logic here
-	log.WithFields(log.Fields{"paths": request.ImageIDs}).Trace("getImagesHandler")
-	// Example response
-	images := []md.Image{
-		{Id: "1", Name: "krasivaya-ava-devushke-50.jpg", Size: 15000, Path: "/https://lifeo.ru/wp-content/uploads/krasivaya-ava-devushke-50.jpg"},
-		{Id: "2", Name: "image2.jpg", Size: 10000, Path: "/path/to/image2.jpg"},
+	if !isTokenHaveAccessToChat(c, pool, request.ChatID, request.Auth_token) {
+		return
 	}
 
-	c.JSON(http.StatusOK, images)
+	userIDs, err := db.SelectUserIdsByChatId(pool, request.ChatID)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to select users"})
+		return
+	}
+
+	users := make([]md.User, 0)
+	for i := 0; i < len(userIDs); i++ {
+		user, err := db.SelectUserById(pool, userIDs[i])
+		if err != nil {
+			log.Info(err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to select users"})
+			return
+		}
+		users = append(users, user)
+	}
+
+	users = emptyUsersId(users)
+
+	jsonData, err := serializeToJSON(users)
+	if err != nil {
+		log.Error(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to serialize users"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"users": string(jsonData),
+	})
 }
 
-func getFilesHandler(c *gin.Context) {
-	// Implement logic to get list of paths to files for given list of file_ids
-	// Example request body: {"file_ids": ["1", "2", "3"]}
+func messagesByChatId(c *gin.Context, pool *pgx.Pool) {
 	var request struct {
-		FileIDs []string `json:"file_ids"`
+		ChatID     string `json:"chat_id"`
+		Auth_token string `json:"auth_token"`
 	}
+
 	if err := c.BindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// Your logic here
-	log.WithFields(log.Fields{"paths": request.FileIDs}).Trace("getImagesHandler")
-	// Example response
-	files := []md.File{
-		{Id: "1", Name: "peach-cat-yay.gif", Size: 66666, Path: "https://media.tenor.com/nLKPVCtMbioAAAAi/peach-cat-yay.gif"},
-		{Id: "2", Name: "file2.txt", Size: 12345, Path: "/path/to/file2.txt"},
+	if !isTokenHaveAccessToChat(c, pool, request.ChatID, request.Auth_token) {
+		return
 	}
 
-	c.JSON(http.StatusOK, files)
+	messages, err := db.SelectMessagesByChatId(pool, request.ChatID)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to select messages"})
+		return
+	}
+
+	jsonData, err := serializeToJSON(messages)
+	if err != nil {
+		log.Error(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to serialize messages"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"messages": string(jsonData),
+	})
+
+}
+
+func createMessageHandler(c *gin.Context, pool *pgx.Pool) {
+	var request struct {
+		Chat_id      string `json:"chat_id"`
+		Text         string `json:"text"`
+		Auth_token   string `json:"auth_token"`
+		Reply_msg_id string `json:"reply_msg_id"`
+	}
+
+	if err := c.BindJSON(&request); err != nil {
+		log.Error(err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if !isTokenHaveAccessToChat(c, pool, request.Chat_id, request.Auth_token) {
+		return
+	}
+
+	auth, err := db.SelectAuthByToken(pool, request.Auth_token)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to select user"})
+		return
+	}
+	reply_msg_id := "fake"
+	reply_msg, err := db.SelectMessageById(pool, request.Reply_msg_id)
+	
+	if err == nil {
+		reply_msg_id = reply_msg.Id
+	}
+
+	message := md.Message{
+		Id:           db.GenerateUUID(),
+		Chat_id:      request.Chat_id,
+		User_id:      auth.User_id,
+		Create_time:  time.Now(),
+		Text:         request.Text,
+		Reply_msg_id: reply_msg_id,
+	}
+
+	err = db.InsertMessage(pool, message)
+	if err != nil {
+		log.Error(err)
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": message,
+		"reply_msg": reply_msg,
+	})
+
+
+}
+
+// test shit
+
+func testLoginWoHashHandler(c *gin.Context, pool *pgx.Pool) {
+	var request struct {
+		Login    string `json:"login"`
+		Password string `json:"password"`
+	}
+
+	if err := c.BindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	//login_hash := db.Sha256Hash(request.Login)
+	//password_hash := db.Sha256Hash(request.Password)
+	auth, err := db.SelectAuthByLoginHash(pool, request.Login)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if request.Password != auth.Password_hash {
+		log.Error("Incorrect password or login")
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Incorrect password or login"})
+		return
+	}
+
+	user, err := db.SelectUserById(pool, auth.User_id)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"name":        user.Name,
+		"link":        user.Link,
+		"about":       user.About,
+		"last_online": user.Last_connection,
+		"image_id":    user.Image_id,
+	})
 }

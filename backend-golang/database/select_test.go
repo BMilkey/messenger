@@ -195,3 +195,31 @@ func TestSelectUserIdsByChatId(t *testing.T) {
 		fmt.Println(userId)
 	}
 }
+
+
+func TestSelectAuthByToken(t *testing.T) {
+	config, err := hlp.GetConfig("test_config.yaml")
+	if err != nil {
+		t.Fatal(err)
+	}
+	dbConfig := config.Db
+
+	err = Init(dbConfig)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	dbPool, err := GetDbPool(config.Db)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer dbPool.Close()
+
+	authToken := "e93769fd-538c-4757-bfff-78532b15f27b"
+	auth, err := SelectAuthByToken(dbPool, authToken)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	fmt.Printf("UserId: %s, AuthToken: %s\n", auth.User_id, auth.Auth_token)
+}

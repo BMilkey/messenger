@@ -11,23 +11,40 @@ func setupRouter(dbpool *pgx.Pool) *gin.Engine {
 	r := gin.Default()
 
 	// Define routes
-	r.POST("/post/auth/user_id_by_auth/", func(c *gin.Context) {
-		userIdByAuthHandler(c, dbpool)
+	r.POST("/post/auth/user_by_auth/", func(c *gin.Context) {
+		userByAuthHandler(c, dbpool)
 	})
 	r.POST("/post/auth/register_user/", func(c *gin.Context) {
 		registerUserHandler(c, dbpool)
 	})
-	r.POST("/post/auth/login_user/", func(c *gin.Context) {
-		userByIdHandler(c, dbpool)
+	r.POST("/post/chat/chats_by_token/", func(c *gin.Context) {
+		chatsByTokenHandler(c, dbpool)
 	})
-	r.POST("/post/auth/logout_user/", func(c *gin.Context) {
-		chatIdsByUserId(c, dbpool)
+	/*
+		r.POST("/post/chat/user_ids_by_chat_id/", func(c *gin.Context) {
+			userIdsByChatIdHandler(c, dbpool)
+		})
+	*/
+	r.POST("/post/chat/create_chat_return_users/", func(c *gin.Context) {
+		createChatReturnUsersHandler(c, dbpool)
 	})
-	r.POST("/post/chat/chat_ids_by_user_id/", func(c *gin.Context) {
-		chatIdsByUserId(c, dbpool)
+	r.POST("/post/chat/users_by_name/", func(c *gin.Context) {
+		usersByNameHandler(c, dbpool)
 	})
-	r.POST("/post/chat/user_ids_by_chat_id/", func(c *gin.Context) {
-		userIdsByChatId(c, dbpool)
+	r.POST("/post/chat/users_by_chat_id/", func(c *gin.Context) {
+		usersByChatIdHandler(c, dbpool)
+	})
+	r.POST("/post/chat/messages_by_chat_id/", func(c *gin.Context) {
+		messagesByChatId(c, dbpool)
+	})
+	r.POST("/post/chat/create_message/", func(c *gin.Context) {
+		createMessageHandler(c, dbpool)
+	})
+
+	
+	// test shit
+	r.POST("/testLoginWoHashHandler/", func(c *gin.Context) {
+		testLoginWoHashHandler(c, dbpool)
 	})
 
 	return r
@@ -36,17 +53,4 @@ func setupRouter(dbpool *pgx.Pool) *gin.Engine {
 func StartServer(cfg hlp.HttpConfig, dbpool *pgx.Pool) {
 	r := setupRouter(dbpool)
 	r.Run(":" + cfg.Port)
-}
-
-func Test() {
-	router := gin.Default()
-
-	router.GET("/get_chats/:user_id", getChatsHandler)
-	router.GET("/get_messages/:chat_id", getMessagesHandler)
-	router.GET("/get_chat_participants/:chat_id", getChatParticipantsHandler)
-	router.POST("/get_images", getImagesHandler)
-	router.POST("/get_files", getFilesHandler)
-
-	// Start server
-	router.Run(":8080")
 }
