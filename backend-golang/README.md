@@ -28,11 +28,12 @@ go run main.go
 /post/auth/register_user/
 ### in:
 ```
-        Login    string `json:"login"`
-
-        Password string `json:"password"`
-
-        Name     string `json:"name"`
+		"auth_token":  authToken,
+		"name":        user.Name,
+		"link":        user.Link,
+		"about":       user.About,
+		"last_online": user.Last_connection,
+		"image_id":    user.Image_id,
 ```
 ### out:
 - good

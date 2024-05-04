@@ -48,6 +48,13 @@ func userByAuthHandler(c *gin.Context, pool *pgx.Pool) {
 		return
 	}
 
+	if err := db.UpdateAuthToken(pool, auth); err != nil {
+		log.Info(err)
+		db.DeleteAuthByUserId(pool, user.Id)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to insert auth"})
+		return
+	}
+
 	if !prolongToken(c, pool, auth.Auth_token) {
 		return
 	}
@@ -115,7 +122,12 @@ func registerUserHandler(c *gin.Context, pool *pgx.Pool) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"auth_token": authToken,
+		"auth_token":  authToken,
+		"name":        user.Name,
+		"link":        user.Link,
+		"about":       user.About,
+		"last_online": user.Last_connection,
+		"image_id":    user.Image_id,
 	})
 }
 
@@ -562,7 +574,6 @@ func changeUserInfoHandler(c *gin.Context, pool *pgx.Pool) {
 	})
 }
 
-
 // test shit
 
 func testLoginWoHashHandler(c *gin.Context, pool *pgx.Pool) {
@@ -605,4 +616,3 @@ func testLoginWoHashHandler(c *gin.Context, pool *pgx.Pool) {
 		"image_id":    user.Image_id,
 	})
 }
-
