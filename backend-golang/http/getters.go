@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+	"io/ioutil"
 
 	"github.com/gin-gonic/gin"
 	pgx "github.com/jackc/pgx/v5/pgxpool"
@@ -206,6 +207,21 @@ func createChatReturnUsersHandler(c *gin.Context, pool *pgx.Pool) {
 	}
 
 	users := make([]md.User, 0)
+	create_user, err := db.SelectUserById(pool, auth.User_id)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusNotFound, gin.H{"error": fmt.Sprintf("User_id for chat create %s not found", auth.User_id)})
+		return
+	}
+	err = db.InsertChatParticipant(pool, chat.Id, create_user.Id)
+	if err != nil {
+		log.Info(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to insert chat participant"})
+		return
+	}
+	users = append(users, create_user)
+
+
 	for i := 0; i < len(request.Users_links); i++ {
 		user, err := db.SelectUserByLink(pool, request.Users_links[i])
 		if err != nil {
@@ -310,11 +326,23 @@ func usersByNameHandler(c *gin.Context, pool *pgx.Pool) {
 		Name       string `json:"name"`
 		Auth_token string `json:"auth_token"`
 	}
+
+	// Printing all received data from the client before even binding
+	body, err := ioutil.ReadAll(c.Request.Body)
+	if err != nil {
+		log.Error(err)
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Failed to read request body"})
+		return
+	}
+	log.Info(string(body))
+
 	if err := c.BindJSON(&request); err != nil {
 		log.Error(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
 		return
 	}
+
+
 
 	if !validateAuthToken(pool, request.Auth_token) {
 		log.Error("Invalid auth token")
@@ -346,6 +374,7 @@ func usersByNameHandler(c *gin.Context, pool *pgx.Pool) {
 		"users": string(jsonData),
 	})
 }
+
 
 func usersByChatIdHandler(c *gin.Context, pool *pgx.Pool) {
 	var request struct {

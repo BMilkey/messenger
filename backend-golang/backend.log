@@ -239,3 +239,90 @@
 {"level":"info","msg":"no rows in result set","time":"2024-05-04T10:34:38+05:00"}
 {"level":"info","msg":"no rows in result set","time":"2024-05-04T10:34:46+05:00"}
 {"level":"info","msg":"no rows in result set","time":"2024-05-04T10:35:01+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-05-04T16:03:18+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-04T16:03:18+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-05-04T16:19:39+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-04T16:19:39+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-05-04T16:20:16+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-04T16:20:16+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:20:20+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:20:22+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:20:28+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:21:28+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:22:47+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:24:42+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:24:49+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:25:00+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:25:26+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:26:35+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:26:49+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:26:55+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:27:33+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:29:23+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:29:39+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:29:46+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:30:25+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:30:40+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:33:31+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:33:37+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:33:48+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:34:13+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:34:34+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:39:16+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:43:39+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:43:42+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:43:42+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-04T16:44:00+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-05-04T16:47:38+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-04T16:47:38+05:00"}
+{"level":"info","msg":"\u0026{0xc000190a68 \u003cnil\u003e \u003cnil\u003e true true {0 0} true false false 0x16060e0}","time":"2024-05-04T16:47:46+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-05-04T16:50:27+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-04T16:50:27+05:00"}
+{"level":"info","msg":"{\"name\":\"\",\"auth_token\":null}","time":"2024-05-04T16:51:07+05:00"}
+{"level":"error","msg":"EOF","time":"2024-05-04T16:52:25+05:00"}
+{"level":"info","msg":"{\"name\":\"\",\"auth_token\":null}","time":"2024-05-04T16:52:31+05:00"}
+{"level":"error","msg":"EOF","time":"2024-05-04T16:52:31+05:00"}
+{"level":"info","msg":"{\"name\":\"\",\"auth_token\":null}","time":"2024-05-04T16:53:26+05:00"}
+{"level":"error","msg":"EOF","time":"2024-05-04T16:53:26+05:00"}
+{"level":"info","msg":"{\"name\":\"\",\"auth_token\":null}","time":"2024-05-04T16:54:32+05:00"}
+{"level":"error","msg":"EOF","time":"2024-05-04T16:54:32+05:00"}
+{"level":"info","msg":"{\"name\":\"\",\"auth_token\":null}","time":"2024-05-04T17:03:15+05:00"}
+{"level":"error","msg":"EOF","time":"2024-05-04T17:03:15+05:00"}
+{"level":"info","msg":"{\"name\":\"\",\"auth_token\":null}","time":"2024-05-04T17:03:51+05:00"}
+{"level":"error","msg":"EOF","time":"2024-05-04T17:03:51+05:00"}
+{"level":"info","msg":"{\"name\":\"\",\"auth_token\":null}","time":"2024-05-04T17:04:19+05:00"}
+{"level":"error","msg":"EOF","time":"2024-05-04T17:04:19+05:00"}
+{"level":"info","msg":"{\"name\":\"\",\"auth_token\":null}","time":"2024-05-04T17:05:23+05:00"}
+{"level":"error","msg":"EOF","time":"2024-05-04T17:05:23+05:00"}
+{"level":"info","msg":"{\"name\":\"\",\"auth_token\":null}","time":"2024-05-04T17:05:31+05:00"}
+{"level":"error","msg":"EOF","time":"2024-05-04T17:05:31+05:00"}
+{"level":"info","msg":"{\"name\":\"\",\"auth_token\":null}","time":"2024-05-04T17:10:43+05:00"}
+{"level":"error","msg":"EOF","time":"2024-05-04T17:10:43+05:00"}
+{"level":"info","msg":"{\"name\":\"\",\"auth_token\":null}","time":"2024-05-04T17:11:50+05:00"}
+{"level":"error","msg":"EOF","time":"2024-05-04T17:11:50+05:00"}
+{"level":"info","msg":"{\"name\":\"\",\"auth_token\":null}","time":"2024-05-04T17:13:16+05:00"}
+{"level":"error","msg":"EOF","time":"2024-05-04T17:13:16+05:00"}
+{"level":"info","msg":"{\"name\":\"\",\"auth_token\":null}","time":"2024-05-04T17:13:59+05:00"}
+{"level":"error","msg":"EOF","time":"2024-05-04T17:13:59+05:00"}
+{"level":"info","msg":"{\"name\":\"\",\"auth_token\":null}","time":"2024-05-04T17:15:28+05:00"}
+{"level":"error","msg":"EOF","time":"2024-05-04T17:15:28+05:00"}
+{"level":"info","msg":"{\"name\":\"\",\"auth_token\":{\"__zone_symbol__state\":null,\"__zone_symbol__value\":[]}}","time":"2024-05-04T17:25:24+05:00"}
+{"level":"error","msg":"EOF","time":"2024-05-04T17:25:24+05:00"}
+{"level":"info","msg":"{\"name\":\"\",\"auth_token\":{\"__zone_symbol__state\":null,\"__zone_symbol__value\":[]}}","time":"2024-05-04T17:26:12+05:00"}
+{"level":"error","msg":"EOF","time":"2024-05-04T17:26:12+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-05-05T17:58:36+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-05T17:58:36+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-05-05T18:01:41+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-05T18:01:41+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-05-05T23:00:04+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-05T23:00:05+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-05-05T23:01:11+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-05T23:01:11+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-05-05T23:01:15+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-05T23:01:15+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-05-05T23:23:52+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-05T23:23:52+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-05-07T16:56:05+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-07T16:56:05+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-05-07T19:08:49+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-07T19:08:49+05:00"}

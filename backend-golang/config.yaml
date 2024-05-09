@@ -2,7 +2,7 @@
 
 title: messenger-backend # APP_NAME
 http:
-  port: 8080 # HTTP_PORT
+  port: 8081 # HTTP_PORT
 db:
   host: localhost # DB_HOST
   port: 5432 # DB_PORT
