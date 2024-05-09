@@ -28,41 +28,41 @@ export class apis {
     return this.http.post(url, list).pipe(take(1), tap((data) => this.repo.setUser(data)));
   }
 
-  getChatsByToken(token :string) {
+  getChatsByToken(token :any) {
     const url = `http://147.45.70.245:80//post/chat/chats_by_token`;
 
-    return this.http.post(url, token).pipe(take(1), tap((data) => this.repo.setChats(data)));
+    return this.http.post(url, token).pipe(take(1), tap((data) => console.log(data)));
   }
 
-  createChatGetUsers() {
+  createChatGetUsers(body: any) {
     const url = `http://147.45.70.245:80/post/chat/create_chat_return_users`;
 
-    return this.http.post(url, {}).pipe(take(1), tap((data) => this.repo.setReplyUsers(data)));
+    return this.http.post(url, body).pipe(take(1), tap((data) => console.log(data)));
   }
 
-  getUsersByChatId(id :string) {
-    const url = `http://147.45.70.245:80/post/chat/users_by_chat_id`;
-
-    return this.http.post(url, id).pipe(take(1), tap((data) => this.repo.setReplyUsers(data)));
-  }
-
-  getMessagesByChatId(id :string) {
-    const url = `http://147.45.70.245:80/post/chat/messages_by_chat_id`;
-
-    return this.http.post(url, id).pipe(take(1), tap((data) => this.repo.setReplyMessages(data)));
-  }
-
-  sendMessage(list :RequestMessage) {
-    const url = `http://147.45.70.245:80/post/chat/create_message`;
-
-    return this.http.post(url, list).pipe(take(1), tap((data) => this.repo.setReplyOnResponseMessages(data)));
-  }
-
-  addUserToChat(list :RequestUser) {
-    const url = `http://147.45.70.245:80/post/chat/add_user_to_chat`;
-
-    return this.http.post(url, list).pipe(take(1), tap((data) => this.repo.setReplyUsers(data)));
-  }
+  // getUsersByChatId(id :string) {
+  //   const url = `http://147.45.70.245:80/post/chat/users_by_chat_id`;
+  //
+  //   return this.http.post(url, id).pipe(take(1), tap((data) => this.repo.setReplyUsers(data)));
+  // }
+  //
+  // getMessagesByChatId(id :string) {
+  //   const url = `http://147.45.70.245:80/post/chat/messages_by_chat_id`;
+  //
+  //   return this.http.post(url, id).pipe(take(1), tap((data) => this.repo.setReplyMessages(data)));
+  // }
+  //
+  // sendMessage(list :RequestMessage) {
+  //   const url = `http://147.45.70.245:80/post/chat/create_message`;
+  //
+  //   return this.http.post(url, list).pipe(take(1), tap((data) => this.repo.setReplyOnResponseMessages(data)));
+  // }
+  //
+  // addUserToChat(list :RequestUser) {
+  //   const url = `http://147.45.70.245:80/post/chat/add_user_to_chat`;
+  //
+  //   return this.http.post(url, list).pipe(take(1), tap((data) => this.repo.setReplyUsers(data)));
+  // }
 
 
 }

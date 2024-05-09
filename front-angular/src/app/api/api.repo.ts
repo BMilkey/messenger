@@ -15,20 +15,20 @@ interface User {
   providedIn: 'root'
 })
 export class apiRepo {
-  chatStore = createStore({name: 'chat'}, withEntities<User>());
+  usersStore = createStore({name: 'chat'}, withEntities<User>());
 
   setToken(data: any) {
     if (data.hasOwnProperty('auth_token')) {
-      this.chatStore.update(addEntities({id: data.auth_token, name: data.name, link: data.link, about: data.about, last_online: data.last_online, image_id: data.image_id}));
+      this.usersStore.update(addEntities({id: data.auth_token, name: data.name, link: data.link, about: data.about, last_online: data.last_online, image_id: data.image_id}));
     }
+    console.log(this.usersStore.query(getAllEntities()));
   }
 
   setUser(data: any) {
     if (data.hasOwnProperty('auth_token')) {
-      this.chatStore.update(addEntities({id: data.auth_token, name: data.name, link: data.link, about: data.about, last_online: data.last_online, image_id: data.image_id}));
+      this.usersStore.update(addEntities({id: data.auth_token, name: data.name, link: data.link, about: data.about, last_online: data.last_online, image_id: data.image_id}));
     }
-    console.log(this.chatStore.query(getAllEntities()));
-    console.log(typeof data.last_online);
+    console.log(this.usersStore.query(getAllEntities()));
   }
 
   /*
@@ -37,13 +37,13 @@ export class apiRepo {
       this.chatStore.update(addEntities(data.chats));
   }
   console.log(this.chatStore.query(getAllEntities()));
-  
+
 
   setReplyUsers(data: any) {
     if (data.hasOwnProperty('users')) {
       this.chatStore.update(addEntities(data.users));
     }
-    console.log(this.chatStore.query(getAllEntities()));  
+    console.log(this.chatStore.query(getAllEntities()));
   }
 
   setReplyMessages(data: any) {

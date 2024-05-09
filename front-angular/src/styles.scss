@@ -1,12 +1,33 @@
 * {
-  background: lightblue;
+  background: #ACFCD9;
 
   max-height: 95vh;
   margin-top: 0.1rem;
+
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
 }
 
 .icon {
-  background: aliceblue;
-  width: 75%;
-  height: 75%;
+  background: inherit;
+  width: 100%;
+  height: 100%;
+  border-radius: 3rem;
+}
+
+dialog {
+  width: 40vw;
+  height: 40vh;
+
+  border-radius: 3rem;
+
+  display: flex;
+  flex-direction: column;
+
+  & > header {
+    display: flex;
+    flex-direction: row;
+  }
 }

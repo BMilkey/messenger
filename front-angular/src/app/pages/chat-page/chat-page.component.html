@@ -2,7 +2,9 @@
   <section class="list-of-chats">
     <header class="list-of-chats__header">
       <input class="list-of-chats__header--input" placeholder=" Сhat search...">
-      <button class="list-of-chats__header--create-chat-button" (click)="openModal=true"> New</button>
+      <button class="list-of-chats__header--create-chat-button" (click)="openModal()">
+        <img class="icon" src="assets/icons/plus.svg" alt="plus-icon"/>
+      </button>
     </header>
   </section>
 
@@ -10,11 +12,11 @@
 
     <header class="current-chat__header">
       <button class="current-chat__header--list-hide-button">
-        <
+        <img class="icon" src="assets/icons/left.svg" alt="left-icon"/>
       </button>
-      <span class="current-chat__header--date">Today</span>
+      <span class="current-chat__header--date">TODAY</span>
       <button class="current-chat__header--info-hide-button">
-        >
+        <img class="icon" src="assets/icons/right.svg" alt="right-icon"/>
       </button>
     </header>
 
@@ -25,7 +27,7 @@
     <footer class="current-chat__footer">
       <input class="current-chat__footer--input" placeholder=" Write something good :)">
       <button class="current-chat__footer--submit-button">
-
+        <img class="icon" src="assets/icons/rocket.svg" alt="rocket-icon"/>
       </button>
     </footer>
 
@@ -34,8 +36,18 @@
   <section class="chat-info">
 
   </section>
+</section>
 
-  @if (openModal) {
-    <app-create-chat-modal ></app-create-chat-modal>
-  }
+<div class="dialog-container"></div>
+
+<section [hidden]="open" class="dialog-container__dialog__dialog-insides">
+  <header>
+    <button (click)="closeModal()">Close</button>
+    <h2>Create a new chat</h2>
+  </header>
+  <section>
+    <input placeholder="title">
+    <input>
+    <button (click)="chatService.createChat()">Submit</button>
+  </section>
 </section>
