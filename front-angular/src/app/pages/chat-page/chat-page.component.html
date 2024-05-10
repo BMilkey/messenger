@@ -1,53 +1,77 @@
 <section class="chat-page">
-  <section class="list-of-chats">
+  <section class="list-of-chats" [ngClass]="{'hide': left}">
     <header class="list-of-chats__header">
       <input class="list-of-chats__header--input" placeholder=" Сhat search...">
       <button class="list-of-chats__header--create-chat-button" (click)="openModal()">
         <img class="icon" src="assets/icons/plus.svg" alt="plus-icon"/>
       </button>
     </header>
+    <section class="list-of-chats__main-container">
+      @for (chat of chatService.chats.value; track chat.id) {
+        <div class="list-of-chats__main-container__message" (click)="selectChat(chat.id)">
+          <img class="list-of-chats__main-container__message--profile-image" src="assets/images/non-avatar.png" alt="chat-image"/>
+          <section class="list-of-chats__main-container__message__text">
+            <h3 class="list-of-chats__main-container__message__text--title">{{chat.title}}</h3>
+            <span class="list-of-chats__main-container__message__text--span">Last message</span>
+          </section>
+        </div>
+      }
+    </section>
   </section>
 
   <section class="current-chat">
 
     <header class="current-chat__header">
-      <button class="current-chat__header--list-hide-button">
-        <img class="icon" src="assets/icons/left.svg" alt="left-icon"/>
+      <button class="current-chat__header--list-hide-button" (click)="hideLeft()">
+        <svg class="icon" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 7L10 12L15 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </button>
       <span class="current-chat__header--date">TODAY</span>
-      <button class="current-chat__header--info-hide-button">
+      <button class="current-chat__header--info-hide-button" (click)="hideRight()">
         <img class="icon" src="assets/icons/right.svg" alt="right-icon"/>
       </button>
     </header>
 
     <section class="current-chat__chat-container">
-
+      @for (message of chatService.messages.value; track message.id) {
+        <div class="message">
+          <img class="message--image" src="assets/images/non-avatar.png" alt="profile-image"/>
+          <section class="message__text">
+            <h5 class="message__text--name">Name</h5>
+            <span class="message__text--text">{{ message.text }}</span>
+          </section>
+        </div>
+      }
     </section>
 
-    <footer class="current-chat__footer">
-      <input class="current-chat__footer--input" placeholder=" Write something good :)">
-      <button class="current-chat__footer--submit-button">
+    <footer class="current-chat__footer" [formGroup]="chatService.messageForm">
+      <input class="current-chat__footer--input"
+             placeholder=" Write something good :)"
+             formControlName="text">
+      <button class="current-chat__footer--submit-button" (click)="sendMessage()">
         <img class="icon" src="assets/icons/rocket.svg" alt="rocket-icon"/>
       </button>
     </footer>
 
   </section>
 
-  <section class="chat-info">
-
+  <section class="chat-info" [ngClass]="{'hide': right}">
+    @if (chat) {
+      <img class="chat-info--chat-image" src="assets/images/non-avatar.png" alt="chat-image"/>
+      <h2>{{ chat.title }}</h2>
+    }
   </section>
 </section>
 
-<div class="dialog-container"></div>
+<div class="dialog-container" [hidden]="open"></div>
 
-<section [hidden]="open" class="dialog-container__dialog__dialog-insides">
-  <header>
-    <button (click)="closeModal()">Close</button>
-    <h2>Create a new chat</h2>
-  </header>
-  <section>
-    <input placeholder="title">
+<section class="dialog-container__dialog__dialog-insides">
+  <h2>Create a new chat</h2>
+  <section [formGroup]="chatService.titleForm">
+    <input placeholder="title" formControlName="title">
     <input>
     <button (click)="chatService.createChat()">Submit</button>
   </section>
+  <button (click)="closeModal()">CLOSE</button>
 </section>

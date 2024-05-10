@@ -1,23 +1,27 @@
 * {
-  background: #ACFCD9;
+  background: lightgray;
 
   max-height: 95vh;
   margin-top: 0.1rem;
 
   font-family: "Quicksand", sans-serif;
   font-optical-sizing: auto;
-  font-weight: 300;
+  font-weight: 350;
   font-style: normal;
 }
 
 .icon {
-  background: inherit;
-  width: 100%;
-  height: 100%;
+  background: transparent;
+  max-width: 2vw;
+  max-height: 2vw;
+  //width: 100%;
+  //height: 100%;
   border-radius: 3rem;
 }
 
 dialog {
+  background: #FFFFFF;
+  margin-top: 10%;
   width: 40vw;
   height: 40vh;
 
@@ -26,8 +30,59 @@ dialog {
   display: flex;
   flex-direction: column;
 
-  & > header {
+  & > section {
+    height: 100%;
+    width: 100%;
+    background: inherit;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 20%;
+
+    & > h2 {
+      background: greenyellow;
+      margin-bottom: 0;
+      width: 85%;
+      border-radius: 3rem;
+      display: flex;
+      text-align: center;
+    }
+    & > section {
+      height: 30%;
+      width: 90%;
+      background: inherit;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      row-gap: 5%;
+
+      & > input {
+        border-radius: 3rem;
+        border: none;
+        width: 50%;
+        height: 40%;
+      }
+    }
+    & > button {
+      width: 55%;
+      height: 10%;
+      border-radius: 3rem;
+      border: none;
+      background: black;
+      color: #efefef;
+      letter-spacing: 1rem;
+
+      &:hover {
+        background: #ef8f41;
+        color: black;
+        cursor: pointer;
+        font-weight: bold;
+        border: solid 2px black;
+      }
+    }
+  }
+
+  &::backdrop {
+    background: color-mix(in srgb, black 30%, transparent);
   }
 }

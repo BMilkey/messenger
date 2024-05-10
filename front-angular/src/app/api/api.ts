@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Chat, ReplyMessage, RegisterBody, SignInBody, ReplyUser, RequestMessage} from "./api-interfaces";
 import {Injectable} from "@angular/core";
 import {apiRepo} from "./api.repo";
+import {log} from "@angular-devkit/build-angular/src/builders/ssr-dev-server";
 
 @Injectable({
   providedIn: 'root'
@@ -28,10 +29,11 @@ export class apis {
     return this.http.post(url, list).pipe(take(1), tap((data) => this.repo.setUser(data)));
   }
 
-  getChatsByToken(token :any) {
+  getChatsByToken(token: any) {
     const url = `http://147.45.70.245:80//post/chat/chats_by_token`;
+    console.log(token)
 
-    return this.http.post(url, token).pipe(take(1), tap((data) => console.log(data)));
+    return this.http.post(url, token).pipe(take(1), tap((data) => this.repo.setChat(data)));
   }
 
   createChatGetUsers(body: any) {
@@ -43,20 +45,20 @@ export class apis {
   // getUsersByChatId(id :string) {
   //   const url = `http://147.45.70.245:80/post/chat/users_by_chat_id`;
   //
-  //   return this.http.post(url, id).pipe(take(1), tap((data) => this.repo.setReplyUsers(data)));
+  //   return this.http.post(url, id).pipe(take(1), tap((data) => console.log(data)));
   // }
-  //
-  // getMessagesByChatId(id :string) {
-  //   const url = `http://147.45.70.245:80/post/chat/messages_by_chat_id`;
-  //
-  //   return this.http.post(url, id).pipe(take(1), tap((data) => this.repo.setReplyMessages(data)));
-  // }
-  //
-  // sendMessage(list :RequestMessage) {
-  //   const url = `http://147.45.70.245:80/post/chat/create_message`;
-  //
-  //   return this.http.post(url, list).pipe(take(1), tap((data) => this.repo.setReplyOnResponseMessages(data)));
-  // }
+
+  getMessagesByChatId(id :any) {
+    const url = `http://147.45.70.245:80/post/chat/messages_by_chat_id`;
+
+    return this.http.post(url, id).pipe(take(1), tap((data) => this.repo.setMessages(data)));
+  }
+
+  sendMessage(list : any) {
+    const url = `http://147.45.70.245:80/post/chat/create_message`;
+
+    return this.http.post(url, list).pipe(take(1), tap((data) => console.log(data)));
+  }
   //
   // addUserToChat(list :RequestUser) {
   //   const url = `http://147.45.70.245:80/post/chat/add_user_to_chat`;
