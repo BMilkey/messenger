@@ -54,15 +54,5 @@ func Init(cfg hlp.DatabaseConfig) error {
 		log.Info(fmt.Sprintf("All tables of database %s created.\n", cfg.DbName))
 	}
 
-	/*
-		var greeting string
-		err = dbpool.QueryRow(context.Background(), "select 'Hello, world!'").Scan(&greeting)
-		if err != nil {
-			return errors.New(fmt.Sprintf("QueryRow failed: %v\n", err))
-
-		}
-
-		fmt.Println(greeting)
-	*/
 	return nil
 }
