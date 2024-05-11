@@ -3,16 +3,16 @@
   grid-template: 'list chat info';
   flex-direction: row;
   column-gap: 1rem;
-  max-width: 95vw;
+  max-width: 90vw;
 }
 
 .list-of-chats {
   width: 20vw;
   height: 100vh;
 
-  border: solid 1px black;
+  border: none;
   border-radius: 3rem;
-  background: #DDDDDD;
+  background: #FFFFFF;
 
   grid-area: list;
 
@@ -23,8 +23,8 @@
   &__header {
     display: flex;
     flex-direction: row;
-    width: 95%;
-    height: 7%;
+    width: 90%;
+    height: 8%;
     border-radius: 3rem;
     background: inherit;
     column-gap: 0.5rem;
@@ -33,29 +33,95 @@
     &--input {
 
       width: 85%;
-      height: 30%;
+      height: 32%;
 
-      background: aliceblue;
+      background: #efefef;
       border-radius: 3rem;
-      border: solid 1px black;
+      border: none;
+
+      &:hover {
+        background: #e1e1e1;
+        cursor: pointer;
+      }
+
+      &:focus {
+        outline: solid greenyellow 2px;
+        border: solid 2px #FFFFFF;
+      }
     }
 
     &--create-chat-button {
+      display: flex;
+      align-items: center;
       border-radius: 3rem;
       height: 45%;
-      border: solid 1px black;
-      background: aliceblue;
+      border: none;
+      background: #efefef;
+
+      &:hover {
+        background: #e1e1e1;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__main-container {
+    margin-top: 2vh;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    background: inherit;
+    width: 90%;
+    height: 80%;
+    overflow-y: scroll;
+
+    &__message {
+      background: #efefef;
+      width: 100%;
+      border-radius: 3rem;
+      height: 12%;
+      display: flex;
+      flex-direction: row;
+      column-gap: 8%;
+      align-items: center;
+
+      &--profile-image {
+        margin-left: 2%;
+        width: 20%;
+        height: 73%;
+        border-radius: 3rem;
+      }
+
+      &__text {
+        display: flex;
+        flex-direction: column;
+        background: transparent;
+
+        &--title {
+          background: transparent;
+          font-weight: bold;
+        }
+        &--span {
+          background: transparent;
+          color: gray;
+        }
+      }
+
+      &:hover {
+        background: #e1e1e1;
+        cursor: pointer;
+      }
     }
   }
 }
 
 .current-chat {
-  width: 50.5vw;
+  width: 50vw;
   height: 100vh;
 
-  border: solid 1px black;
+  border: none;
   border-radius: 3rem;
-  background: #DDDDDD;
+  background: #FFFFFF;
 
   grid-area: chat;
   display: flex;
@@ -65,7 +131,7 @@
   &__header {
     display: flex;
     flex-direction: row;
-    column-gap: 38%;
+    column-gap: 33.5%;
 
     width: 90%;
     height: 4vh;
@@ -73,16 +139,30 @@
 
     border-radius: 3rem;
     align-items: center;
-    background: #FC6471;
+    background: greenyellow;
 
     & > button {
+      display: flex;
       border-radius: 3rem;
-      background: aliceblue;
+      background: #FFFFFF;
       border: solid 2px black;
 
       width: 3vw;
       height: 90%;
+      align-items: center;
 
+      &--info-hide-button {
+        margin-right: 1rem;
+      }
+
+      &:hover {
+        background: #ef8f41;
+        cursor: pointer;
+      }
+
+      & > svg:hover {
+        stroke: white;
+      }
     }
 
     &--list-hide-button {
@@ -97,8 +177,45 @@
     }
 
     &--info-hide-button {
-      margin-right: 1rem;
-      margin-left: auto;
+      //margin-right: 1rem;
+      //margin-left: auto;
+    }
+  }
+
+  &__chat-container {
+    margin-top: 1rem;
+    overflow-y: scroll;
+    width: 90%;
+    height: 82%;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+
+    .message {
+      display: flex;
+      flex-direction: row;
+      background: #efefef;
+      border-radius: 3rem;
+
+      &--image {
+        width: 7%;
+        height: 70%;
+        border-radius: 3rem;
+      }
+
+      &__text {
+        background: transparent;
+
+        &--name {
+          color: #ef8f41;
+          background: inherit;
+        }
+
+        &--text {
+          background: inherit;
+        }
+      }
     }
   }
 
@@ -111,7 +228,7 @@
     width: 90%;
     height: 5vh;
 
-    background-color: #DDDDDD;
+    background-color: #FFFFFF;
     border-radius: 3rem;
 
     &--input {
@@ -119,8 +236,13 @@
 
       border-top-left-radius: 3rem;
       border-bottom-left-radius: 3rem;
-      background: aliceblue;
+      background: #efefef;
       border: solid 2px black;
+
+      &:hover {
+        background: #e1e1e1;
+        cursor: pointer;
+      }
     }
 
     &--submit-button {
@@ -135,8 +257,8 @@
       border-left: none;
 
       &:hover {
-        background: #55D6BE;
-        box-shadow: 0.5em 0 0.5em #ACFCD9, 0.7em 0 0.5em lightblue;
+        background: #ef8f41;
+        cursor: pointer;
       }
     }
   }
@@ -146,15 +268,22 @@
   width: 20vw;
   height: 100vh;
 
-  border: solid 1px black;
+  border: none;
   border-radius: 3rem;
-  background: #DDDDDD;
+  background: #FFFFFF;
 
   grid-area: info;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &--chat-image {
+    margin-top: 2rem;
+    border-radius: 4rem;
+    width: 35%;
+  }
 }
 
-dialog {
-  width: 200vw;
-  height: 20vh;
-  background: aliceblue;
+.hide {
+  display: none;
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import { FormControl, FormGroup, Validators} from "@angular/forms";
 import {apis} from "../../api/api";
-import {Observable} from "rxjs";
 import {RegisterBody, SignInBody} from "../../api/api-interfaces";
+import {apiRepo} from "../../api/api.repo";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +19,7 @@ export class SignInPageService {
     password: new FormControl('', Validators.required)
   })
 
-  constructor(private apis: apis) { }
+  constructor(private apis: apis, private apiRepo: apiRepo) { }
 
   signUp(login: string, password: string, name: string) {
     const body: RegisterBody = {
