@@ -23,7 +23,7 @@ interface Chat {
 interface Message {
   id: string;
   chat_id: string;
-  user_id: string;
+  link: string;
   create_time: string;
   text: string;
   reply_msg_id: string;
@@ -64,7 +64,7 @@ export class apiRepo {
     const array = JSON.parse(data["messages"]);
     for(let message of array) {
       if (!this.messagesStore.query(getEntity(message.id))) {
-        this.messagesStore.update(addEntities({id: message.id, chat_id: message.chat_id, text: message.text, user_id: message.user_id, create_time: message.create_time, reply_msg_id: message.reply_msg_id}));
+        this.messagesStore.update(addEntities({id: message.id, chat_id: message.chat_id, text: message.text, link: message.user_id, create_time: message.create_time, reply_msg_id: message.reply_msg_id}));
       }
     }
   }

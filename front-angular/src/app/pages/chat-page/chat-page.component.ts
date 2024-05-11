@@ -2,10 +2,10 @@ import {
   AfterContentChecked,
   AfterViewChecked,
   AfterViewInit,
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
-  DoCheck,
-  OnInit
+  DoCheck, ElementRef, Input,
+  OnInit, Output, ViewChild
 } from '@angular/core';
 import {ChatPageService} from "./chat-page.service";
 import {getAllEntities} from "@ngneat/elf-entities";
@@ -34,7 +34,7 @@ export class ChatPageComponent implements OnInit, AfterViewChecked, AfterViewIni
   right = false;
   chat:any;
 
-  constructor(public chatService: ChatPageService) {}
+  constructor(public chatService: ChatPageService, public changing: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.dialog = document.createElement('dialog');
@@ -60,10 +60,11 @@ export class ChatPageComponent implements OnInit, AfterViewChecked, AfterViewIni
       this.chatService.getChats();
       this.chats = this.chatService.chats.value;
     }
-    console.log(this.chatService.messages.value)
     if (this.chat !== null && this.chat !== undefined && this.chatService.messages.value === '') {
       this.chatService.getMessages(this.chat.id);
     }
+    let chat = document.getElementsByClassName('current-chat__chat-container')[0];
+    chat.scrollTop = chat.scrollHeight;
   }
 
   openModal() {
@@ -92,11 +93,11 @@ export class ChatPageComponent implements OnInit, AfterViewChecked, AfterViewIni
   selectChat(chatId: string) {
     this.chat = this.chats.find(item => item.id === chatId);
     this.chatService.getMessages(this.chat.id);
+    this.chatService.getMessages(this.chat.id);
   }
 
   sendMessage() {
-    console.log(this.chat)
-    if (this.chat !== undefined) {
+    if (this.chat !== undefined && this.chatService.messageForm.getRawValue().text !== '' && this.chatService.messageForm.getRawValue().text !== null) {
       let text = this.chatService.messageForm.getRawValue();
       this.chatService.messageForm.reset();
       const message = {
@@ -107,6 +108,7 @@ export class ChatPageComponent implements OnInit, AfterViewChecked, AfterViewIni
       }
       this.chatService.sendMessage(message);
       this.chatService.getMessages(this.chat.id);
+      this.changing.detectChanges();
     }
   }
 }
