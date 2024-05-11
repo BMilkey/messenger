@@ -24,9 +24,9 @@ export class apis {
   }
 
   getUsersByName(list: any) {
-    const url = `http://147.45.70.245:80/post/chat/user_by_name`;
+    const url = `http://147.45.70.245:80/post/chat/users_by_name`;
 
-    return this.http.post(url, list).pipe(take(1), tap((data) => this.repo.setUser(data)));
+    return this.http.post(url, list).pipe(take(1), tap((data) => console.log(data)));
   }
 
   getChatsByToken(token: any) {

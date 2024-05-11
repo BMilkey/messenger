@@ -12,13 +12,15 @@ export class ChatPageService {
   currentToken = new BehaviorSubject<any>(sessionStorage.getItem('currentToken'));
   chats = new BehaviorSubject<any>('');
   messages = new BehaviorSubject<any>('');
+  you = new BehaviorSubject<any>('');
 
   messageForm = new FormGroup({
     text: new FormControl('', Validators.required),
   });
 
-  titleForm = new FormGroup({
+  newChatForm = new FormGroup({
     title: new FormControl('', Validators.required),
+    name: new FormControl('', Validators.required),
   });
 
   constructor(public apiRepo: apiRepo, private api: apis) { }
@@ -29,17 +31,27 @@ export class ChatPageService {
     if (token !== undefined) {
       sessionStorage.setItem('currentToken', token);
       this.currentToken.next(token);
+
+      let users = this.apiRepo.usersStore.query(getAllEntities());
+      let you = users.find(item => item.id === this.currentToken.value);
+      if (you !== undefined) {
+        this.you.next(you);
+      }
     }
   }
 
   createChat() {
-    let body = {
-      auth_token: this.currentToken.value,
-      title: this.titleForm.getRawValue().title,
-      users_links: ["@a6e337e5-18f2-45ac-acf0-fc57e76e07f0"]
+    if (this.newChatForm.getRawValue().title !== '' && this.newChatForm.getRawValue().name !== '') {
+      this.getUsersByName();
+      let friend = this.apiRepo.usersStore.query(getAllEntities()).find(item => item.name === this.newChatForm.getRawValue().name);
+      let body = {
+        auth_token: this.currentToken.value,
+        title: this.newChatForm.getRawValue().title,
+        users_links: friend?.link
+      }
+      this.api.createChatGetUsers(body).subscribe();
+      this.getChats();
     }
-    this.api.createChatGetUsers(body).subscribe();
-    this.getChats();
   }
 
   getChats() {
@@ -59,5 +71,16 @@ export class ChatPageService {
     let data = this.apiRepo.messagesStore.query(getAllEntities()).filter(item => item.chat_id === id);
     this.messages.next(data);
     console.log(data)
+  }
+
+  getUsersByName() {
+    if (this.newChatForm.getRawValue().name !== '') {
+      let name = this.newChatForm.getRawValue().name;
+      let body = {
+        name: name,
+        auth_token: this.currentToken.value
+      }
+      this.api.getUsersByName(body).subscribe();
+    }
   }
 }

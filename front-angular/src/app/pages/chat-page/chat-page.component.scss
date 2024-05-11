@@ -191,29 +191,42 @@
     display: flex;
     flex-direction: column;
     row-gap: 0.5rem;
+    animation: 3s infinite alternate slidein;
 
     .message {
       display: flex;
       flex-direction: row;
-      background: #efefef;
       border-radius: 3rem;
+      background: none;
+      column-gap: 0.5rem;
+      align-items: center;
 
       &--image {
-        width: 7%;
-        height: 70%;
+        width: 3vw;
+        height: 6vh;
         border-radius: 3rem;
       }
 
       &__text {
-        background: transparent;
+        border-radius: 1rem;
+        width: 95%;
+        display: flex;
+        flex-direction: column;
+        row-gap: 0.5rem;
 
         &--name {
-          color: #ef8f41;
-          background: inherit;
+          color: gray;
+          background: transparent;
+          margin-bottom: 0;
+          margin-left: 2%;
+          margin-top: 1%;
         }
 
         &--text {
-          background: inherit;
+          background: transparent;
+          margin-left: 5%;
+          margin-right: 5%;
+          font-weight: 450;
         }
       }
     }
@@ -286,4 +299,24 @@
 
 .hide {
   display: none;
+}
+
+.your-message {
+  margin-right: 0;
+  margin-left: auto;
+  width: 60%;
+}
+
+.not-your-message {
+  margin-right: auto;
+  margin-left: 0;
+  width: 60%;
+}
+
+.your-message_text {
+  background: #ebfbb7;
+}
+
+.not-your-message_text {
+  background: #dfffbe;
 }

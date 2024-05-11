@@ -35,11 +35,13 @@
 
     <section class="current-chat__chat-container">
       @for (message of chatService.messages.value; track message.id) {
-        <div class="message">
+        <div class="message" [class.your-message]="message.link === chatService.you.value.link"
+        [class.not-your-message]="!(message.link === chatService.you.value.link)">
           <img class="message--image" src="assets/images/non-avatar.png" alt="profile-image"/>
-          <section class="message__text">
-            <h5 class="message__text--name">Name</h5>
-            <span class="message__text--text">{{ message.text }}</span>
+          <section class="message__text" [class.your-message_text]="message.link === chatService.you.value.link"
+                   [class.not-your-message_text]="!(message.link === chatService.you.value.link)">
+            <h5 class="message__text--name">{{ message.link }}</h5>
+            <span class="message__text--text">ㅤ{{ message.text }}</span>
           </section>
         </div>
       }
@@ -68,9 +70,9 @@
 
 <section class="dialog-container__dialog__dialog-insides">
   <h2>Create a new chat</h2>
-  <section [formGroup]="chatService.titleForm">
+  <section [formGroup]="chatService.newChatForm">
     <input placeholder="title" formControlName="title">
-    <input>
+    <input placeholder="name" formControlName="name">
     <button (click)="chatService.createChat()">Submit</button>
   </section>
   <button (click)="closeModal()">CLOSE</button>
