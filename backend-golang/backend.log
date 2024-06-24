@@ -2733,3 +2733,16 @@
 {"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T19:03:09+05:00"}
 {"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T19:03:48+05:00"}
 {"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T19:03:48+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-25T01:25:40+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-25T01:25:40+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-25T01:26:06+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-25T01:26:06+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-25T01:26:29+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-25T01:26:30+05:00"}
+{"level":"fatal","msg":"Error Reading Config file with path: test.text\n","time":"2024-06-25T01:26:42+05:00"}
+{"level":"fatal","msg":"Error Reading Config file with path: admin\n","time":"2024-06-25T01:26:53+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-25T01:27:12+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-25T01:27:12+05:00"}
+{"level":"fatal","msg":"Error Reading Config file with path: test.text\n","time":"2024-06-25T01:27:17+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-25T01:27:25+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-25T01:27:25+05:00"}

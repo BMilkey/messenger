@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"io"
 	"os"
 
@@ -11,9 +12,16 @@ import (
 )
 
 func main() {
+	var config_path = ""
+	flag.StringVar(&config_path, "config_path", "", "Specify name. Default is admin.")
+	flag.Parse()
+	println(config_path)
+	if config_path == "" {
+		config_path = "config.yaml"
+	}
 	configureLogger()
 
-	config, err := readConfig()
+	config, err := readConfig(config_path)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -39,8 +47,8 @@ func configureLogger() {
 	}
 }
 
-func readConfig() (hlp.AppConfig, error) {
-	return hlp.GetConfig("config.yaml")
+func readConfig(configPath string) (hlp.AppConfig, error) {
+	return hlp.GetConfig(configPath)
 }
 
 func logStart(config hlp.AppConfig) {
