@@ -7,7 +7,6 @@ import (
 	pgx "github.com/jackc/pgx/v5/pgxpool"
 )
 
-
 func SelectUserById(pool *pgx.Pool, user_id string) (md.User, error) {
 	var user md.User
 
@@ -25,7 +24,7 @@ func SelectUserById(pool *pgx.Pool, user_id string) (md.User, error) {
 
 	return user, nil
 }
-// 
+
 func SelectUsersByName(pool *pgx.Pool, name string) ([]md.User, error) {
 	var users []md.User
 
@@ -34,7 +33,7 @@ func SelectUsersByName(pool *pgx.Pool, name string) ([]md.User, error) {
         FROM public.users 
         WHERE users.name like $1
 		`,
-		"%" + name + "%")
+		"%"+name+"%")
 
 	if err != nil {
 		return nil, err
@@ -159,15 +158,26 @@ func SelectMessageById(pool *pgx.Pool, msg_id string) (md.Message, error) {
 	return msg, nil
 }
 
-func SelectMessagesByChatId(pool *pgx.Pool, chat_id string) ([]md.Message, error) {
+func SelectMessagesByChatId(pool *pgx.Pool, request md.MessagesByChatIdRequest) ([]md.Message, error) {
 	var msgs []md.Message
 
-	rows, err := pool.Query(context.Background(), `
+	query := `
 		SELECT id, chat_id, user_id, create_time, text, reply_message_id
 		FROM public.messages
-		WHERE messages.chat_id = $1
-		`,
-		chat_id)
+		WHERE messages.chat_id = $1`
+
+	// Add conditional clauses for FromDate and ToDate
+	if request.From_date != nil {
+		query += ` AND messages.create_time >= $2`
+	}
+	if request.To_date != nil {
+		query += ` AND messages.create_time <= $3`
+	}
+
+	rows, err := pool.Query(context.Background(), query,
+		request.Chat_id,
+		request.From_date,
+		request.To_date)
 
 	if err != nil {
 		return nil, err
@@ -345,7 +355,3 @@ func SelectAuthByToken(pool *pgx.Pool, token string) (md.Auth, error) {
 	}
 	return auth, nil
 }
-
-
-
-

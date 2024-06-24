@@ -2620,3 +2620,116 @@
 {"level":"error","msg":"Invalid auth token","time":"2024-05-11T12:04:17+05:00"}
 {"level":"error","msg":"Invalid auth token","time":"2024-05-11T12:04:33+05:00"}
 {"level":"error","msg":"Invalid auth token","time":"2024-05-11T12:10:38+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-05-11T13:18:09+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-11T13:18:09+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-05-11T13:18:59+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-05-11T13:18:59+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-05-11T21:38:44+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-22T14:11:44+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-22T14:11:45+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"auth_pkey\" (SQLSTATE 23505)","time":"2024-06-23T10:07:02+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"auth_pkey\" (SQLSTATE 23505)","time":"2024-06-23T11:22:20+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"auth_pkey\" (SQLSTATE 23505)","time":"2024-06-23T11:23:11+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T14:43:03+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T14:43:03+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T14:43:07+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T14:43:07+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T14:47:54+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T14:47:54+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T15:17:58+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T15:17:58+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T15:56:24+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T15:56:24+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T15:57:09+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T15:57:09+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-06-23T15:57:45+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T16:09:21+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T16:09:21+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-06-23T16:14:17+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T16:42:46+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T16:42:46+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T16:44:40+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T16:44:40+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T17:01:12+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T17:01:12+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T17:42:42+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T17:42:42+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T17:46:25+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T17:46:25+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T17:49:46+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T17:49:47+05:00"}
+{"level":"info","msg":"Error upgrading connection: websocket: the client is not using the websocket protocol: 'upgrade' token not found in 'Connection' header","time":"2024-06-23T17:49:57+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T17:52:49+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T17:52:49+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:00:07+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:00:07+05:00"}
+{"level":"info","msg":"Error upgrading connection: websocket: the client is not using the websocket protocol: 'upgrade' token not found in 'Connection' header","time":"2024-06-23T18:00:17+05:00"}
+{"level":"info","msg":"Error upgrading connection: websocket: the client is not using the websocket protocol: 'upgrade' token not found in 'Connection' header","time":"2024-06-23T18:00:27+05:00"}
+{"level":"info","msg":"Error upgrading connection: websocket: the client is not using the websocket protocol: 'upgrade' token not found in 'Connection' header","time":"2024-06-23T18:01:09+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:02:55+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:02:55+05:00"}
+{"level":"info","msg":"Error upgrading connection: websocket: the client is not using the websocket protocol: 'upgrade' token not found in 'Connection' header","time":"2024-06-23T18:03:02+05:00"}
+{"level":"info","msg":"Error upgrading connection: websocket: the client is not using the websocket protocol: 'upgrade' token not found in 'Connection' header","time":"2024-06-23T18:03:06+05:00"}
+{"level":"info","msg":"Error upgrading connection: websocket: the client is not using the websocket protocol: 'upgrade' token not found in 'Connection' header","time":"2024-06-23T18:03:19+05:00"}
+{"level":"info","msg":"Error upgrading connection: websocket: request origin not allowed by Upgrader.CheckOrigin","time":"2024-06-23T18:07:14+05:00"}
+{"level":"info","msg":"Error upgrading connection: websocket: the client is not using the websocket protocol: 'upgrade' token not found in 'Connection' header","time":"2024-06-23T18:09:28+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:14:02+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:14:02+05:00"}
+{"level":"info","msg":"Error upgrading connection: websocket: the client is not using the websocket protocol: 'upgrade' token not found in 'Connection' header","time":"2024-06-23T18:14:17+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:18:53+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:18:53+05:00"}
+{"level":"info","msg":"Error upgrading connection: websocket: the client is not using the websocket protocol: 'upgrade' token not found in 'Connection' header","time":"2024-06-23T18:19:20+05:00"}
+{"level":"info","msg":"Error writing message: write tcp 127.0.0.1:8081-\u003e127.0.0.1:54588: wsasend: An established connection was aborted by the software in your host machine.","time":"2024-06-23T18:19:21+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:20:46+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:20:47+05:00"}
+{"level":"info","msg":"Error upgrading connection: websocket: the client is not using the websocket protocol: 'upgrade' token not found in 'Connection' header","time":"2024-06-23T18:20:52+05:00"}
+{"level":"info","msg":"Error upgrading connection: websocket: the client is not using the websocket protocol: 'upgrade' token not found in 'Connection' header","time":"2024-06-23T18:21:23+05:00"}
+{"level":"info","msg":"Error upgrading connection: websocket: the client is not using the websocket protocol: 'upgrade' token not found in 'Connection' header","time":"2024-06-23T18:21:58+05:00"}
+{"level":"info","msg":"Error writing message: write tcp 127.0.0.1:8081-\u003e127.0.0.1:56666: wsasend: An established connection was aborted by the software in your host machine.","time":"2024-06-23T18:22:00+05:00"}
+{"level":"info","msg":"Error writing message: write tcp 127.0.0.1:8081-\u003e127.0.0.1:56471: wsasend: An established connection was aborted by the software in your host machine.","time":"2024-06-23T18:22:00+05:00"}
+{"level":"info","msg":"Error upgrading connection: websocket: the client is not using the websocket protocol: 'upgrade' token not found in 'Connection' header","time":"2024-06-23T18:23:19+05:00"}
+{"level":"info","msg":"Error upgrading connection: websocket: the client is not using the websocket protocol: 'upgrade' token not found in 'Connection' header","time":"2024-06-23T18:23:19+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:23:42+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:23:42+05:00"}
+{"level":"info","msg":"Error upgrading connection: websocket: the client is not using the websocket protocol: 'upgrade' token not found in 'Connection' header","time":"2024-06-23T18:23:49+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:24:53+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:24:53+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:27:51+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:27:51+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:28:43+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:28:43+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:31:57+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:31:57+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:34:03+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:34:03+05:00"}
+{"level":"info","msg":"Failed to set websocket upgrade: websocket: request origin not allowed by Upgrader.CheckOrigin","time":"2024-06-23T18:35:41+05:00"}
+{"level":"info","msg":"Failed to set websocket upgrade: websocket: request origin not allowed by Upgrader.CheckOrigin","time":"2024-06-23T18:35:51+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:36:24+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:36:24+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:37:39+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:37:39+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:38:59+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:38:59+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:40:42+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:40:42+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:44:58+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:44:58+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:45:53+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:45:53+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:47:11+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:47:11+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:47:55+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:47:55+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:49:09+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:49:09+05:00"}
+{"level":"info","msg":"Failed to set websocket upgrade: websocket: the client is not using the websocket protocol: 'websocket' token not found in 'Upgrade' header","time":"2024-06-23T18:53:32+05:00"}
+{"level":"info","msg":"Failed to set websocket upgrade: websocket: request origin not allowed by Upgrader.CheckOrigin","time":"2024-06-23T18:54:50+05:00"}
+{"level":"info","msg":"Failed to set websocket upgrade: websocket: request origin not allowed by Upgrader.CheckOrigin","time":"2024-06-23T18:55:09+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T18:57:35+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T18:57:35+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T19:00:01+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T19:00:01+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T19:03:09+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T19:03:09+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-23T19:03:48+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-23T19:03:48+05:00"}

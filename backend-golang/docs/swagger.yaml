@@ -1,0 +1,460 @@
+definitions:
+  models.AddUserToChatRequest:
+    properties:
+      auth_token:
+        type: string
+      chat_id:
+        type: string
+      user_link:
+        type: string
+    type: object
+  models.ByChatIdRequest:
+    properties:
+      auth_token:
+        type: string
+      chat_id:
+        type: string
+    type: object
+  models.ByTokenRequest:
+    properties:
+      auth_token:
+        type: string
+    type: object
+  models.ChangeUserInfoRequest:
+    properties:
+      auth_token:
+        type: string
+      new_about:
+        type: string
+      new_image:
+        type: string
+      new_link:
+        type: string
+      new_name:
+        type: string
+    type: object
+  models.Chat:
+    properties:
+      about:
+        type: string
+      create_time:
+        type: string
+      id:
+        type: string
+      image_id:
+        type: string
+      link:
+        type: string
+      title:
+        type: string
+      user_id:
+        type: string
+    type: object
+  models.ChatUsers:
+    properties:
+      chat_id:
+        type: string
+      users:
+        items:
+          $ref: '#/definitions/models.User'
+        type: array
+    type: object
+  models.Chats:
+    properties:
+      chats:
+        items:
+          $ref: '#/definitions/models.Chat'
+        type: array
+    type: object
+  models.CreateChatRequest:
+    properties:
+      auth_token:
+        type: string
+      title:
+        type: string
+      users_links:
+        items:
+          type: string
+        type: array
+    type: object
+  models.CreateMessageRequest:
+    properties:
+      auth_token:
+        type: string
+      chat_id:
+        type: string
+      reply_msg_id:
+        type: string
+      text:
+        type: string
+    type: object
+  models.CreateMessageResponse:
+    properties:
+      message:
+        $ref: '#/definitions/models.Message'
+      reply_msg:
+        $ref: '#/definitions/models.Message'
+    type: object
+  models.Message:
+    properties:
+      chat_id:
+        type: string
+      create_time:
+        type: string
+      id:
+        type: string
+      reply_msg_id:
+        type: string
+      text:
+        type: string
+      user_id:
+        type: string
+    type: object
+  models.Messages:
+    properties:
+      messages:
+        items:
+          $ref: '#/definitions/models.Message'
+        type: array
+    type: object
+  models.MessagesByChatIdRequest:
+    properties:
+      auth_token:
+        type: string
+      chat_id:
+        type: string
+      from_date:
+        type: string
+      to_date:
+        type: string
+    type: object
+  models.SignInRequest:
+    properties:
+      login:
+        type: string
+      password:
+        type: string
+    type: object
+  models.SignInResponse:
+    properties:
+      about:
+        type: string
+      auth_token:
+        type: string
+      image_id:
+        type: string
+      last_online:
+        type: string
+      link:
+        type: string
+      name:
+        type: string
+    type: object
+  models.SignUpRequest:
+    properties:
+      login:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  models.User:
+    properties:
+      about:
+        type: string
+      id:
+        type: string
+      image_id:
+        type: string
+      last_connection:
+        type: string
+      link:
+        type: string
+      name:
+        type: string
+    type: object
+  models.Users:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/models.User'
+        type: array
+    type: object
+  models.UsersByNameRequest:
+    properties:
+      auth_token:
+        type: string
+      name:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /auth/register_user:
+    post:
+      consumes:
+      - application/json
+      description: Регистрация пользователя
+      operationId: register_user
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignUpRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            $ref: '#/definitions/models.SignInResponse'
+      summary: Register user
+      tags:
+      - API для авторизации и регистрации пользователя
+  /auth/user_by_auth:
+    post:
+      consumes:
+      - application/json
+      description: Авторизация пользователя
+      operationId: user_by_auth
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignInRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            $ref: '#/definitions/models.SignInResponse'
+      summary: Auth user
+      tags:
+      - API для авторизации и регистрации пользователя
+  /chat/add_user_to_chat:
+    post:
+      consumes:
+      - application/json
+      description: Добавить юзера в чат
+      operationId: add_user_to_chat
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.AddUserToChatRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Add user to chat
+      tags:
+      - API для работы с чатами и сообщениями
+  /chat/change_user_info:
+    post:
+      consumes:
+      - application/json
+      description: Изменить информацию о юзере
+      operationId: change_user_info
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.ChangeUserInfoRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Change user info
+      tags:
+      - API для работы с чатами и сообщениями
+  /chat/chats_by_token:
+    post:
+      consumes:
+      - application/json
+      description: Чаты по токену авторизации
+      operationId: chats_by_token
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.ByTokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            $ref: '#/definitions/models.Chats'
+      summary: Get chats by auth token
+      tags:
+      - API для работы с чатами и сообщениями
+  /chat/create_chat_return_users:
+    post:
+      consumes:
+      - application/json
+      description: Создать чат
+      operationId: create_chat_return_users
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateChatRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            $ref: '#/definitions/models.ChatUsers'
+      summary: Create chat
+      tags:
+      - API для работы с чатами и сообщениями
+  /chat/create_message:
+    post:
+      consumes:
+      - application/json
+      description: Создать сообщение
+      operationId: create_message
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateMessageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            $ref: '#/definitions/models.CreateMessageResponse'
+      summary: Create message
+      tags:
+      - API для работы с чатами и сообщениями
+  /chat/messages_by_chat_id:
+    post:
+      consumes:
+      - application/json
+      description: Сообщения по ИД чата
+      operationId: messages_by_chat_id
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.MessagesByChatIdRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            $ref: '#/definitions/models.Messages'
+      summary: Get messages by chat_id
+      tags:
+      - API для работы с чатами и сообщениями
+  /chat/users_by_chat_id:
+    post:
+      consumes:
+      - application/json
+      description: Юзеры по ИД чата
+      operationId: users_by_chat_id
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.ByChatIdRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            $ref: '#/definitions/models.Users'
+      summary: Get users by chat_id
+      tags:
+      - API для работы с чатами и сообщениями
+  /chat/users_by_name:
+    post:
+      consumes:
+      - application/json
+      description: Юзеры по имени
+      operationId: users_by_name
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/models.UsersByNameRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            $ref: '#/definitions/models.Users'
+      summary: Get users by name
+      tags:
+      - API для работы с чатами и сообщениями
+  /sockets/test:
+    get:
+      consumes:
+      - application/x-json-stream
+      description: |-
+        НЕ РАБОТАЕТ ЧЕРЕЗ SWAGGER
+        Код, которым тестил
+        let socket = new WebSocket("ws://147.45.70.245:80/sockets/test");
+
+        socket.onopen = function(e) {
+        console.log("[open] Connection established");
+        socket.send("Hello server!");
+        };
+
+        socket.onmessage = function(event) {
+        console.log(`[message] Data received from server: ${event.data}`);
+        };
+
+        socket.onclose = function(event) {
+        if (event.wasClean) {
+        console.log(`[close] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+        } else {
+        console.log('[close] Connection died');
+        }
+        };
+
+        socket.onerror = function(error) {
+        console.log(`[error] ${error.message}`);
+        };
+      operationId: sockets_test
+      produces:
+      - application/x-json-stream
+      responses: {}
+      summary: Test websocket
+      tags:
+      - Test websocket
+swagger: "2.0"

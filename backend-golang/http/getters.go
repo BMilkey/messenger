@@ -13,11 +13,18 @@ import (
 	md "github.com/BMilkey/messenger/models"
 )
 
+// userByAuthHandler 	godoc
+// @Summary 			Auth user
+// @Tags 				API для авторизации и регистрации пользователя
+// @Description 		Авторизация пользователя
+// @ID 					user_by_auth
+// @Accept  			json
+// @Produce  			json
+// @Param 				input body md.SignInRequest true "credentials"
+// @Success 			200 {object} md.SignInResponse "data"
+// @Router 				/auth/user_by_auth [post]
 func userByAuthHandler(c *gin.Context, pool *pgx.Pool) {
-	var request struct {
-		Login    string `json:"login"`
-		Password string `json:"password"`
-	}
+	var request md.SignInRequest
 
 	if err := c.BindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -59,22 +66,29 @@ func userByAuthHandler(c *gin.Context, pool *pgx.Pool) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"auth_token":  auth.Auth_token,
-		"name":        user.Name,
-		"link":        user.Link,
-		"about":       user.About,
-		"last_online": user.Last_connection,
-		"image_id":    user.Image_id,
+	c.JSON(http.StatusOK, md.SignInResponse{
+		Auth_token:  auth.Auth_token,
+		Name:        user.Name,
+		Link:        user.Link,
+		About:       user.About,
+		Last_online: user.Last_connection,
+		Image_id:    user.Image_id,
 	})
 }
 
+// registerUserHandler 	godoc
+// @Summary 			Register user
+// @Tags 				API для авторизации и регистрации пользователя
+// @Description 		Регистрация пользователя
+// @ID 					register_user
+// @Accept  			json
+// @Produce  			json
+// @Param 				input body md.SignUpRequest true "credentials"
+// @Success 			200 {object} md.SignInResponse "data"
+// @Router 				/auth/register_user [post]
 func registerUserHandler(c *gin.Context, pool *pgx.Pool) {
-	var request struct {
-		Login    string `json:"login"`
-		Password string `json:"password"`
-		Name     string `json:"name"`
-	}
+	var request md.SignUpRequest
+
 	if err := c.BindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -121,13 +135,13 @@ func registerUserHandler(c *gin.Context, pool *pgx.Pool) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"auth_token":  authToken,
-		"name":        user.Name,
-		"link":        user.Link,
-		"about":       user.About,
-		"last_online": user.Last_connection,
-		"image_id":    user.Image_id,
+	c.JSON(http.StatusOK, md.SignInResponse{
+		Auth_token:  auth.Auth_token,
+		Name:        user.Name,
+		Link:        user.Link,
+		About:       user.About,
+		Last_online: user.Last_connection,
+		Image_id:    user.Image_id,
 	})
 }
 
@@ -164,12 +178,19 @@ func registerUserHandler(c *gin.Context, pool *pgx.Pool) {
 		})
 	}
 */
+
+// createChatReturnUsersHandler 	godoc
+// @Summary 						Create chat
+// @Tags 							API для работы с чатами и сообщениями
+// @Description 					Создать чат
+// @ID 								create_chat_return_users
+// @Accept  						json
+// @Produce  						json
+// @Param 							input body md.CreateChatRequest true "credentials"
+// @Success 						200 {object} md.ChatUsers "data"
+// @Router 							/chat/create_chat_return_users [post]
 func createChatReturnUsersHandler(c *gin.Context, pool *pgx.Pool) {
-	var request struct {
-		Auth_token  string   `json:"auth_token"`
-		Title       string   `json:"title"`
-		Users_links []string `json:"users_links"`
-	}
+	var request md.CreateChatRequest
 
 	if err := c.BindJSON(&request); err != nil {
 		log.Error(err)
@@ -236,28 +257,29 @@ func createChatReturnUsersHandler(c *gin.Context, pool *pgx.Pool) {
 		users = append(users, user)
 	}
 	users = emptyUsersId(users)
-	// Serialize the users array into JSON
-	jsonData, err := serializeToJSON(users)
-	if err != nil {
-		log.Error(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to serialize users"})
-		return
-	}
-
 	if !prolongToken(c, pool, request.Auth_token) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"users": string(jsonData),
+	c.JSON(http.StatusOK, md.ChatUsers{
+		Chat_id: chat.Id,
+		Users:   users,
 	})
 
 }
 
+// chatsByTokenHandler 	godoc
+// @Summary 			Get chats by auth token
+// @Tags 				API для работы с чатами и сообщениями
+// @Description 		Чаты по токену авторизации
+// @ID 					chats_by_token
+// @Accept  			json
+// @Produce  			json
+// @Param 				input body md.ByTokenRequest true "credentials"
+// @Success 			200 {object} md.Chats "data"
+// @Router 				/chat/chats_by_token [post]
 func chatsByTokenHandler(c *gin.Context, pool *pgx.Pool) {
-	var request struct {
-		Auth_token string `json:"auth_token"`
-	}
+	var request md.ByTokenRequest
 	if err := c.BindJSON(&request); err != nil {
 		log.Error(err)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request"})
@@ -302,28 +324,28 @@ func chatsByTokenHandler(c *gin.Context, pool *pgx.Pool) {
 		chats = append(chats, chat)
 	}
 
-	jsonData, err := serializeToJSON(chats)
-	if err != nil {
-		log.Error(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to serialize chats"})
-		return
-	}
-
 	if !prolongToken(c, pool, request.Auth_token) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"chats": string(jsonData),
+	c.JSON(http.StatusOK, md.Chats{
+		Chats: chats,
 	})
 
 }
 
+// usersByNameHandler 	godoc
+// @Summary 			Get users by name
+// @Tags 				API для работы с чатами и сообщениями
+// @Description 		Юзеры по имени
+// @ID 					users_by_name
+// @Accept  			json
+// @Produce  			json
+// @Param 				input body md.UsersByNameRequest true "credentials"
+// @Success 			200 {object} md.Users "data"
+// @Router 				/chat/users_by_name [post]
 func usersByNameHandler(c *gin.Context, pool *pgx.Pool) {
-	var request struct {
-		Name       string `json:"name"`
-		Auth_token string `json:"auth_token"`
-	}
+	var request md.UsersByNameRequest
 
 	if err := c.BindJSON(&request); err != nil {
 		log.Error(err)
@@ -346,22 +368,25 @@ func usersByNameHandler(c *gin.Context, pool *pgx.Pool) {
 
 	users = emptyUsersId(users)
 
-	jsonData, err := serializeToJSON(users)
-	if err != nil {
-		log.Error(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to serialize users"})
-		return
-	}
-
 	if !prolongToken(c, pool, request.Auth_token) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"users": string(jsonData),
+	c.JSON(http.StatusOK, md.Users{
+		Users: users,
 	})
 }
 
+// usersByChatIdHandler 	godoc
+// @Summary 				Get users by chat_id
+// @Tags 					API для работы с чатами и сообщениями
+// @Description 			Юзеры по ИД чата
+// @ID 						users_by_chat_id
+// @Accept  				json
+// @Produce  				json
+// @Param 					input body md.ByChatIdRequest true "credentials"
+// @Success 				200 {object} md.Users "data"
+// @Router 					/chat/users_by_chat_id [post]
 func usersByChatIdHandler(c *gin.Context, pool *pgx.Pool) {
 	var request struct {
 		ChatID     string `json:"chat_id"`
@@ -396,38 +421,38 @@ func usersByChatIdHandler(c *gin.Context, pool *pgx.Pool) {
 
 	users = emptyUsersId(users)
 
-	jsonData, err := serializeToJSON(users)
-	if err != nil {
-		log.Error(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to serialize users"})
-		return
-	}
-
 	if !prolongToken(c, pool, request.Auth_token) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"users": string(jsonData),
+	c.JSON(http.StatusOK, md.Users{
+		Users: users,
 	})
 }
 
+// messagesByChatId		 	godoc
+// @Summary 				Get messages by chat_id
+// @Tags 					API для работы с чатами и сообщениями
+// @Description 			Сообщения по ИД чата
+// @ID 						messages_by_chat_id
+// @Accept  				json
+// @Produce  				json
+// @Param 					input body md.MessagesByChatIdRequest true "credentials"
+// @Success 				200 {object} md.Messages "data"
+// @Router 					/chat/messages_by_chat_id [post]
 func messagesByChatId(c *gin.Context, pool *pgx.Pool) {
-	var request struct {
-		ChatID     string `json:"chat_id"`
-		Auth_token string `json:"auth_token"`
-	}
+	var request md.MessagesByChatIdRequest
 
 	if err := c.BindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if !isTokenHaveAccessToChat(c, pool, request.ChatID, request.Auth_token) {
+	if !isTokenHaveAccessToChat(c, pool, request.Chat_id, request.Auth_token) {
 		return
 	}
 
-	messages, err := db.SelectMessagesByChatId(pool, request.ChatID)
+	messages, err := db.SelectMessagesByChatId(pool, request)
 	if err != nil {
 		log.Info(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to select messages"})
@@ -444,30 +469,28 @@ func messagesByChatId(c *gin.Context, pool *pgx.Pool) {
 		messages[i].User_id = user.Link
 	}
 
-	jsonData, err := serializeToJSON(messages)
-	if err != nil {
-		log.Error(err)
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to serialize messages"})
-		return
-	}
-
 	if !prolongToken(c, pool, request.Auth_token) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"messages": string(jsonData),
+	c.JSON(http.StatusOK, md.Messages{
+		Messages: messages,
 	})
 
 }
 
+// createMessageHandler		godoc
+// @Summary 				Create message
+// @Tags 					API для работы с чатами и сообщениями
+// @Description 			Создать сообщение
+// @ID 						create_message
+// @Accept  				json
+// @Produce  				json
+// @Param 					input body md.CreateMessageRequest true "credentials"
+// @Success 				200 {object} md.CreateMessageResponse "data"
+// @Router 					/chat/create_message [post]
 func createMessageHandler(c *gin.Context, pool *pgx.Pool) {
-	var request struct {
-		Chat_id      string `json:"chat_id"`
-		Text         string `json:"text"`
-		Auth_token   string `json:"auth_token"`
-		Reply_msg_id string `json:"reply_msg_id"`
-	}
+	var request md.CreateMessageRequest
 
 	if err := c.BindJSON(&request); err != nil {
 		log.Error(err)
@@ -510,18 +533,24 @@ func createMessageHandler(c *gin.Context, pool *pgx.Pool) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"message":   message,
-		"reply_msg": reply_msg,
+	c.JSON(http.StatusOK, md.CreateMessageResponse{
+		Message:   message,
+		Reply_msg: reply_msg,
 	})
 }
 
+// addUserToChatHandler		godoc
+// @Summary 				Add user to chat
+// @Tags 					API для работы с чатами и сообщениями
+// @Description 			Добавить юзера в чат
+// @ID 						add_user_to_chat
+// @Accept  				json
+// @Produce  				json
+// @Param 					input body md.AddUserToChatRequest true "credentials"
+// @Success 				200 {object} md.User "data"
+// @Router 					/chat/add_user_to_chat [post]
 func addUserToChatHandler(c *gin.Context, pool *pgx.Pool) {
-	var request struct {
-		Chat_id    string `json:"chat_id"`
-		User_link  string `json:"user_link"`
-		Auth_token string `json:"auth_token"`
-	}
+	var request md.AddUserToChatRequest
 
 	if err := c.BindJSON(&request); err != nil {
 		log.Error(err)
@@ -551,20 +580,22 @@ func addUserToChatHandler(c *gin.Context, pool *pgx.Pool) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"user": user,
-	})
+	c.JSON(http.StatusOK, md.User(user))
 
 }
 
+// changeUserInfoHandler	godoc
+// @Summary 				Change user info
+// @Tags 					API для работы с чатами и сообщениями
+// @Description 			Изменить информацию о юзере
+// @ID 						change_user_info
+// @Accept  				json
+// @Produce  				json
+// @Param 					input body md.ChangeUserInfoRequest true "credentials"
+// @Success 				200 {object} md.User "data"
+// @Router 					/chat/change_user_info [post]
 func changeUserInfoHandler(c *gin.Context, pool *pgx.Pool) {
-	var request struct {
-		Auth_token string `json:"auth_token"`
-		New_name   string `json:"new_name"`
-		New_link   string `json:"new_link"`
-		New_about  string `json:"new_about"`
-		New_image  string `json:"new_image"`
-	}
+	var request md.ChangeUserInfoRequest
 
 	if err := c.BindJSON(&request); err != nil {
 		log.Error(err)
@@ -594,9 +625,7 @@ func changeUserInfoHandler(c *gin.Context, pool *pgx.Pool) {
 	}
 	prolongToken(c, pool, request.Auth_token)
 
-	c.JSON(http.StatusOK, gin.H{
-		"user": user,
-	})
+	c.JSON(http.StatusOK, md.User(user))
 }
 
 // test shit
