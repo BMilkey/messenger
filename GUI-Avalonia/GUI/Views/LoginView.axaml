@@ -1,0 +1,154 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:GUI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="800"
+             x:Class="GUI.Views.LoginView"
+             x:DataType="vm:LoginViewModel">
+
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+
+		<vm:LoginViewModel />
+	</Design.DataContext>
+
+	<RelativePanel Background="FloralWhite">
+		<!--
+		<StackPanel x:Name="TopPanel"
+					Orientation="Horizontal"
+					Opacity="0.5"
+					Height="" Background="Tan"
+					RelativePanel.Above="MidPanel"
+					RelativePanel.AlignBottomWith="AboveMidPanel"
+					RelativePanel.AlignTopWithPanel="True"
+					RelativePanel.AlignRightWithPanel="True"
+					RelativePanel.AlignLeftWithPanel="True"
+					>
+
+		</StackPanel>
+		<StackPanel x:Name="AboveMidPanel"
+					Height="0"
+					RelativePanel.AlignTopWith="MidPanel"/>
+
+		-->
+		<StackPanel x:Name="MidPanel"
+					Orientation="Vertical"
+					MinHeight="" Background="Moccasin"
+					RelativePanel.AlignRightWithPanel="True"
+					RelativePanel.AlignLeftWithPanel="True"
+					RelativePanel.AlignVerticalCenterWithPanel="True"
+					Margin="0"
+						>
+
+				
+				<RelativePanel  VerticalAlignment="Top">
+					<Label 
+								HorizontalAlignment="Center"
+								Content="Server: "
+								RelativePanel.LeftOf="ServerAddressTextBox"
+								Margin="10"
+						   />
+					<TextBox	x:Name="ServerAddressTextBox"
+								MinWidth="150"
+								HorizontalAlignment="Center"
+								Text="{Binding ServerField}"
+								RelativePanel.AlignHorizontalCenterWithPanel="True"
+								Margin="10"
+						/>
+					<Button
+								Content="Соединить"
+								Command="{Binding ServerPingCommand}"
+								RelativePanel.RightOf="ServerAddressTextBox"
+								Margin="10"
+						/>
+				</RelativePanel>
+			<Border
+				BoxShadow="5 5 10 5 DarkGray"
+					>
+				<StackPanel 
+							Margin="5"
+							IsEnabled="{Binding !IsAuthInProcess}"
+							>
+					
+					<RelativePanel HorizontalAlignment="Center">
+						<RadioButton
+									IsChecked="{Binding IsAuth}"
+									Content="Auth"
+									x:Name="AuthRadioButton"
+									Margin="10,10,10,0"
+									GroupName="Auth"
+							
+									RelativePanel.AlignLeftWithPanel="True"/>
+						<RadioButton
+									IsChecked="{Binding !IsAuth}"
+									Content="Register"
+									Margin="10,10,10,0"
+									GroupName="Auth"
+									RelativePanel.AlignRightWithPanel="True"
+									RelativePanel.RightOf="AuthRadioButton"
+									 />
+					</RelativePanel>
+					<Label Content="Enter login and password" Margin="10,10,10,0"/>
+					<TextBox
+							Text="{Binding LoginField}"
+							Watermark="Cool_Login_123"
+							Margin="10,10,10,0"
+							/>
+					<TextBox
+							Text="{Binding PasswordField}"
+							PasswordChar="*" Watermark="Strong_Password_123"
+							Margin="10,10,10,0"
+							/>
+
+					<TextBox
+							IsEnabled="{Binding !IsAuth}"
+							IsVisible="{Binding !IsAuth}"
+							Text="{Binding NameField}"
+							Watermark="Badass_Name_123"
+							Margin="10,10,10,0"
+							/>
+
+					<Button Command="{Binding SendAuthCommand}"
+							Content="Отправить"
+							VerticalAlignment="Center" HorizontalAlignment="Center"
+							Margin="10,10,10,10"/>
+
+				</StackPanel>
+			</Border>
+
+				<TextBox	
+							IsReadOnly="True"
+							BorderThickness="0"
+							Background="MintCream"
+							TextWrapping="Wrap"
+							MaxHeight="500"
+							Text="{Binding LogsOutputField}"
+							RelativePanel.AlignHorizontalCenterWithPanel="True"
+							RelativePanel.AlignLeftWithPanel="True"
+							RelativePanel.AlignRightWithPanel="True"
+							Margin="10"
+						/>
+
+		</StackPanel>
+		<!--
+		<StackPanel x:Name="BelowMidPanel"
+					Height="0"
+					RelativePanel.Below="MidPanel"
+					/>
+		<StackPanel x:Name="BotPanel"
+					ZIndex="-5"
+					Orientation="Horizontal"
+					Opacity="0.5"
+					Height="" Background="Tan"
+					RelativePanel.AlignTopWith="BelowMidPanel"
+					RelativePanel.AlignRightWithPanel="True"
+					RelativePanel.AlignLeftWithPanel="True"
+					RelativePanel.AlignBottomWithPanel="True"
+					>
+		</StackPanel>
+		-->
+	</RelativePanel>
+
+</UserControl>

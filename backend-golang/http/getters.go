@@ -13,6 +13,19 @@ import (
 	md "github.com/BMilkey/messenger/models"
 )
 
+// pingHandler		 	godoc
+// @Summary 			Ping
+// @Tags 				Test
+// @Description 		Пинг
+// @ID 					ping
+// @Accept  			json
+// @Produce  			json
+// @Success 			200
+// @Router 				/test/ping [post]
+func pingHandler(c *gin.Context, pool *pgx.Pool) {
+	c.JSON(http.StatusOK, "")
+}
+
 // userByAuthHandler 	godoc
 // @Summary 			Auth user
 // @Tags 				API для авторизации и регистрации пользователя

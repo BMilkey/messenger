@@ -18,7 +18,9 @@ type AppConfig struct {
 }
 
 type HttpConfig struct {
-	Port string `yaml:"port" envconfig:"HTTP_PORT" required:"true"`
+	Port        string `yaml:"port" envconfig:"HTTP_PORT" required:"true"`
+	Certificate string `yaml:"certificate" envconfig:"HTTP_CERTIFICATE" required:"true"`
+	Key         string `yaml:"key" envconfig:"HTTP_KEY" required:"true"`
 }
 
 type DatabaseConfig struct {

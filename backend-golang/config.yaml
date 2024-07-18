@@ -3,6 +3,8 @@
 title: messenger-backend # APP_NAME
 http:
   port: 8081 # HTTP_PORT
+  certificate: ./certificates/server.crt
+  key: ./certificates/server.key
 db:
   host: localhost # DB_HOST
   port: 5432 # DB_PORT

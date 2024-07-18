@@ -457,4 +457,18 @@ paths:
       summary: Test websocket
       tags:
       - Test websocket
+  /test/ping:
+    post:
+      consumes:
+      - application/json
+      description: Пинг
+      operationId: ping
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Ping
+      tags:
+      - Test
 swagger: "2.0"

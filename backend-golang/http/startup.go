@@ -14,6 +14,7 @@ func setupRouter(dbpool *pgx.Pool) *gin.Engine {
 	docs.SwaggerInfo.BasePath = "/post"
 	post := r.Group("/post")
 	{
+
 		auth := post.Group("/auth")
 		{
 			auth.POST("/user_by_auth", func(c *gin.Context) {
@@ -50,6 +51,12 @@ func setupRouter(dbpool *pgx.Pool) *gin.Engine {
 				changeUserInfoHandler(c, dbpool)
 			})
 		}
+		test := post.Group("/test")
+		{
+			test.POST("/ping", func(c *gin.Context) {
+				pingHandler(c, dbpool)
+			})
+		}
 	}
 
 	chat_sockets := r.Group("/sockets")
@@ -74,4 +81,5 @@ func StartServer(cfg hlp.HttpConfig, dbpool *pgx.Pool) {
 	r := setupRouter(dbpool)
 
 	r.Run(":" + cfg.Port)
+	//r.RunTLS("0.0.0.0:"+cfg.Port, cfg.Certificate, cfg.Key)
 }

@@ -3,3 +3,7 @@
 *.exe
 *.exe
 backend-golang/messenger.exe
+*.log
+backend-golang/certificates/server.crt
+backend-golang/certificates/server.key
+backend-golang/backend.log

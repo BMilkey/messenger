@@ -1,0 +1,118 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:GUI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="1600" d:DesignHeight="900"
+             x:Class="GUI.Views.MainView"
+             x:DataType="vm:MainViewModel">
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:MainViewModel />
+  </Design.DataContext>
+
+	<RelativePanel>
+		<StackPanel 
+					x:Name="Top"
+					Background="Plum"
+					Height="50"
+					RelativePanel.AlignTopWithPanel="True"
+					RelativePanel.AlignLeftWithPanel="True"
+					RelativePanel.AlignRightWithPanel="True"
+					>			
+					<Label 
+							Content="{Binding Greeting}"
+							VerticalAlignment="Center"
+							HorizontalAlignment="Center"
+							/>
+		</StackPanel>
+		
+		<StackPanel 
+					x:Name="SideMenu"
+					Background="Red"
+					Width="100"
+					RelativePanel.AlignLeftWithPanel="True"
+					RelativePanel.AlignBottomWith="AboveBottom"
+					RelativePanel.Below="Top"
+					>			
+		</StackPanel>
+
+		<StackPanel 
+					x:Name="Chats"
+					Background="Green"	
+					Width="300"
+					RelativePanel.RightOf="SideMenu"
+					RelativePanel.AlignBottomWith="AboveBottom"
+					RelativePanel.Below="Top"
+					>			
+					
+		</StackPanel>
+		<StackPanel
+					x:Name="RightSideChats"
+					Width="0"
+					RelativePanel.AlignRightWith="Chats"
+					RelativePanel.AlignBottomWith="AboveBottom"
+					RelativePanel.Below="Top"
+					>
+			
+		</StackPanel>
+		<StackPanel x:Name="CurrentChat"
+					Background="Blue"
+					RelativePanel.AlignBottomWith="AboveBottom"					
+					RelativePanel.Below="Top"
+					RelativePanel.AlignLeftWith="RightSideChats"
+					RelativePanel.AlignRightWith="LeftSidePInfo"
+					>
+
+		</StackPanel>
+		<StackPanel
+					x:Name="LeftSidePInfo"
+					Width="0"
+					RelativePanel.AlignLeftWith="ChoosenProfileInfo"
+					RelativePanel.AlignBottomWith="AboveBottom"
+					RelativePanel.Below="Top"
+					>
+			
+		</StackPanel>
+		<StackPanel 
+					x:Name="ChoosenProfileInfo"
+					Background="Yellow"
+					Width="200"
+					RelativePanel.AlignRightWithPanel="True"
+					RelativePanel.AlignBottomWith="AboveBottom"
+					RelativePanel.Below="Top"
+					>
+					
+		</StackPanel>
+		
+		<StackPanel 
+					x:Name="AboveBottom"
+					Height="0"
+					RelativePanel.AlignTopWith="Bottom"
+					RelativePanel.AlignLeftWithPanel="True"
+					RelativePanel.AlignRightWithPanel="True"
+					>
+			
+		</StackPanel>
+		<StackPanel
+					x:Name="Bottom"
+					Background="Plum"
+					Height="200"
+					RelativePanel.AlignBottomWithPanel="True"
+					RelativePanel.AlignLeftWithPanel="True"
+					RelativePanel.AlignRightWithPanel="True"
+					>
+			<TextBox
+				IsReadOnly="True"
+				BorderThickness="0"
+				Background="MintCream"
+				TextWrapping="Wrap"
+				MaxHeight="180"
+				Text="{Binding LogsOutputField}"
+				Margin="10"
+						/>
+		</StackPanel>
+	</RelativePanel>
+
+</UserControl>

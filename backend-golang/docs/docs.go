@@ -381,6 +381,27 @@ const docTemplate = `{
                 "operationId": "sockets_test",
                 "responses": {}
             }
+        },
+        "/test/ping": {
+            "post": {
+                "description": "Пинг",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Test"
+                ],
+                "summary": "Ping",
+                "operationId": "ping",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
         }
     },
     "definitions": {
