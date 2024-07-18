@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Text.Json;
+using GUI.Models.Auth;
 
 namespace GUI.ViewModels;
 
@@ -69,7 +70,7 @@ public class LoginViewModel : ViewModelBase
 
     #endregion
 
-    private UserInfo user = new();
+    private UserInfo userInfo = new();
     //private readonly string serverAddress;
     private readonly AuthModel authModel = new();
 
@@ -99,17 +100,17 @@ public class LoginViewModel : ViewModelBase
     private async void SendAuthAction()
     {
         IsAuthInProcess = true;
-        user = new();
+        userInfo = new();
         try
         {
             if (IsAuth)
             {
-                user = await authModel.GetUserInfoByAuth(new(loginField, passwordField));
+                userInfo = await authModel.GetUserInfoByAuth(new(loginField, passwordField));
             
             }
             else
             {
-                user = await authModel.GetUserInfoByRegistration(new(loginField, nameField, passwordField));
+                userInfo = await authModel.GetUserInfoByRegistration(new(loginField, nameField, passwordField));
             }
         }
         catch (Exception ex)
@@ -119,18 +120,18 @@ public class LoginViewModel : ViewModelBase
         finally
         {
 
-            LogsOutputField = JsonSerializer.Serialize(user);
+            LogsOutputField = JsonSerializer.Serialize(userInfo);
             IsAuthInProcess = false;
         }
 
     }
 
-    public async Task<UserInfo> GetUserInfoAsync(CancellationToken ct = default, int msDelay = 50)
+    public async Task<(UserInfo, string)> GetUserInfoAndURLAsync(CancellationToken ct = default, int msDelay = 50)
     {
-        while (!ct.IsCancellationRequested && user.auth_token == string.Empty)
+        while (!ct.IsCancellationRequested && userInfo.auth_token == string.Empty)
         {
             await Task.Delay(msDelay);
         }
-        return user;
+        return (userInfo, authModel.URL);
     }
 }

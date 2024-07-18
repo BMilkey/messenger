@@ -1,19 +1,23 @@
 ﻿using GUI.Models;
 using Newtonsoft.Json;
 using ReactiveUI;
+using System.Collections.ObjectModel;
+using System;
+using System.Linq;
+using AsyncImageLoader;
+using GUI.Models.Main;
+using AsyncImageLoader.Loaders;
 
 namespace GUI.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
     #region xaml fields
-    public string Greeting => $"Welcome to Messenger, {UserInfo.name}! Your's auth token is \"{UserInfo.auth_token}\".";
-    private UserInfo userInfo;
-    public UserInfo UserInfo
-    {
-        get => userInfo;
-        set => this.RaiseAndSetIfChanged(ref userInfo, value);
-    }
+    public string Greeting => $"Welcome to Messenger, {mainModel.UserInfo.name}! Your's auth token is \"{mainModel.UserInfo.auth_token}\".";
+
+    private readonly MainModel mainModel;
+    public MainModel MainModel => mainModel;
+
 
     private string logsOutputField = "Main view logs will be here...\n";
     public string LogsOutputField
@@ -23,15 +27,25 @@ public class MainViewModel : ViewModelBase
     }
     #endregion
 
-    public MainViewModel(UserInfo userInfo) 
+    private IAsyncImageLoader imageLoader = new RamCachedWebImageLoader();
+    public IAsyncImageLoader ImageLoader => imageLoader;
+
+    public MainViewModel(UserInfo userInfo, string URL) 
     {
-        this.userInfo = userInfo;
-        LogsOutputField = $"Succesfully initialized with UserInfo: {JsonConvert.SerializeObject(userInfo)}";
+        mainModel = new MainModel(userInfo, URL);
+        LogsOutputField = $"Succesfully initialized with UserInfo: {userInfo.ToString()}";
+        foreach (var item in mainModel.Users)
+        {
+            LogsOutputField = item.ToString();
+            mainModel = new(userInfo, URL);
+        }
     }
 
     public MainViewModel()
     {
-        userInfo = new UserInfo();
         LogsOutputField = "Incorrect initialization, UserInfo is empty";
+        
+
+
     }
 }

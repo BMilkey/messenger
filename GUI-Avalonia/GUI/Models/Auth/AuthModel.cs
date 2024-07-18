@@ -7,7 +7,7 @@ using System.Net.Http.Json;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
-namespace GUI.Models;
+namespace GUI.Models.Auth;
 
 public class AuthModel
 {
@@ -38,9 +38,11 @@ public class AuthModel
 
     private HttpClient client;
     private string urlParameters;
+    public string URL { get; private set; }
 
     public AuthModel(string URL, string urlParameters = "")
     {
+        this.URL = URL;
         this.urlParameters = urlParameters;
         client = new HttpClient();
         client.BaseAddress = new Uri(URL);
@@ -48,12 +50,13 @@ public class AuthModel
 
     public AuthModel()
     {
-        this.urlParameters = "";
+        urlParameters = "";
         client = new HttpClient();
     }
 
     public void ChangeUrlParameters(string URL, string urlParameters = "")
     {
+        this.URL = URL;
         client = new HttpClient();
         client.BaseAddress = new Uri($"http://{URL}/");
         this.urlParameters = urlParameters;

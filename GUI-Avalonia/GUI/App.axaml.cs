@@ -4,6 +4,8 @@ using Avalonia.Markup.Xaml;
 
 using GUI.ViewModels;
 using GUI.Views;
+using System;
+using System.Diagnostics;
 
 namespace GUI;
 
@@ -36,11 +38,11 @@ public partial class App : Application
 
             if (desktop.MainWindow.DataContext is LoginViewModel loginViewModel)
             {
-                var userInfo = await loginViewModel.GetUserInfoAsync();
+                var (userInfo, URL) = await loginViewModel.GetUserInfoAndURLAsync();
                 //desktop.MainWindow.Close();
                 var mainWindow = new MainWindow()
                 {
-                    DataContext = new MainViewModel(userInfo)
+                    DataContext = new MainViewModel(userInfo, URL)
                 };
                 desktop.MainWindow = mainWindow;
 
@@ -58,15 +60,16 @@ public partial class App : Application
 
             if (singleViewPlatform.MainView.DataContext is LoginViewModel loginViewModel)
             {
-                var userInfo = await loginViewModel.GetUserInfoAsync();
+                var (userInfo, URL) = await loginViewModel.GetUserInfoAndURLAsync();
                 
                 var mainView = new MainView()
                 {
-                    DataContext = new MainViewModel(userInfo)
+                    DataContext = new MainViewModel(userInfo, URL)
                 };
 
                 singleViewPlatform.MainView = mainView;
-
+                Console.WriteLine(singleViewPlatform.MainView);
+                Debug.WriteLine(singleViewPlatform.MainView);
             }
         }
 
