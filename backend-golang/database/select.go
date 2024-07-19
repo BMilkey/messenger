@@ -16,7 +16,7 @@ func SelectUserById(pool *pgx.Pool, user_id string) (md.User, error) {
 		WHERE users.id = $1
 		`,
 		user_id).
-		Scan(&user.Id, &user.Name, &user.Link, &user.About, &user.Last_connection, &user.Image_id)
+		Scan(&user.Id, &user.Name, &user.Link, &user.About, &user.Last_online, &user.Image_id)
 
 	if err != nil {
 		return user, err
@@ -42,7 +42,7 @@ func SelectUsersByName(pool *pgx.Pool, name string) ([]md.User, error) {
 
 	for rows.Next() {
 		var user md.User
-		err := rows.Scan(&user.Id, &user.Name, &user.Link, &user.About, &user.Last_connection, &user.Image_id)
+		err := rows.Scan(&user.Id, &user.Name, &user.Link, &user.About, &user.Last_online, &user.Image_id)
 		if err != nil {
 			return users, err
 		}
@@ -65,7 +65,7 @@ func SelectUserByLink(pool *pgx.Pool, link string) (md.User, error) {
 	where link = $1
 		`,
 		link).
-		Scan(&user.Id, &user.Name, &user.Link, &user.About, &user.Last_connection, &user.Image_id)
+		Scan(&user.Id, &user.Name, &user.Link, &user.About, &user.Last_online, &user.Image_id)
 
 	if err != nil {
 		return user, err

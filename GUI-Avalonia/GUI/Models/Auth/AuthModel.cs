@@ -82,8 +82,10 @@ public class AuthModel
 
         var registerAnswer = new UserInfo();
 
-        var stringAnswer = await response.Content.ReadAsStreamAsync();
-        Debug.WriteLine(stringAnswer);
+        /*        var stringAnswer = await response.Content.ReadFromJsonAsync<string>();
+                Debug.WriteLine(stringAnswer);
+                var streamAnswer = await response.Content.ReadAsStreamAsync();
+                Debug.WriteLine(streamAnswer);*/
 
         registerAnswer = await response.Content.ReadFromJsonAsync<UserInfo>();
 

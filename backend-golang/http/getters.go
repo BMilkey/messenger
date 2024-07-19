@@ -84,7 +84,7 @@ func userByAuthHandler(c *gin.Context, pool *pgx.Pool) {
 		Name:        user.Name,
 		Link:        user.Link,
 		About:       user.About,
-		Last_online: user.Last_connection,
+		Last_online: user.Last_online,
 		Image_id:    user.Image_id,
 	})
 }
@@ -121,12 +121,12 @@ func registerUserHandler(c *gin.Context, pool *pgx.Pool) {
 		Auth_expires:  time.Now().Add(time.Minute * 1),
 	}
 	user := md.User{
-		Id:              newUserId,
-		Name:            request.Name,
-		Link:            "@" + newUserId,
-		About:           "There's should be description for " + request.Name,
-		Last_connection: time.Now(),
-		Image_id:        "fake",
+		Id:          newUserId,
+		Name:        request.Name,
+		Link:        "@" + newUserId,
+		About:       "There's should be description for " + request.Name,
+		Last_online: time.Now(),
+		Image_id:    "fake",
 	}
 
 	if err := db.InsertUser(pool, user); err != nil {
@@ -153,7 +153,7 @@ func registerUserHandler(c *gin.Context, pool *pgx.Pool) {
 		Name:        user.Name,
 		Link:        user.Link,
 		About:       user.About,
-		Last_online: user.Last_connection,
+		Last_online: user.Last_online,
 		Image_id:    user.Image_id,
 	})
 }
@@ -623,12 +623,12 @@ func changeUserInfoHandler(c *gin.Context, pool *pgx.Pool) {
 		return
 	}
 	user := md.User{
-		Id:              auth.User_id,
-		Name:            request.New_name,
-		Link:            request.New_link,
-		About:           request.New_about,
-		Last_connection: time.Now(),
-		Image_id:        request.New_image,
+		Id:          auth.User_id,
+		Name:        request.New_name,
+		Link:        request.New_link,
+		About:       request.New_about,
+		Last_online: time.Now(),
+		Image_id:    request.New_image,
 	}
 	err = db.UpdateUser(pool, user)
 	if err != nil {
@@ -679,7 +679,7 @@ func testLoginWoHashHandler(c *gin.Context, pool *pgx.Pool) {
 		"name":        user.Name,
 		"link":        user.Link,
 		"about":       user.About,
-		"last_online": user.Last_connection,
+		"last_online": user.Last_online,
 		"image_id":    user.Image_id,
 	})
 }

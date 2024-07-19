@@ -2746,3 +2746,90 @@
 {"level":"fatal","msg":"Error Reading Config file with path: test.text\n","time":"2024-06-25T01:27:17+05:00"}
 {"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-06-25T01:27:25+05:00"}
 {"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-06-25T01:27:25+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-07-16T11:45:02+05:00"}
+{"level":"fatal","msg":"isDbExist failed: failed to connect to `host=localhost user=postgres database=`: dial error (dial tcp 127.0.0.1:5432: connectex: No connection could be made because the target machine actively refused it.)","time":"2024-07-16T11:45:02+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-07-16T18:09:07+05:00"}
+{"level":"info","msg":"Database tempdb3 is not existing.\n","time":"2024-07-16T18:09:07+05:00"}
+{"level":"fatal","msg":"createDB failed: ОШИБКА: новое правило сортировки (en_US.UTF-8) несовместимо с правилом в шаблоне базы данных (Russian_Russia.1251) (SQLSTATE 22023)","time":"2024-07-16T18:09:07+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-07-16T18:09:58+05:00"}
+{"level":"info","msg":"Database tempdb3 is not existing.\n","time":"2024-07-16T18:09:58+05:00"}
+{"level":"fatal","msg":"createDB failed: ОШИБКА: неверное имя локали LC_COLLATE: \"UTF-8\" (SQLSTATE 42809)","time":"2024-07-16T18:09:58+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-07-16T18:10:57+05:00"}
+{"level":"info","msg":"Database tempdb3 is not existing.\n","time":"2024-07-16T18:10:57+05:00"}
+{"level":"info","msg":"Database tempdb3 created.\n","time":"2024-07-16T18:10:57+05:00"}
+{"level":"info","msg":"All tables of database tempdb3 created.\n","time":"2024-07-16T18:10:57+05:00"}
+{"level":"info","msg":"ОШИБКА: INSERT или UPDATE в таблице \"users\" нарушает ограничение внешнего ключа \"FK_user_picture_id\" (SQLSTATE 23503)","time":"2024-07-16T19:21:42+05:00"}
+{"level":"info","msg":"ОШИБКА: INSERT или UPDATE в таблице \"users\" нарушает ограничение внешнего ключа \"FK_user_picture_id\" (SQLSTATE 23503)","time":"2024-07-16T19:22:38+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-07-16T19:25:25+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-16T19:25:26+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"auth_pkey\" (SQLSTATE 23505)","time":"2024-07-16T19:34:06+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081"},"level":"info","msg":"Starting","time":"2024-07-17T01:44:34+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-17T01:44:34+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"auth_pkey\" (SQLSTATE 23505)","time":"2024-07-17T01:48:58+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-17T01:54:26+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-17T01:54:28+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-17T01:54:52+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-17T01:54:58+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-17T01:54:58+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-17T01:55:01+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-17T01:55:37+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-17T01:55:41+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-17T01:56:01+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-17T01:56:03+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-17T01:56:42+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-17T01:56:43+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-17T01:56:47+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-17T01:56:47+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"auth_pkey\" (SQLSTATE 23505)","time":"2024-07-17T01:57:03+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"auth_pkey\" (SQLSTATE 23505)","time":"2024-07-17T01:57:09+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"auth_pkey\" (SQLSTATE 23505)","time":"2024-07-17T01:57:40+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-17T01:58:36+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-17T01:58:39+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"auth_pkey\" (SQLSTATE 23505)","time":"2024-07-17T01:58:45+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"auth_pkey\" (SQLSTATE 23505)","time":"2024-07-17T01:58:49+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"auth_pkey\" (SQLSTATE 23505)","time":"2024-07-17T01:59:22+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"auth_pkey\" (SQLSTATE 23505)","time":"2024-07-17T02:00:08+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"auth_pkey\" (SQLSTATE 23505)","time":"2024-07-17T02:01:13+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"auth_pkey\" (SQLSTATE 23505)","time":"2024-07-17T02:01:23+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"auth_pkey\" (SQLSTATE 23505)","time":"2024-07-17T02:01:56+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-17T02:03:20+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"auth_pkey\" (SQLSTATE 23505)","time":"2024-07-17T02:03:34+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"auth_pkey\" (SQLSTATE 23505)","time":"2024-07-17T02:03:52+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-17T03:16:43+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-17T03:16:44+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"auth_pkey\" (SQLSTATE 23505)","time":"2024-07-17T03:17:51+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"auth_pkey\" (SQLSTATE 23505)","time":"2024-07-17T03:17:54+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-18T21:11:30+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-18T21:11:30+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-18T21:28:00+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-18T21:28:01+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-18T21:30:38+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-18T21:30:38+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-18T21:34:33+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-18T21:34:33+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-18T21:57:01+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-18T21:57:01+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-18T22:00:20+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-18T22:00:20+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-18T22:10:36+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-18T22:10:36+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-18T22:12:29+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-18T22:12:29+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-18T22:15:59+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-18T22:15:59+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-19T18:04:05+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-19T18:04:05+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-19T18:10:19+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-19T18:10:19+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-19T18:12:05+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-19T18:12:05+05:00"}
+{"level":"error","msg":"Invalid auth token","time":"2024-07-19T18:13:14+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-19T18:15:50+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-19T18:15:51+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-20T00:32:38+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-20T00:33:00+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-20T00:33:13+05:00"}
+{"level":"info","msg":"no rows in result set","time":"2024-07-20T00:34:46+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-20T00:37:35+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-20T00:37:35+05:00"}
+{"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"chat_participants_pkey\" (SQLSTATE 23505)","time":"2024-07-20T01:06:20+05:00"}

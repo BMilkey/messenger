@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"time"
+
 	db "github.com/BMilkey/messenger/database"
 	md "github.com/BMilkey/messenger/models"
 	"github.com/gin-gonic/gin"
@@ -30,14 +31,14 @@ func prolongToken(c *gin.Context, pool *pgx.Pool, token string) bool {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to select user"})
 		return false
 	}
-	user.Last_connection = time.Now()
+	user.Last_online = time.Now()
 	err = db.UpdateUser(pool, user)
 	if err != nil {
 		log.Info(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user"})
 		return false
 	}
-	
+
 	return true
 }
 

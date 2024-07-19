@@ -1,0 +1,259 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:GUI.ViewModels"
+			 xmlns:vmm="clr-namespace:GUI.ViewModels.Main"
+			 xmlns:views="clr-namespace:GUI.Views"
+		     xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+			 xmlns:model="clr-namespace:GUI.Models"
+			 mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="900"
+			 Width="{Binding FormWidth}"
+             x:Class="GUI.Views.ChatsView"
+			 x:DataType="vm:Main.ChatsViewModel"
+			 >
+	<Grid ColumnDefinitions="*,2*">
+
+		<Grid Grid.Column="1">
+			
+
+		<DockPanel			
+					
+					x:Name="Chats"
+					Background="LightGoldenrodYellow"
+					>
+
+			<RelativePanel 
+							x:Name="LocalRP"
+							DockPanel.Dock="Top" Height="40">
+				<ToggleButton
+								Margin="5"
+								x:Name="ToggleCreateChat"
+								Content="{Binding ToggleCreateChatButtonContent}"
+								IsChecked="{Binding IsCreateChatToggled}"
+								HorizontalAlignment="Center"
+								RelativePanel.AlignTopWithPanel="True"
+								RelativePanel.AlignLeftWithPanel="True"
+								RelativePanel.AlignBottomWithPanel="True"
+								/>
+				<TextBox
+							Text="{Binding FindUserOrChatField}"
+						    
+							Margin="5"
+							Watermark="Type name or title..."
+							RelativePanel.AlignBottomWithPanel="True"
+							RelativePanel.AlignTopWithPanel="True"
+							RelativePanel.RightOf="ToggleCreateChat"
+							RelativePanel.AlignRightWith="LeftSideFindUsers"
+							/>
+				<StackPanel
+							x:Name="LeftSideFindUsers"
+							Width="0"
+							RelativePanel.AlignBottomWithPanel="True"
+							RelativePanel.AlignTopWithPanel="True"
+							RelativePanel.AlignLeftWith="FindUsers"
+								/>
+				
+				<Button
+							x:Name="FindUsers"
+							Content="Find"
+							IsEnabled="False"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							RelativePanel.AlignBottomWithPanel="True"
+							RelativePanel.AlignTopWithPanel="True"
+							RelativePanel.AlignRightWithPanel="True"
+							/>
+				<!--
+					
+					<Button
+								x:Name="AddChat"
+								DockPanel.Dock="Right"
+								Margin="5"
+								HorizontalAlignment="Right"
+								Content="+"
+								RelativePanel.AlignBottomWithPanel="True"
+								RelativePanel.AlignTopWithPanel="True"
+								RelativePanel.AlignRightWithPanel="True"
+										/>
+					-->
+			</RelativePanel>
+			<TabControl
+						 
+						DockPanel.Dock="Top"
+						RelativePanel.AlignBottomWith="Chats"
+						>
+
+				<TabItem
+							Header="Chats">
+					<ListBox
+								
+						x:Name="ChatsListBox"
+						ItemsSource="{Binding MainModel.Chats}"
+						Margin="5"
+						Background="PaleGoldenrod"
+						SelectedItem=""
+					>
+						<ListBox.ItemTemplate>
+							<DataTemplate DataType="model:ChatInfo">
+								<Border BorderBrush="Blue" BorderThickness="1"
+										CornerRadius="4" Padding="4">
+									<DockPanel>
+										<Button
+												DockPanel.Dock="Left"
+												Margin="5,0"
+												Content="X"
+												Command=""
+												/>
+										<asyncImageLoader:AdvancedImage
+												DockPanel.Dock="Left"
+												MaxWidth="40"
+												MaxHeight="40"
+												Source="http://147.45.70.245:8098/files/default_chat_picture_lowres.jpg"
+												Loader="{Binding ImageLoader}"
+										/>
+										<StackPanel DockPanel.Dock="Left" Margin="5,0">
+											<Label
+												Content="{Binding title}"/>
+											<Label
+												Content="{Binding link}"/>
+										</StackPanel>
+
+									</DockPanel>
+								</Border>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</TabItem>
+				<TabItem
+							x:Name="UserTab"
+							Header="Users">
+					<ListBox
+					
+					x:Name="UsersFound"
+					ItemsSource="{Binding MainModel.Users}"
+					Margin="5"
+
+					Background="GhostWhite"
+					>
+						<ListBox.ItemTemplate>
+							<DataTemplate DataType="model:UserInfo">
+								<Border BorderBrush="Blue" BorderThickness="1"
+										CornerRadius="4" Padding="4">
+									<DockPanel>
+										<Button	
+												DockPanel.Dock="Left"
+												Margin="5,0"
+												IsEnabled="{CompiledBinding #UsersFound((vmm:ChatsViewModel)DataContext).IsCreateChatToggled}"
+												IsVisible="{CompiledBinding #UsersFound((vmm:ChatsViewModel)DataContext).IsCreateChatToggled}"
+												Content="←"
+												Command="{CompiledBinding #UsersFound((vmm:ChatsViewModel)DataContext).AddUserToCreateChatListCommand}"	
+												CommandParameter="{Binding }"
+												/>
+										<asyncImageLoader:AdvancedImage
+												DockPanel.Dock="Left"
+												MaxWidth="40"
+												MaxHeight="40"
+												Source="http://147.45.70.245:8098/files/default_profile_picture_lowres.jpg"
+												Loader="{Binding ImageLoader}"
+										/>
+										<StackPanel DockPanel.Dock="Left" Margin="5,0">
+											<Label
+												Content="{Binding name}"/>
+											<TextBlock
+												Text="{Binding link}"
+												TextWrapping="Wrap"
+												/>
+											<Label
+												Content="{Binding last_online}"/>
+										</StackPanel>
+
+									</DockPanel>
+								</Border>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</TabItem>
+
+			</TabControl>
+		</DockPanel>
+		</Grid>
+		<Grid Grid.Column="0">
+			
+		<RelativePanel
+						
+						x:Name="CreateChatPanel"
+						IsEnabled="{Binding IsCreateChatToggled}"
+						IsVisible="{Binding IsCreateChatToggled}"
+						HorizontalAlignment="Left"
+						Background="AliceBlue"
+						Width="200"
+							>
+
+			<Button
+					x:Name="CreateChatButton"
+					
+					Command="{Binding CreateChatCommand}"
+					CommandParameter="{CompiledBinding #NewChatTitleTextBox.Text}"
+					Content="Create Chat"
+					Margin="5"
+					HorizontalAlignment="Center"
+					
+					RelativePanel.AlignTopWithPanel="True"
+					RelativePanel.AlignLeftWithPanel="True"
+					RelativePanel.AlignRightWithPanel="True"
+						/>
+			<TextBox
+						x:Name="NewChatTitleTextBox"
+						Text=""
+						Margin="5"
+						Watermark="Type chat title..."
+							
+						RelativePanel.Below="CreateChatButton"
+						RelativePanel.AlignLeftWithPanel="True"
+						RelativePanel.AlignRightWithPanel="True"
+							/>
+			<ListBox
+								
+								x:Name="NewChatUsersListBox"
+								ItemsSource="{Binding NewChatUsers}"
+								Margin="5"
+								Background="Teal"
+								SelectedItem=""
+								RelativePanel.Below="NewChatTitleTextBox"
+								RelativePanel.AlignBottomWithPanel="True"								
+								RelativePanel.AlignLeftWithPanel="True"
+								RelativePanel.AlignRightWithPanel="True"
+					>
+				<ListBox.ItemTemplate>
+					<DataTemplate DataType="model:UserInfo">
+						<Border BorderBrush="Blue" BorderThickness="1"
+								CornerRadius="4" Padding="4">
+							<DockPanel>
+								<Button
+										DockPanel.Dock="Left"
+										Margin="5,0"
+										Content="X"
+										Command=""
+												/>
+								<asyncImageLoader:AdvancedImage
+										DockPanel.Dock="Left"
+										MaxWidth="40"
+										MaxHeight="40"
+										Source="http://147.45.70.245:8098/files/default_profile_picture_lowres.jpg"
+										Loader="{Binding ImageLoader}"
+										/>
+								<StackPanel DockPanel.Dock="Left" Margin="5,0">
+									<Label
+										Content="{Binding name}"/>
+								</StackPanel>
+
+							</DockPanel>
+						</Border>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</RelativePanel>
+		</Grid>
+	</Grid>
+</UserControl>

@@ -67,7 +67,7 @@ type User struct {
 	Name            string    `json:"name"`
 	Link            string    `json:"link"`
 	About           string    `json:"about"`
-	Last_connection time.Time `json:"last_connection"`
+	Last_online time.Time `json:"last_online"`
 	Image_id        string   `json:"image_id"`
 }
 
@@ -100,7 +100,7 @@ type File struct {
 		"name":        user.Name,
 		"link":        user.Link,
 		"about":       user.About,
-		"last_online": user.Last_connection,
+		"last_online": user.Last_online,
 		"image_id":    user.Image_id,
 ```
 ### out:

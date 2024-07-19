@@ -35,12 +35,12 @@ type Message struct {
 }
 
 type User struct {
-	Id              string    `json:"id"`
-	Name            string    `json:"name"`
-	Link            string    `json:"link"`
-	About           string    `json:"about"`
-	Last_connection time.Time `json:"last_connection"`
-	Image_id        string    `json:"image_id"`
+	Id          string    `json:"id"`
+	Name        string    `json:"name"`
+	Link        string    `json:"link"`
+	About       string    `json:"about"`
+	Last_online time.Time `json:"last_online"`
+	Image_id    string    `json:"image_id"`
 }
 
 type Image struct {

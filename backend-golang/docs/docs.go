@@ -665,7 +665,7 @@ const docTemplate = `{
                 "image_id": {
                     "type": "string"
                 },
-                "last_connection": {
+                "last_online": {
                     "type": "string"
                 },
                 "link": {

@@ -15,7 +15,7 @@ func InsertUser(pool *pgx.Pool, user md.User) error {
 		VALUES
 		($1, $2, $3, $4, $5, $6)
 		`,
-		user.Id, user.Name, user.Link, user.About, user.Last_connection, user.Image_id)
+		user.Id, user.Name, user.Link, user.About, user.Last_online, user.Image_id)
 	return err
 }
 

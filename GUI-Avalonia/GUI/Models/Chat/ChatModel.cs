@@ -8,5 +8,5 @@ namespace GUI.Models.Chat;
 
 public class ChatModel
 {
-
+    
 }
