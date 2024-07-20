@@ -4,6 +4,9 @@ import (
 	"fmt"
 	"net/http"
 
+	cmap "github.com/orcaman/concurrent-map/v2"
+
+	md "github.com/BMilkey/messenger/models"
 	ws "github.com/gorilla/websocket"
 	log "github.com/sirupsen/logrus"
 )
@@ -59,6 +62,90 @@ func testWebSocketBroadCast(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	for i := 0; i < 10; i++ {
+		msg := []byte(fmt.Sprintf("Message %d", i))
+		conn.WriteMessage(ws.TextMessage, msg)
+	}
+	//conn.CloseHandler()
+	conn.Close()
+}
+
+//var messagesChannel := make(chan md.Message, 100)
+
+var tokenToCreateMessageChannel = cmap.New[chan md.Message]()
+
+// testWebSocketBroadCast   godoc
+// @Summary                 Test websocket
+// @Tags                    Test websocket
+// @Description             НЕ РАБОТАЕТ ЧЕРЕЗ SWAGGER
+// @ID                      sockets_test
+// @Accept                  json-stream
+// @Produce                 json-stream
+// @Router                  /sockets/test [GET]
+func SubscribeMessageCreated(w http.ResponseWriter, r *http.Request) {
+
+	conn, err := wsupgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Warn("Failed to set websocket upgrade: %+v", err)
+		return
+	}
+
+	if conn == nil {
+		log.Warn("Connection is nil")
+		return
+	}
+
+	_, requestToken, err := conn.ReadMessage()
+	if err != nil {
+		log.Warn("Cannot read start message in websocket")
+		return
+	}
+
+	//	TODO get auth_token
+	auth_token := "fake_auth_token"
+LOOP:
+	for {
+		channel, ok := tokenToCreateMessageChannel.Get(auth_token)
+		if !ok {
+			log.Warn("Trying to get a message from tokenToCreateMessageChannel failed")
+		}
+		select {
+		case <-r.Context().Done():
+			break LOOP
+		case msg := <-channel:
+
+			serializedMsg, err := serializeToJSON(msg)
+			if err != nil {
+				log.Warn(err)
+			}
+			byteMsg := []byte(serializedMsg)
+			conn.WriteMessage(ws.TextMessage, byteMsg)
+		}
+	}
+	/*
+			TokenToChannel.SetIfAbsent(auth_token, make(chan Message, 10))
+			channel, ok := TokenToChannel.Get(auth_token)
+			if !ok {
+				return
+			}
+
+		BR:
+			for {
+				select {
+				case isDone := <-isDoneChannel:
+					if isDone {
+						break BR
+					}
+					continue
+				case msg := <-channel:
+					println("auth_token: ", auth_token, ", text:", msg.Text)
+				}
+
+			}
+
+			close(channel)
+			TokenToChannel.Remove(auth_token)
+	*/
 	for i := 0; i < 10; i++ {
 		msg := []byte(fmt.Sprintf("Message %d", i))
 		conn.WriteMessage(ws.TextMessage, msg)

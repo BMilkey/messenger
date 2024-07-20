@@ -36,6 +36,12 @@ public class MainModel : ReactiveObject
     private HttpClient client;
     private string urlParameters;
 
+    private ChatInfo currentChat;
+    public ChatInfo CurrentChat
+    {
+        get => currentChat;
+        set => this.RaiseAndSetIfChanged(ref currentChat, value);
+    }
 
     public MainModel(UserInfo userInfo, string URL, string urlParameters = "")
     {
@@ -45,7 +51,7 @@ public class MainModel : ReactiveObject
         client = new HttpClient();
         client.BaseAddress = new Uri($"http://{URL}/");
         _ = FindUsersByName("");
-        _ = GetChats(UserInfo.auth_token);
+        _ = FetchChats();
     }
 
     private class UserByNameRequest
@@ -122,6 +128,8 @@ public class MainModel : ReactiveObject
         var createChatResponse = await response.Content.ReadFromJsonAsync<CreateChatResponse>();
 
         Debug.WriteLine(JsonConvert.SerializeObject(createChatResponse));
+
+        _ = FetchChats();
         // TODO
         // add to chats
         // get_messages for this chat
@@ -141,9 +149,9 @@ public class MainModel : ReactiveObject
         public List<ChatInfo> chats { get; set; } = new();
     }
 
-    public async Task GetChats(string auth_token)
+    public async Task FetchChats()
     {
-        var request = new GetChatsByAuthTokenRequest(auth_token);
+        var request = new GetChatsByAuthTokenRequest(UserInfo.auth_token);
         client.DefaultRequestHeaders.Accept.Add(
         new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -154,15 +162,116 @@ public class MainModel : ReactiveObject
         var getChatsResponse = await response.Content.ReadFromJsonAsync<GetChatsByAuthTokenResponse>();
 
         Debug.WriteLine(JsonConvert.SerializeObject(getChatsResponse));
+
+        Chats = new(getChatsResponse.chats ?? new List<ChatInfo>());
+        foreach (var chat in Chats)
+        {
+            _ = FetchMessagesByChatId(chat.id);
+        }
+    }
+
+
+    private class GetMessagesByChatIdRequest
+    {
+        public string auth_token;
+        public string chat_id;
+        public string from_date;
+        public string to_date;
+        public GetMessagesByChatIdRequest(string auth_token, string chat_id, string from_date, string to_date)
+        {
+            this.auth_token = auth_token;
+            this.chat_id = chat_id;
+            this.from_date = from_date;
+            this.to_date = to_date;
+        }
+    }
+
+    private class GetMessagesByChatIdResponse
+    {
+        public List<MessageInfo> messages { get; set; } = new();
+    }
+
+    public async Task FetchMessagesByChatId(string chatId)
+    {
+        await FetchMessagesByChatId(chatId, DateTime.MinValue, DateTime.MaxValue);
+    }
+
+    public async Task FetchMessagesByChatId(string chatId, DateTime From, DateTime To)
+    {
+        var request = new GetMessagesByChatIdRequest(UserInfo.auth_token, chatId, ToTimestamp(From), ToTimestamp(To));
+        client.DefaultRequestHeaders.Accept.Add(
+        new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage response = await client.PostAsJsonAsync(
+                                            "/post/chat/messages_by_chat_id", request);
+
+
+        response.EnsureSuccessStatusCode();
+
+
+        var getMessagesByChatIdResponse = await response.Content.ReadFromJsonAsync<GetMessagesByChatIdResponse>();
+
+        var messages = new List<MessageInfo>(getMessagesByChatIdResponse.messages ?? new List<MessageInfo>());
+
+        Chats.First(x => x.id == chatId).UpdateMessages(messages);
+
+        Debug.WriteLine(JsonConvert.SerializeObject(Chats.First(x => x.id == chatId)));
+
+    }
+
+    private static string ToTimestamp(DateTime dateTime)
+    {
+        dateTime = dateTime.ToUniversalTime();
+        return dateTime.ToString("O");
+    }
+
+    private class CreateMessageRequest
+    {
+        public string auth_token = string.Empty;
+        public string chat_id = string.Empty;
+        public string reply_msg_id = string.Empty;
+        public string text = string.Empty;
+        public CreateMessageRequest(string auth_token, string chat_id, string reply_msg_id, string text)
+        {
+            this.auth_token = auth_token;
+            this.chat_id = chat_id;
+            this.reply_msg_id = reply_msg_id;
+            this.text = text;
+        }
+    }
+
+    private class CreateMessageResponse
+    {
+        public MessageInfo message { get; set; }
+        public MessageInfo reply_msg { get; set; }
+    }
+
+    public async Task CreateMessage(string text, string reply_msg_id = "fake")
+    {
+        var request = new CreateMessageRequest(UserInfo.auth_token, CurrentChat.id, reply_msg_id, text);// GetMessagesByChatIdRequest(UserInfo.auth_token, chatId, ToTimestamp(From), ToTimestamp(To));
+        client.DefaultRequestHeaders.Accept.Add(
+        new MediaTypeWithQualityHeaderValue("application/json"));
+
+        HttpResponseMessage response = await client.PostAsJsonAsync(
+                                            "/post/chat/create_message", request);
+
+
+        response.EnsureSuccessStatusCode();
+
+
+        var CreateMessageResponse = await response.Content.ReadFromJsonAsync<CreateMessageResponse>();
+        Chats.First(x => x.id == CreateMessageResponse.message.chat_id).messages.Add(CreateMessageResponse.message);
+        this.RaisePropertyChanged(nameof(CurrentChat));
+        Debug.WriteLine(JsonConvert.SerializeObject(CreateMessageResponse));
         // TODO
         // update chats
-        Chats = new(getChatsResponse.chats ?? new List<ChatInfo>());
+        
+        //var messages = new List<MessageInfo>(CreateMessageResponse.messages ?? new List<MessageInfo>());
+
+        //Chats.First(x => x.id == chatId).UpdateMessages(messages);
+
+        //Debug.WriteLine(JsonConvert.SerializeObject(Chats.First(x => x.id == chatId)));
         // get_messages for every chat
     }
-    // TODO
-    //public async Task GetMessegesForChat...
-
-
-
 
 }

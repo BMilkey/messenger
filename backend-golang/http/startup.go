@@ -62,6 +62,7 @@ func setupRouter(dbpool *pgx.Pool) *gin.Engine {
 	chat_sockets := r.Group("/sockets")
 	{
 		chat_sockets.GET("/test", func(c *gin.Context) {
+			c.Done()
 			testWebSocketBroadCast(c.Writer, c.Request)
 		})
 	}

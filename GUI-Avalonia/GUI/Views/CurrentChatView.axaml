@@ -1,0 +1,128 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:GUI.ViewModels"
+			 xmlns:vmm="clr-namespace:GUI.ViewModels.Main"
+			 xmlns:views="clr-namespace:GUI.Views"
+		     xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+			 xmlns:model="clr-namespace:GUI.Models"
+			 mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="900"
+             x:Class="GUI.Views.CurrentChatView"
+			 x:DataType="vm:Main.CurrentChatViewModel"
+			 >
+	<DockPanel
+					Background="Azure"
+					>
+		<DockPanel	
+					x:Name="ChatHeader"
+					DockPanel.Dock="Top"
+					Height="50"
+					Background="GreenYellow">
+			<asyncImageLoader:AdvancedImage
+						DockPanel.Dock="Left"
+						Margin="5,5,0,5"
+						VerticalAlignment="Center"
+						MaxWidth="40"
+						MaxHeight="40"
+						Source="http://147.45.70.245:8098/files/default_chat_picture_lowres.jpg"
+						/>
+			<TextBlock
+						DockPanel.Dock="Right"
+						Margin="0,5,5,5"
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center"
+						Text="{Binding MainModel.CurrentChat.link}"
+									/>
+			<Label
+						DockPanel.Dock="Left"
+						Margin="0,5"
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center"
+						Content="{Binding MainModel.CurrentChat.title}"/>
+		</DockPanel>
+		<DockPanel
+	x:Name="EnterMessageDockPanel"
+	Background="AntiqueWhite"
+	DockPanel.Dock="Bottom"
+	Height="60"
+	VerticalAlignment="Bottom"
+			>
+			<Button
+				x:Name="SendMessageButton"
+				Height="50"
+				Width="55"
+				Content="Send"
+				Command="{Binding CreateMessageCommand}"
+				CommandParameter="{Binding #MessageToBeSentText.Text}"
+				DockPanel.Dock="Right"
+				HorizontalContentAlignment="Center"
+				VerticalContentAlignment="Center"
+				Margin="5"
+							/>
+			<TextBox
+					x:Name="MessageToBeSentText"
+					Height="50"
+					Margin="5"
+					Text=""
+					DockPanel.Dock="Left"
+					Watermark="Type your message..."
+					HorizontalContentAlignment="Left"
+					VerticalContentAlignment="Top"
+					/>
+
+
+
+		</DockPanel>
+		<ListBox
+								
+			x:Name="ChatsListBox"
+			ItemsSource="{CompiledBinding MainModel.CurrentChat.messages}"
+			Margin="5"
+			Background="PaleGoldenrod"
+			
+			SelectedItem=""
+			DockPanel.Dock="Bottom"
+					>
+			<ListBox.ItemTemplate>
+				<DataTemplate DataType="model:MessageInfo">
+					<Border BorderBrush="Blue" BorderThickness="1"
+							CornerRadius="4" Padding="4">
+						<DockPanel>
+							<Button
+									DockPanel.Dock="Left"
+									Margin="5,0"
+									Content="X"
+									Command=""
+												/>
+							<asyncImageLoader:AdvancedImage
+									DockPanel.Dock="Left"
+									MaxWidth="40"
+									MaxHeight="40"
+									Source="http://147.45.70.245:8098/files/default_chat_picture_lowres.jpg"
+									Loader="{Binding ImageLoader}"
+										/>
+							
+							<StackPanel DockPanel.Dock="Left" Margin="5,0">
+								<StackPanel Orientation="Horizontal">
+									<Label
+										Content="{Binding user_id}"/>
+									<Label
+										Content="{Binding create_time}"/>
+									
+								</StackPanel>
+								<TextBlock
+									Text="{Binding text}"
+									TextWrapping="Wrap"
+									/>
+							</StackPanel>
+
+						</DockPanel>
+					</Border>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+		
+
+	</DockPanel>
+</UserControl>

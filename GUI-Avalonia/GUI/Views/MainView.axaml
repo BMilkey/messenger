@@ -57,6 +57,7 @@
 
 			<views:ChatsView
 								x:Name="Chats"
+
 								MinWidth="400"
 								Width="{Binding ChatsViewModel.FormWidth}"
 								MaxWidth="600"
@@ -75,15 +76,14 @@
 					>
 
 			</StackPanel>
-			<StackPanel x:Name="CurrentChat"
-						Background="Blue"
-						RelativePanel.AlignBottomWith="AboveBottom"
-						RelativePanel.Below="Top"
-						RelativePanel.AlignLeftWith="RightSideChats"
-						RelativePanel.AlignRightWith="LeftSidePInfo"
-					>
-
-			</StackPanel>
+			<views:CurrentChatView
+									x:Name="CurrentChatViewPanel"
+									DataContext="{Binding CurrentChatViewModel}"
+									RelativePanel.AlignBottomWith="AboveBottom"
+									RelativePanel.AlignTopWith="BelowTop"
+									RelativePanel.AlignLeftWith="RightSideChats"
+									RelativePanel.AlignRightWith="LeftSidePInfo"
+									/>
 			<StackPanel
 						x:Name="LeftSidePInfo"
 						Width="0"

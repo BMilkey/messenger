@@ -2833,3 +2833,19 @@
 {"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-20T00:37:35+05:00"}
 {"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-20T00:37:35+05:00"}
 {"level":"info","msg":"ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности \"chat_participants_pkey\" (SQLSTATE 23505)","time":"2024-07-20T01:06:20+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-20T14:40:49+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-20T14:40:49+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-20T16:21:38+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-20T16:21:38+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-20T17:47:16+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-20T17:47:17+05:00"}
+{"level":"info","msg":"{}","time":"2024-07-20T17:47:26+05:00"}
+{"level":"error","msg":"EOF","time":"2024-07-20T17:47:26+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-20T17:49:52+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-20T17:49:52+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-20T17:50:50+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-20T17:50:50+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-20T17:57:39+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-20T17:57:39+05:00"}
+{"AppName":"messenger-backend","Database":{"Host":"localhost","Port":"5432","User":"postgres","Password":"pswd","DbName":"tempdb3"},"Http":{"Port":"8081","Certificate":"./certificates/server.crt","Key":"./certificates/server.key"},"level":"info","msg":"Starting","time":"2024-07-20T17:59:43+05:00"}
+{"level":"info","msg":"Database tempdb3 already exists.\n","time":"2024-07-20T17:59:43+05:00"}

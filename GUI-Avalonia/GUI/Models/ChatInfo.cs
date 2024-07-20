@@ -25,7 +25,7 @@ public class ChatInfo
     public string link { get; set; } = string.Empty;
     public string title { get; set; } = string.Empty;
     public string user_id { get; set; } = string.Empty;
-
+    public List<MessageInfo> messages { get; private set; } = new();
     public ChatInfo(string about, string create_time, string id, string image_id, string link, string title, string user_id)
     {
         this.about = about;
@@ -35,6 +35,11 @@ public class ChatInfo
         this.link = link;
         this.title = title;
         this.user_id = user_id;
+    }
+
+    public void UpdateMessages(IEnumerable<MessageInfo> overwriteMessages)
+    {
+        messages = new List<MessageInfo>(overwriteMessages);
     }
 
     public override string ToString()

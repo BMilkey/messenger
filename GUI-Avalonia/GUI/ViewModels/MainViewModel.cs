@@ -39,6 +39,13 @@ public class MainViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref chatsViewModel, value);
     }
 
+    private CurrentChatViewModel currentChatViewModel;
+    public CurrentChatViewModel CurrentChatViewModel
+    {
+        get => currentChatViewModel;
+        set => this.RaiseAndSetIfChanged(ref currentChatViewModel, value);
+    }
+
     public MainViewModel(UserInfo userInfo, string URL) 
     {
         mainModel = new MainModel(userInfo, URL);
@@ -50,7 +57,7 @@ public class MainViewModel : ViewModelBase
             mainModel = new(userInfo, URL);
         }
         chatsViewModel = new ChatsViewModel(mainModel);
-
+        currentChatViewModel = new CurrentChatViewModel(mainModel);
     }
 
     public MainViewModel()

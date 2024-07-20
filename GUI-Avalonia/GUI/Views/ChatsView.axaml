@@ -8,7 +8,6 @@
 		     xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
 			 xmlns:model="clr-namespace:GUI.Models"
 			 mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="900"
-			 Width="{Binding FormWidth}"
              x:Class="GUI.Views.ChatsView"
 			 x:DataType="vm:Main.ChatsViewModel"
 			 >
@@ -92,7 +91,7 @@
 						ItemsSource="{Binding MainModel.Chats}"
 						Margin="5"
 						Background="PaleGoldenrod"
-						SelectedItem=""
+						SelectedItem="{Binding MainModel.CurrentChat}"
 					>
 						<ListBox.ItemTemplate>
 							<DataTemplate DataType="model:ChatInfo">
