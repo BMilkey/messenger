@@ -365,6 +365,41 @@ const docTemplate = `{
                 }
             }
         },
+        "/sockets/subscribe_message_created": {
+            "get": {
+                "description": "Подписка на получаемые сообщения",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "WebSocket API для подписок"
+                ],
+                "summary": "Subscribe to all messages, that you should receive",
+                "operationId": "subscribe_message_created",
+                "parameters": [
+                    {
+                        "description": "credentials",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "data",
+                        "schema": {
+                            "$ref": "#/definitions/models.Message"
+                        }
+                    }
+                }
+            }
+        },
         "/sockets/test": {
             "get": {
                 "description": "НЕ РАБОТАЕТ ЧЕРЕЗ SWAGGER\nКод, которым тестил\nlet socket = new WebSocket(\"ws://147.45.70.245:80/sockets/test\");\n\nsocket.onopen = function(e) {\nconsole.log(\"[open] Connection established\");\nsocket.send(\"Hello server!\");\n};\n\nsocket.onmessage = function(event) {\nconsole.log(` + "`" + `[message] Data received from server: ${event.data}` + "`" + `);\n};\n\nsocket.onclose = function(event) {\nif (event.wasClean) {\nconsole.log(` + "`" + `[close] Connection closed cleanly, code=${event.code} reason=${event.reason}` + "`" + `);\n} else {\nconsole.log('[close] Connection died');\n}\n};\n\nsocket.onerror = function(error) {\nconsole.log(` + "`" + `[error] ${error.message}` + "`" + `);\n};",

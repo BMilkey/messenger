@@ -18,4 +18,5 @@ public class MessageInfo
         this.text = text;
         this.user_id = user_id;
     }
+    public MessageInfo() { }
 }

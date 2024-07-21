@@ -545,14 +545,15 @@ func createMessageHandler(c *gin.Context, pool *pgx.Pool) {
 	if !prolongToken(c, pool, request.Auth_token) {
 		return
 	}
-	channel, ok := tokenToCreateMessageChannel.Get(request.Auth_token)
-	if !ok {
-		log.Warn("Trying to get a message from tokenToCreateMessageChannel failed")
-	}
-	channel <- message
+	//channel, ok := userIdToCreateMessageChannel.Get(request.Auth_token)
+	//if !ok {
+	//	log.Warn("Trying to get a message from tokenToCreateMessageChannel failed")
+	//}
+	//channel <- message
 	// TODO create NotifySubscribers(md.Message msg)
 	// it should deliver message to all active
 	// subscribers of this chat
+	NotifyCreateMessageSubscribers(pool, message)
 	c.JSON(http.StatusOK, md.CreateMessageResponse{
 		Message:   message,
 		Reply_msg: reply_msg,

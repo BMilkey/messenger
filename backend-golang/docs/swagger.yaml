@@ -421,6 +421,29 @@ paths:
       summary: Get users by name
       tags:
       - API для работы с чатами и сообщениями
+  /sockets/subscribe_message_created:
+    get:
+      consumes:
+      - application/json
+      description: Подписка на получаемые сообщения
+      operationId: subscribe_message_created
+      parameters:
+      - description: credentials
+        in: body
+        name: input
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: data
+          schema:
+            $ref: '#/definitions/models.Message'
+      summary: Subscribe to all messages, that you should receive
+      tags:
+      - WebSocket API для подписок
   /sockets/test:
     get:
       consumes:

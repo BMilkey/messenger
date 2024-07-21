@@ -355,3 +355,17 @@ func SelectAuthByToken(pool *pgx.Pool, token string) (md.Auth, error) {
 	}
 	return auth, nil
 }
+
+func SelectUserIdByAuthToken(pool *pgx.Pool, token string) (string, error) {
+	userId := ""
+	err := pool.QueryRow(context.Background(), `
+		SELECT user_id
+		FROM public.auth
+		WHERE auth.auth_token = $1
+	`, token).
+		Scan(&userId)
+	if err != nil {
+		return userId, err
+	}
+	return userId, nil
+}

@@ -3,11 +3,13 @@ package http
 import (
 	"fmt"
 	"net/http"
+	"time"
 
-	cmap "github.com/orcaman/concurrent-map/v2"
-
+	db "github.com/BMilkey/messenger/database"
 	md "github.com/BMilkey/messenger/models"
 	ws "github.com/gorilla/websocket"
+	pgx "github.com/jackc/pgx/v5/pgxpool"
+	cmap "github.com/orcaman/concurrent-map/v2"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -72,17 +74,22 @@ func testWebSocketBroadCast(w http.ResponseWriter, r *http.Request) {
 
 //var messagesChannel := make(chan md.Message, 100)
 
-var tokenToCreateMessageChannel = cmap.New[chan md.Message]()
+var userIdToCreateMessageChannel = cmap.New[chan md.Message]()
+var sameUserMultipleListeners = cmap.New[chan bool]()
 
-// testWebSocketBroadCast   godoc
-// @Summary                 Test websocket
-// @Tags                    Test websocket
-// @Description             НЕ РАБОТАЕТ ЧЕРЕЗ SWAGGER
-// @ID                      sockets_test
-// @Accept                  json-stream
-// @Produce                 json-stream
-// @Router                  /sockets/test [GET]
-func SubscribeMessageCreated(w http.ResponseWriter, r *http.Request) {
+//var auth
+
+// subscribeMessageCreated 	godoc
+// @Summary 			Subscribe to all messages, that you should receive
+// @Tags 				WebSocket API для подписок
+// @Description 		Подписка на получаемые сообщения
+// @ID 					subscribe_message_created
+// @Accept  			json
+// @Produce  			json
+// @Param 				input body string true "credentials"
+// @Success 			200 {object} md.Message "data"
+// @Router 				/sockets/subscribe_message_created [get]
+func subscribeMessageCreated(w http.ResponseWriter, r *http.Request, pool *pgx.Pool) {
 
 	conn, err := wsupgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -94,22 +101,49 @@ func SubscribeMessageCreated(w http.ResponseWriter, r *http.Request) {
 		log.Warn("Connection is nil")
 		return
 	}
+	defer conn.Close()
 
-	_, requestToken, err := conn.ReadMessage()
+	_, requestAuthToken, err := conn.ReadMessage()
 	if err != nil {
 		log.Warn("Cannot read start message in websocket")
 		return
 	}
 
-	//	TODO get auth_token
-	auth_token := "fake_auth_token"
+	userId, err := db.SelectUserIdByAuthToken(pool, string(requestAuthToken))
+	if err != nil {
+		log.Warn("Cannot get userId by auth token")
+		return
+	}
+	// userId := ...
+	b, ok := sameUserMultipleListeners.Get(userId)
+	if ok {
+		b <- true
+	}
+
+	sameUserMultipleListeners.SetIfAbsent(userId, make(chan bool, 1))
+
+	userIdToCreateMessageChannel.SetIfAbsent(userId, make(chan md.Message, 10))
+	defer func() { userIdToCreateMessageChannel.Remove(userId) }()
+
 LOOP:
 	for {
-		channel, ok := tokenToCreateMessageChannel.Get(auth_token)
+		channel, ok := userIdToCreateMessageChannel.Get(userId)
 		if !ok {
 			log.Warn("Trying to get a message from tokenToCreateMessageChannel failed")
+			return
 		}
+		sameUser, ok := sameUserMultipleListeners.Get(userId)
+		if !ok {
+			log.Warn("Trying to get a message from sameUserMultipleListeners failed")
+			return
+		}
+
 		select {
+		case <-sameUser:
+			sameUserMultipleListeners.Remove(userId)
+			break LOOP
+		case <-time.After(time.Second * 120):
+			break LOOP
 		case <-r.Context().Done():
 			break LOOP
 		case msg := <-channel:
@@ -120,36 +154,8 @@ LOOP:
 			}
 			byteMsg := []byte(serializedMsg)
 			conn.WriteMessage(ws.TextMessage, byteMsg)
+			log.Info("Sent to client ", conn.RemoteAddr(), "with token", string(requestAuthToken), ":", string(serializedMsg))
 		}
 	}
-	/*
-			TokenToChannel.SetIfAbsent(auth_token, make(chan Message, 10))
-			channel, ok := TokenToChannel.Get(auth_token)
-			if !ok {
-				return
-			}
 
-		BR:
-			for {
-				select {
-				case isDone := <-isDoneChannel:
-					if isDone {
-						break BR
-					}
-					continue
-				case msg := <-channel:
-					println("auth_token: ", auth_token, ", text:", msg.Text)
-				}
-
-			}
-
-			close(channel)
-			TokenToChannel.Remove(auth_token)
-	*/
-	for i := 0; i < 10; i++ {
-		msg := []byte(fmt.Sprintf("Message %d", i))
-		conn.WriteMessage(ws.TextMessage, msg)
-	}
-	//conn.CloseHandler()
-	conn.Close()
 }

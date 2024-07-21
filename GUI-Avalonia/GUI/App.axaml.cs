@@ -21,6 +21,8 @@ public partial class App : Application
         AvaloniaXamlLoader.Load(this);
     }
 
+
+
     public override async void OnFrameworkInitializationCompleted()
     {
 /*        var configText = File.ReadAllText("config.json");

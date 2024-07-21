@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace GUI.Models.Main;
 
-public class MainModel : ReactiveObject
+public class MainModel : ReactiveObject, IDisposable
 {
 
     private CancellationTokenSource UsersByNameCts = new();
@@ -34,13 +34,22 @@ public class MainModel : ReactiveObject
     public readonly string URL;
     public UserInfo UserInfo { get; private set; }
     private HttpClient client;
+
     private string urlParameters;
 
-    private ChatInfo currentChat;
+    private ChatInfo currentChat = new("","","","","","Choose any chat","");
     public ChatInfo CurrentChat
     {
         get => currentChat;
         set => this.RaiseAndSetIfChanged(ref currentChat, value);
+    }
+
+    private WebSocketListener wsListener;
+
+    public void Dispose()
+    {
+        client.Dispose();
+        wsListener.Dispose();
     }
 
     public MainModel(UserInfo userInfo, string URL, string urlParameters = "")
@@ -49,10 +58,38 @@ public class MainModel : ReactiveObject
         this.URL = URL;
         this.urlParameters = urlParameters;
         client = new HttpClient();
+        wsListener = new WebSocketListener(URL, userInfo.auth_token);
+
         client.BaseAddress = new Uri($"http://{URL}/");
         _ = FindUsersByName("");
         _ = FetchChats();
+        _ = ReadReceivedMessages();
     }
+
+
+    private async Task ReadReceivedMessages()
+    {
+        while (true)
+        {
+            try
+            {
+                var receivedMsg = await wsListener.messagesChannel.Reader.ReadAsync();
+                Debug.WriteLine($"MainModel received msg: {receivedMsg}");
+                var message = receivedMsg ?? new MessageInfo();
+
+                Chats.First(x => x.id == message.chat_id).AddMessage((message));
+
+                //var chat = Chats.First(x => x.id == receivedMsg.chat_id);
+                //chat.UpdateMessages(chat.messages.Append(receivedMsg));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return;
+            }
+        }
+    }
+
 
     private class UserByNameRequest
     {
@@ -260,15 +297,16 @@ public class MainModel : ReactiveObject
 
 
         var CreateMessageResponse = await response.Content.ReadFromJsonAsync<CreateMessageResponse>();
-        Chats.First(x => x.id == CreateMessageResponse.message.chat_id).messages.Add(CreateMessageResponse.message);
-        this.RaisePropertyChanged(nameof(CurrentChat));
+        //Chats.First(x => x.id == CreateMessageResponse.message.chat_id).messages.Add(CreateMessageResponse.message);
         Debug.WriteLine(JsonConvert.SerializeObject(CreateMessageResponse));
+
         // TODO
         // update chats
-        
-        //var messages = new List<MessageInfo>(CreateMessageResponse.messages ?? new List<MessageInfo>());
 
-        //Chats.First(x => x.id == chatId).UpdateMessages(messages);
+        //var message = CreateMessageResponse.message ?? new MessageInfo();
+
+        //var chat = Chats.First(x => x.id == message.chat_id);
+        //chat.UpdateMessages(chat.messages.Append(message));
 
         //Debug.WriteLine(JsonConvert.SerializeObject(Chats.First(x => x.id == chatId)));
         // get_messages for every chat
