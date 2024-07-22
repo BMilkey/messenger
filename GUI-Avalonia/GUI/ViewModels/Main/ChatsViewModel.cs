@@ -41,6 +41,8 @@ public class ChatsViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref isCreateChatToggled, value);
     }
 
+
+    public ReactiveCommand<UserInfo, Unit> RemoveUserFromSelectedCommand { get; set; }
     public ReactiveCommand<UserInfo, Unit> AddUserToCreateChatListCommand { get; set; }
     public ReactiveCommand<string, Unit> CreateChatCommand { get; set; }
 
@@ -61,11 +63,17 @@ public class ChatsViewModel : ViewModelBase
         this.mainModel = mainModel;
         AddUserToCreateChatListCommand = ReactiveCommand.Create<UserInfo>(AddUserToCreateChatListAction);
         CreateChatCommand = ReactiveCommand.Create<string>(CreateChatAction);
+        RemoveUserFromSelectedCommand = ReactiveCommand.Create<UserInfo>(RemoveUserFromSelectedAction);
     }
 
     public ChatsViewModel()
     {
 
+    }
+
+    public void RemoveUserFromSelectedAction(UserInfo userInfo)
+    {
+        newChatUsers.Remove(userInfo);
     }
 
     public void AddUserToCreateChatListAction(UserInfo userInfo)

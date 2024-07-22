@@ -18,7 +18,7 @@ public class LoginViewModel : ViewModelBase
     #region xaml fields
 
 
-    private string serverField = "147.45.70.245:8088";
+    private string serverField = "147.45.70.245:8081";
     //"127.0.0.1:8081";//"147.45.70.245:8088";
     public string ServerField 
     {

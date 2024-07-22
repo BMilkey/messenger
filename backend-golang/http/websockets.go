@@ -9,7 +9,6 @@ import (
 	md "github.com/BMilkey/messenger/models"
 	ws "github.com/gorilla/websocket"
 	pgx "github.com/jackc/pgx/v5/pgxpool"
-	cmap "github.com/orcaman/concurrent-map/v2"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -74,8 +73,7 @@ func testWebSocketBroadCast(w http.ResponseWriter, r *http.Request) {
 
 //var messagesChannel := make(chan md.Message, 100)
 
-var userIdToCreateMessageChannel = cmap.New[chan md.Message]()
-var sameUserMultipleListeners = cmap.New[chan bool]()
+//var userIdToCreateMessageChannel = cmap.New[chan md.Message]()
 
 //var auth
 
@@ -93,7 +91,7 @@ func subscribeMessageCreated(w http.ResponseWriter, r *http.Request, pool *pgx.P
 
 	conn, err := wsupgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Warn("Failed to set websocket upgrade: %+v", err)
+		log.Warn("Failed to set websocket upgrade")
 		return
 	}
 
@@ -115,39 +113,28 @@ func subscribeMessageCreated(w http.ResponseWriter, r *http.Request, pool *pgx.P
 		return
 	}
 	// userId := ...
-	b, ok := sameUserMultipleListeners.Get(userId)
-	if ok {
-		b <- true
+
+	broker, ok := userIdToMessageBroker.Get(userId)
+	if !ok {
+		log.Warn("User ", userId, " not found message broker, creating new one")
+		broker = *StartNewBroker[md.Message](userId)
+		userIdToMessageBroker.SetIfAbsent(userId, broker)
+		return
 	}
+	msgCh := broker.Subscribe()
+	log.Info("user ", userId, " subscribed")
+	defer func() {
+		broker.Unsubscribe(msgCh)
+		log.Info("user ", userId, " unsubscribed")
+	}()
 
-	sameUserMultipleListeners.SetIfAbsent(userId, make(chan bool, 1))
-
-	userIdToCreateMessageChannel.SetIfAbsent(userId, make(chan md.Message, 10))
-	defer func() { userIdToCreateMessageChannel.Remove(userId) }()
-
-LOOP:
 	for {
-		channel, ok := userIdToCreateMessageChannel.Get(userId)
-		if !ok {
-			log.Warn("Trying to get a message from tokenToCreateMessageChannel failed")
-			return
-		}
-		sameUser, ok := sameUserMultipleListeners.Get(userId)
-		if !ok {
-			log.Warn("Trying to get a message from sameUserMultipleListeners failed")
-			return
-		}
-
 		select {
-		case <-sameUser:
-			sameUserMultipleListeners.Remove(userId)
-			break LOOP
 		case <-time.After(time.Second * 120):
-			break LOOP
+			return
 		case <-r.Context().Done():
-			break LOOP
-		case msg := <-channel:
-
+			return
+		case msg := <-msgCh:
 			serializedMsg, err := serializeToJSON(msg)
 			if err != nil {
 				log.Warn(err)
@@ -155,6 +142,88 @@ LOOP:
 			byteMsg := []byte(serializedMsg)
 			conn.WriteMessage(ws.TextMessage, byteMsg)
 			log.Info("Sent to client ", conn.RemoteAddr(), "with token", string(requestAuthToken), ":", string(serializedMsg))
+			_, response, err := conn.ReadMessage()
+			if err != nil {
+				log.Warn("Cannot read response in the websocket")
+				return
+			}
+			log.Info("Response from client ", conn.RemoteAddr(), "with token", string(requestAuthToken), ":", string(response))
+		}
+	}
+
+}
+
+// subscribeMessageCreated 	godoc
+// @Summary 			Subscribe to creation of chats
+// @Tags 				WebSocket API для подписок
+// @Description 		Подписка на создаваемые чаты
+// @ID 					subscribe_сhat_сreated
+// @Accept  			json
+// @Produce  			json
+// @Param 				input body string true "credentials"
+// @Success 			200 {object} md.ChatInfo "data"
+// @Router 				/sockets/subscribe_сhat_сreated [get]
+
+func subscribeChatCreated(w http.ResponseWriter, r *http.Request, pool *pgx.Pool) {
+
+	conn, err := wsupgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Warn("Failed to set websocket upgrade")
+		return
+	}
+
+	if conn == nil {
+		log.Warn("Connection is nil")
+		return
+	}
+	defer conn.Close()
+
+	_, requestAuthToken, err := conn.ReadMessage()
+	if err != nil {
+		log.Warn("Cannot read start message in websocket")
+		return
+	}
+
+	userId, err := db.SelectUserIdByAuthToken(pool, string(requestAuthToken))
+	if err != nil {
+		log.Warn("Cannot get userId by auth token")
+		return
+	}
+
+	broker, ok := userIdToChatBroker.Get(userId)
+	if !ok {
+		log.Warn("User ", userId, " not found chat broker, creating new one")
+		broker = *StartNewBroker[md.ChatInfo](userId)
+		userIdToChatBroker.SetIfAbsent(userId, broker)
+		return
+	}
+	chatCh := broker.Subscribe()
+	log.Info("user ", userId, " subscribed")
+	defer func() {
+		broker.Unsubscribe(chatCh)
+		log.Info("user ", userId, " unsubscribed")
+	}()
+
+	for {
+		select {
+		case <-time.After(time.Second * 120):
+			return
+		case <-r.Context().Done():
+			return
+		case chat := <-chatCh:
+			serializedChat, err := serializeToJSON(chat)
+			if err != nil {
+				log.Warn(err)
+			}
+			byteMsg := []byte(serializedChat)
+			conn.WriteMessage(ws.TextMessage, byteMsg)
+			log.Info("Sent to client ", conn.RemoteAddr(), "with token", string(requestAuthToken), ":", string(serializedChat))
+			_, response, err := conn.ReadMessage()
+			if err != nil {
+				log.Warn("Cannot read response in the websocket")
+				return
+			}
+			log.Info("Response from client ", conn.RemoteAddr(), "with token", string(requestAuthToken), ":", string(response))
 		}
 	}
 

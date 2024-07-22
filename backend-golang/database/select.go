@@ -74,8 +74,8 @@ func SelectUserByLink(pool *pgx.Pool, link string) (md.User, error) {
 	return user, nil
 }
 
-func SelectChatById(pool *pgx.Pool, chat_id string) (md.Chat, error) {
-	var chat md.Chat
+func SelectChatById(pool *pgx.Pool, chat_id string) (md.ChatInfo, error) {
+	var chat md.ChatInfo
 
 	err := pool.QueryRow(context.Background(), `
 		SELECT id, link, title, created_by_user_id, create_time, about, image_id 
@@ -92,8 +92,8 @@ func SelectChatById(pool *pgx.Pool, chat_id string) (md.Chat, error) {
 	return chat, nil
 }
 
-func SelectChatByLink(pool *pgx.Pool, chat_link string) (md.Chat, error) {
-	var chat md.Chat
+func SelectChatByLink(pool *pgx.Pool, chat_link string) (md.ChatInfo, error) {
+	var chat md.ChatInfo
 
 	err := pool.QueryRow(context.Background(), `
 		SELECT id, link, title, created_by_user_id, create_time, about, image_id 
@@ -110,8 +110,8 @@ func SelectChatByLink(pool *pgx.Pool, chat_link string) (md.Chat, error) {
 	return chat, nil
 }
 
-func SelectChatsByTitle(pool *pgx.Pool, title string) ([]md.Chat, error) {
-	var chats []md.Chat
+func SelectChatsByTitle(pool *pgx.Pool, title string) ([]md.ChatInfo, error) {
+	var chats []md.ChatInfo
 
 	rows, err := pool.Query(context.Background(), `
         SELECT id, link, title, created_by_user_id, create_time, about, image_id 
@@ -126,7 +126,7 @@ func SelectChatsByTitle(pool *pgx.Pool, title string) ([]md.Chat, error) {
 	defer rows.Close()
 
 	for rows.Next() {
-		var chat md.Chat
+		var chat md.ChatInfo
 		err := rows.Scan(&chat.Id, &chat.Link, &chat.Title, &chat.User_id, &chat.Create_time, &chat.About, &chat.Image_id)
 		if err != nil {
 			return chats, err

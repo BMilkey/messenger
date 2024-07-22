@@ -15,7 +15,7 @@ type Auth struct {
 	Auth_expires  time.Time `json:"auth_expires"`
 }
 
-type Chat struct {
+type ChatInfo struct {
 	Id          string    `json:"id"`
 	Link        string    `json:"link"`
 	Title       string    `json:"title"`
@@ -91,7 +91,7 @@ type ChatUsers struct {
 }
 
 type Chats struct {
-	Chats []Chat `json:"chats"`
+	Chats []ChatInfo `json:"chats"`
 }
 
 type ByTokenRequest struct {

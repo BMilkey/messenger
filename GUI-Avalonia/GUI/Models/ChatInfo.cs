@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -16,13 +17,13 @@ public class ChatInfo : ReactiveObject
           "title": "string",
           "user_id": "string"
     */
-    public string about { get; set; } = string.Empty;
-    public string create_time { get; set; } = string.Empty;
-    public string id { get; set; } = string.Empty;
-    public string image_id { get; set; } = string.Empty;
-    public string link { get; set; } = string.Empty;
-    public string title { get; set; } = string.Empty;
-    public string user_id { get; set; } = string.Empty;
+    public string id { get; set; }
+    public string link { get; set; }
+    public string title { get; set; }
+    public string user_id { get; set; }
+    public string create_time { get; set; }
+    public string about { get; set; }
+    public string image_id { get; set; }
     private ObservableCollection<MessageInfo> _messages = new ObservableCollection<MessageInfo>();
     public ObservableCollection<MessageInfo> messages
     {
@@ -39,6 +40,8 @@ public class ChatInfo : ReactiveObject
         this.title = title;
         this.user_id = user_id;
     }
+
+    public ChatInfo() { }
 
     public void AddMessage(MessageInfo message)
     {

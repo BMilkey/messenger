@@ -64,6 +64,7 @@ public class MainModel : ReactiveObject, IDisposable
         _ = FindUsersByName("");
         _ = FetchChats();
         _ = ReadReceivedMessages();
+        _ = ReadReceivedChats();
     }
 
 
@@ -73,14 +74,29 @@ public class MainModel : ReactiveObject, IDisposable
         {
             try
             {
-                var receivedMsg = await wsListener.messagesChannel.Reader.ReadAsync();
+                var receivedMsg = await wsListener.MessagesChannel.Reader.ReadAsync();
                 Debug.WriteLine($"MainModel received msg: {receivedMsg}");
                 var message = receivedMsg ?? new MessageInfo();
+                Chats.First(x => x.id == message.chat_id).AddMessage(message);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return;
+            }
+        }
+    }
 
-                Chats.First(x => x.id == message.chat_id).AddMessage((message));
-
-                //var chat = Chats.First(x => x.id == receivedMsg.chat_id);
-                //chat.UpdateMessages(chat.messages.Append(receivedMsg));
+    private async Task ReadReceivedChats()
+    {
+        while (true)
+        {
+            try
+            {
+                var receivedChat = await wsListener.ChatsChannel.Reader.ReadAsync();
+                Debug.WriteLine($"MainModel received chat: {receivedChat}");
+                var chat = receivedChat ?? new ChatInfo();
+                Chats.Add(chat);
             }
             catch (Exception ex)
             {
@@ -164,12 +180,9 @@ public class MainModel : ReactiveObject, IDisposable
 
         var createChatResponse = await response.Content.ReadFromJsonAsync<CreateChatResponse>();
 
-        Debug.WriteLine(JsonConvert.SerializeObject(createChatResponse));
+        //Debug.WriteLine(JsonConvert.SerializeObject(createChatResponse));
 
-        _ = FetchChats();
-        // TODO
-        // add to chats
-        // get_messages for this chat
+        //_ = FetchChats();
     }
 
     private class GetChatsByAuthTokenRequest
@@ -198,7 +211,7 @@ public class MainModel : ReactiveObject, IDisposable
 
         var getChatsResponse = await response.Content.ReadFromJsonAsync<GetChatsByAuthTokenResponse>();
 
-        Debug.WriteLine(JsonConvert.SerializeObject(getChatsResponse));
+        //Debug.WriteLine(JsonConvert.SerializeObject(getChatsResponse));
 
         Chats = new(getChatsResponse.chats ?? new List<ChatInfo>());
         foreach (var chat in Chats)
@@ -252,7 +265,7 @@ public class MainModel : ReactiveObject, IDisposable
 
         Chats.First(x => x.id == chatId).UpdateMessages(messages);
 
-        Debug.WriteLine(JsonConvert.SerializeObject(Chats.First(x => x.id == chatId)));
+        //Debug.WriteLine(JsonConvert.SerializeObject(Chats.First(x => x.id == chatId)));
 
     }
 
@@ -285,7 +298,7 @@ public class MainModel : ReactiveObject, IDisposable
 
     public async Task CreateMessage(string text, string reply_msg_id = "fake")
     {
-        var request = new CreateMessageRequest(UserInfo.auth_token, CurrentChat.id, reply_msg_id, text);// GetMessagesByChatIdRequest(UserInfo.auth_token, chatId, ToTimestamp(From), ToTimestamp(To));
+        var request = new CreateMessageRequest(UserInfo.auth_token, CurrentChat.id, reply_msg_id, text);
         client.DefaultRequestHeaders.Accept.Add(
         new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -297,19 +310,7 @@ public class MainModel : ReactiveObject, IDisposable
 
 
         var CreateMessageResponse = await response.Content.ReadFromJsonAsync<CreateMessageResponse>();
-        //Chats.First(x => x.id == CreateMessageResponse.message.chat_id).messages.Add(CreateMessageResponse.message);
-        Debug.WriteLine(JsonConvert.SerializeObject(CreateMessageResponse));
-
-        // TODO
-        // update chats
-
-        //var message = CreateMessageResponse.message ?? new MessageInfo();
-
-        //var chat = Chats.First(x => x.id == message.chat_id);
-        //chat.UpdateMessages(chat.messages.Append(message));
-
-        //Debug.WriteLine(JsonConvert.SerializeObject(Chats.First(x => x.id == chatId)));
-        // get_messages for every chat
+        //Debug.WriteLine(JsonConvert.SerializeObject(CreateMessageResponse));
     }
 
 }

@@ -41,7 +41,7 @@
 
 			<StackPanel
 						x:Name="SideMenu"
-						Background="Red"
+						Background="PaleGreen"
 						Width="100"
 						RelativePanel.AlignLeftWithPanel="True"
 						RelativePanel.AlignBottomWith="AboveBottom"
@@ -95,8 +95,8 @@
 			</StackPanel>
 			<StackPanel
 						x:Name="ChoosenProfileInfo"
-						Background="Yellow"
-						Width="200"
+						Background="Gainsboro"
+						Width="100"
 						RelativePanel.AlignRightWithPanel="True"
 						RelativePanel.AlignBottomWith="AboveBottom"
 						RelativePanel.Below="Top"
@@ -116,7 +116,7 @@
 			<StackPanel
 						x:Name="Bottom"
 						Background="Plum"
-						Height="200"
+						Height="100"
 						RelativePanel.AlignBottomWithPanel="True"
 						RelativePanel.AlignLeftWithPanel="True"
 						RelativePanel.AlignRightWithPanel="True"

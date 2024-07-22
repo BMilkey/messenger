@@ -68,6 +68,9 @@ func setupRouter(dbpool *pgx.Pool) *gin.Engine {
 		chat_sockets.GET("/subscribe_message_created", func(c *gin.Context) {
 			subscribeMessageCreated(c.Writer, c.Request, dbpool)
 		})
+		chat_sockets.GET("/subscribe_сhat_сreated", func(c *gin.Context) {
+			subscribeChatCreated(c.Writer, c.Request, dbpool)
+		})
 	}
 
 	// Define routes

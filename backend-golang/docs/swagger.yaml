@@ -33,7 +33,7 @@ definitions:
       new_name:
         type: string
     type: object
-  models.Chat:
+  models.ChatInfo:
     properties:
       about:
         type: string
@@ -63,7 +63,7 @@ definitions:
     properties:
       chats:
         items:
-          $ref: '#/definitions/models.Chat'
+          $ref: '#/definitions/models.ChatInfo'
         type: array
     type: object
   models.CreateChatRequest:

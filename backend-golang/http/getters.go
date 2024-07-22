@@ -223,7 +223,7 @@ func createChatReturnUsersHandler(c *gin.Context, pool *pgx.Pool) {
 		return
 	}
 
-	chat := md.Chat{
+	chat := md.ChatInfo{
 		Id:          db.GenerateUUID(),
 		Link:        "@" + db.GenerateUUID(),
 		Title:       request.Title,
@@ -273,7 +273,7 @@ func createChatReturnUsersHandler(c *gin.Context, pool *pgx.Pool) {
 	if !prolongToken(c, pool, request.Auth_token) {
 		return
 	}
-
+	NotifyCreateChatSubscribers(pool, chat)
 	c.JSON(http.StatusOK, md.ChatUsers{
 		Chat_id: chat.Id,
 		Users:   users,
@@ -319,7 +319,7 @@ func chatsByTokenHandler(c *gin.Context, pool *pgx.Pool) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to select chats"})
 		return
 	}
-	chats := make([]md.Chat, 0)
+	chats := make([]md.ChatInfo, 0)
 	for i := 0; i < len(chat_ids); i++ {
 		chat, err := db.SelectChatById(pool, chat_ids[i])
 		if err != nil {

@@ -31,7 +31,7 @@ func InsertAuth(pool *pgx.Pool, auth md.Auth) error {
 	return err
 }
 
-func InsertChat(pool *pgx.Pool, chat md.Chat) error {
+func InsertChat(pool *pgx.Pool, chat md.ChatInfo) error {
 	_, err := pool.Exec(context.Background(),
 		`
 		INSERT INTO public.chats(

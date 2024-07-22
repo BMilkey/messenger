@@ -482,7 +482,7 @@
                 }
             }
         },
-        "models.Chat": {
+        "models.ChatInfo": {
             "type": "object",
             "properties": {
                 "about": {
@@ -528,7 +528,7 @@
                 "chats": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.Chat"
+                        "$ref": "#/definitions/models.ChatInfo"
                     }
                 }
             }

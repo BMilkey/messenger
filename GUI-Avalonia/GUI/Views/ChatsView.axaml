@@ -104,6 +104,7 @@
 												Content="X"
 												Command=""
 												/>
+										
 										<asyncImageLoader:AdvancedImage
 												DockPanel.Dock="Left"
 												MaxWidth="40"
@@ -111,6 +112,7 @@
 												Source="http://147.45.70.245:8098/files/default_chat_picture_lowres.jpg"
 												Loader="{Binding ImageLoader}"
 										/>
+										
 										<StackPanel DockPanel.Dock="Left" Margin="5,0">
 											<Label
 												Content="{Binding title}"/>
@@ -149,6 +151,7 @@
 												Command="{CompiledBinding #UsersFound((vmm:ChatsViewModel)DataContext).AddUserToCreateChatListCommand}"	
 												CommandParameter="{Binding }"
 												/>
+										
 										<asyncImageLoader:AdvancedImage
 												DockPanel.Dock="Left"
 												MaxWidth="40"
@@ -156,6 +159,7 @@
 												Source="http://147.45.70.245:8098/files/default_profile_picture_lowres.jpg"
 												Loader="{Binding ImageLoader}"
 										/>
+										
 										<StackPanel DockPanel.Dock="Left" Margin="5,0">
 											<Label
 												Content="{Binding name}"/>
@@ -233,7 +237,8 @@
 										DockPanel.Dock="Left"
 										Margin="5,0"
 										Content="X"
-										Command=""
+										Command="{CompiledBinding #NewChatUsersListBox((vmm:ChatsViewModel)DataContext).RemoveUserFromSelectedCommand}"
+										CommandParameter="{Binding }"
 												/>
 								<asyncImageLoader:AdvancedImage
 										DockPanel.Dock="Left"

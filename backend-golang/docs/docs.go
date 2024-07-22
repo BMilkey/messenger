@@ -493,7 +493,7 @@ const docTemplate = `{
                 }
             }
         },
-        "models.Chat": {
+        "models.ChatInfo": {
             "type": "object",
             "properties": {
                 "about": {
@@ -539,7 +539,7 @@ const docTemplate = `{
                 "chats": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/models.Chat"
+                        "$ref": "#/definitions/models.ChatInfo"
                     }
                 }
             }
