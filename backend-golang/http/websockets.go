@@ -153,17 +153,16 @@ func subscribeMessageCreated(w http.ResponseWriter, r *http.Request, pool *pgx.P
 
 }
 
-// subscribeMessageCreated 	godoc
-// @Summary 			Subscribe to creation of chats
-// @Tags 				WebSocket API для подписок
-// @Description 		Подписка на создаваемые чаты
-// @ID 					subscribe_сhat_сreated
-// @Accept  			json
-// @Produce  			json
-// @Param 				input body string true "credentials"
-// @Success 			200 {object} md.ChatInfo "data"
-// @Router 				/sockets/subscribe_сhat_сreated [get]
-
+// subscribeChatCreated 	godoc
+// @Summary 				Subscribe to creation of chats
+// @Tags 					WebSocket API для подписок
+// @Description 			Подписка на создаваемые чаты
+// @ID 						subscribe_сhat_сreated
+// @Accept  				json
+// @Produce  				json
+// @Param 					input body string true "credentials"
+// @Success 				200 {object} md.ChatInfo "data"
+// @Router /sockets/subscribe_chat_created [get]
 func subscribeChatCreated(w http.ResponseWriter, r *http.Request, pool *pgx.Pool) {
 
 	conn, err := wsupgrader.Upgrade(w, r, nil)

@@ -365,6 +365,41 @@ const docTemplate = `{
                 }
             }
         },
+        "/sockets/subscribe_chat_created": {
+            "get": {
+                "description": "Подписка на создаваемые чаты",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "WebSocket API для подписок"
+                ],
+                "summary": "Subscribe to creation of chats",
+                "operationId": "subscribe_сhat_сreated",
+                "parameters": [
+                    {
+                        "description": "credentials",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "data",
+                        "schema": {
+                            "$ref": "#/definitions/models.ChatInfo"
+                        }
+                    }
+                }
+            }
+        },
         "/sockets/subscribe_message_created": {
             "get": {
                 "description": "Подписка на получаемые сообщения",
