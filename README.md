@@ -7,4 +7,4 @@ Api доступно по ссылке
 http://147.45.70.245/swagger/index.html
 
 ### Архитектура БД
-![bdarch](messenger_bd.png)
+![bdarch](./imgs/messenger_bd.png)
